@@ -5,7 +5,7 @@
 **Group Members:**
 
 * Sreejumon KP <sreejumon@gmail.com>
-* Shiva sandeep Garlapati <shivagarlapati@gmail.com>
+* Shiva Sandeep Garlapati <shivagarlapati@gmail.com>
 * Gabi Zuniga <gabiz@gapix.com>
 
 **Mentor:** Vijay Sailappan <vijay.sailappan@gmail.com>
@@ -49,7 +49,7 @@ InstaSell solves this problem by creating a mobile marketplace in which posting 
 
 **Steps for Post Item for Sale:**
 * Display a screen including the following fields: caption, picture, desired price.
-* Optionally (stretch goal) the sellers are presented with an option to use photo filters like instagram for making the beautiful pictures.
+* Optionally (stretch goal) the sellers are presented with an option to use photo filters like instagram for making beautiful pictures.
 * Seller fills information and presses post button to post.
 * Following post, the details/comments screen of the item is presented and the seller can add comments in the feed if he/she wishes to add more details.
 
