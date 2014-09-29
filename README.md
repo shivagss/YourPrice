@@ -89,7 +89,7 @@ Must have **at least** three separate "activities" or screens supporting user in
 
 Must be **data-driven** with dynamic information or media being displayed
 
-* All user, inventory and user comments is data driven data retrieved from the cloud. We will use Parse as the primary backend technology for the project.
+* All user, inventory and user comments is data driven with dynamic information stored in the cloud. We will use Parse as the primary backend technology for the project.
 
 Must use a **RESTful API** to source the data that is populated into the application
 
