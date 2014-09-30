@@ -14,19 +14,19 @@
 
 **What problem does this app address:**
 
-* Local sellers (neighbors selling used items or local shops) and service providers do not have a marketplace where they can offer their items or services without specified a fix price. The seller might not have a fixed price in mind or price may fluctuate based on demand or availability. When setting a price the seller usually needs to compromise between his desired price and his lowest one. When setting a high price potential customers are missed. 
+* Local sellers (neighbors selling used items or local shops) and service providers do not have a marketplace where they can offer their items or services without specifying a fix price. The seller might not have a price in mind or such price may fluctuate based on demand or availability. When setting a price the seller usually needs to compromise between his desired price and his lowest one. When setting a too high price then potential customers are missed. 
 
 * Buyers do not have a fun and dynamic mobile application that allows them to browse for local deals on the go and make offers for items or services. Moreover today there is no way for a buyer to offer items they own for exchange.
 
 **How does this app solve that problem:**
 
-YouBid creates a new marketplace in which items for sale or services do not have associated sale prices but instead buyers makes offers to the seller to acquire the items.
+YouBid creates a new marketplace in which items for sale or services do not have associated sale prices but instead buyers make offers to sellers to acquire the items.
 
-This structure lowers the seller friction by making posting an item for sale super simple. This encourages sellers to post many items which today do not have a marketplace. Such items are unlikely to be posted to Craigslist because it takes effort, you need to know what is a fair price and the items expire after a couple of weeks.
+This structure lowers the seller friction by making posting an item for sale super simple. This encourages sellers to post many items which today do not have a marketplace. Such items are unlikely to be posted to Craigslist because it takes effort, it is not clear what price is fair and the items expire after a couple of weeks.
 
-YouBid also lowers the friction for the buyer which feels more control by feeling free to offer anything they feel or are able. The buyer is able to comment and ask questions in an item feed which leverages social app successful patterns.
+YouBid also lowers the friction for the buyer which feels more control and can offer anything they feel or are able to for the item. The buyer is able to comment and ask questions in an item feed which leverages the patters of successful social app.
 
-The seller is able to specify to the system a minimum price below which the offer would be automatically rejected. A variable delay ranging from minutes to hours may be introduced to the automatic rejection to keep buyers from gaming the system.
+The seller is able to specify to the system a minimum price below which the offer would be automatically rejected. A variable delay ranging from minutes to hours may be introduced to the automatic rejection to keep buyers from probing or annoying the seller.
 
 
 **App Audience:**
