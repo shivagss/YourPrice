@@ -54,7 +54,7 @@ The seller is able to specify to the system a minimum price below which the offe
 * A forgot my password button is also presented to reset password.
 
 **Steps for Post Item for Sale:**
-* Display a screen including the following fields: caption, picture, desired price.
+* Display a screen including the following fields: caption, picture, optional autorejection price.
 * Optionally (stretch goal) the sellers are presented with an option to use photo filters like instagram for making beautiful pictures.
 * Seller fills information and presses post button to post.
 * Following post, the details/comments screen of the item is presented and the seller can add comments in the feed if he/she wishes to add more details.
