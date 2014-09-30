@@ -50,7 +50,8 @@ The seller is able to specify to the system a minimum price below which the offe
 ## Section B.
 
 **Steps for Login/Register:**
-* User is presented with a registration/login screen. On the first run the registration screen is shown by default. On consecutives runs the app will auto login, but if the user logged out then the login screen is presented.
+* User authentication is required to do any operation other than browsing feeds / details. 
+* User is presented with a registration/login screen. ~~On the first run the registration screen is shown by default. On consecutives runs the app will auto login, but if the user logged out then the login screen is presented.~~
 * On registration the user is requested: username, password, profile picture, location. The user is also asked to select categories of interest which will be used to populate its main item feed, similarly to Pinterest.
 * Login screen requests: username and password.
 * A forgot my password button is also presented to reset password.
@@ -63,6 +64,7 @@ The seller is able to specify to the system a minimum price below which the offe
 
 **Steps for Browse/Search:**
 * The browse screen is the main screen of the app and it resembles the Etsi screen.
+* Location slider shall be provided to limit the search result (eg:- 5 miles radious)
 * The user is presented with a feed of items for sale for browsing. Each item includes a picture and a caption.
 * When an item is selected then the details/comments screen is presented.
 * This screen’s menu includes a search option to search for specific items or categories.
