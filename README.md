@@ -44,6 +44,7 @@ The seller is able to specify to the system a minimum price below which the offe
 5. Post and read comments  **(Detail/Comments)**
 6. Browse user store. **(Store)**
 7. Multiple items selction from same store (seller), and offering bid (similar to garage sale experience) **(Store)**
+8. Social network integration (facebook & Twitter) & Share **(Social Integration)**
 
 
 ## Section B.
