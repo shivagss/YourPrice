@@ -43,6 +43,7 @@ The seller is able to specify to the system a minimum price below which the offe
 4. Buyer can post a private offer for an item for sale.  **(Post Offer)**
 5. Post and read comments  **(Detail/Comments)**
 6. Browse user store. **(Store)**
+7. Multiple items selction from same store (seller), and offering bid (similar to garage sale experience) **(Store)**
 
 
 ## Section B.
