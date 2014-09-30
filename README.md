@@ -35,7 +35,7 @@ The seller is able to specify to the system a minimum price below which the offe
 * Local buyers looking for a specific item or just interested in searching for deals in the neighborhood or just curious of what neighbors or friends are selling.
 
 
-**App Main Functions** (in order of priority):
+**App Use cases**
 
 1. Users login/register **(Login/Register)**
 2. Post item for sale. **(Post Item for Sale)**
