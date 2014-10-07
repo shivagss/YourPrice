@@ -115,6 +115,10 @@ Must use **local persistence** either through files, preferences or SQLite
 
 **Wireframes**
 
+**Screens Action Flow**
+
+![Screen Action Flow](Wireframes/ScreenLink.png)
+
 **Login**
 
 ![Login](Wireframes/Login.png)
@@ -147,9 +151,6 @@ Must use **local persistence** either through files, preferences or SQLite
 
 ![Seller Store](Wireframes/SellerStore.png)
 
-**Screen Action Flow**
-
-![Screen Action Flow](Wireframes/ScreenLink.png)
 
 
 
