@@ -107,3 +107,51 @@ Must use **local persistence** either through files, preferences or SQLite
 
 * All data will be persisted in SQLite for offline viewing.
 
+## Section D.
+
+**Wireframes**
+
+**Login**
+
+![Login](Wireframes/Login.png)
+
+**Sign Up**
+
+![Sign Up](Wireframes/SignUp.png)
+
+**Create Profile**
+
+![Create Profile](Wireframes/CreateProfile.png)
+
+**Home Feed**
+
+![Home Feed](Wireframes/HomeFeed.png)
+
+**Item Detail**
+
+![Item Detail](Wireframes/ItemDetail.png)
+
+**BidConfirm**
+
+![Bid Confirm](Wireframes/BidConfirm.png)
+
+**Post Item**
+
+![Post Item](Wireframes/PostItem.png)
+
+**Seller Store**
+
+![Seller Store](Wireframes/SellerStore.png)
+
+**Screen Action Flow**
+
+![Screen Action Flow](Wireframes/ScreenLink.png)
+
+
+
+
+
+
+
+
+
