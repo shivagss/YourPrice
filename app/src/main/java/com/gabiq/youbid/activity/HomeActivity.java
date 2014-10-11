@@ -1,9 +1,11 @@
 package com.gabiq.youbid.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.gabiq.youbid.R;
 
@@ -34,5 +36,11 @@ public class HomeActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onDetailsClick(View v)
+    {
+        Intent i = new Intent(this, DetailsActivity.class);
+        startActivity(i);
     }
 }
