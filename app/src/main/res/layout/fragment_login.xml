@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
-            android:hint="E-mail address"
+            android:hint="User Name"
             android:textColor="#ffffff"
             android:layout_below="@+id/tvLoginTile"
             android:layout_centerHorizontal="true"
