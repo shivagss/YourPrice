@@ -7,6 +7,8 @@
     <string name="title_activity_details">Details</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="action_search">Search</string>
+    <string name="action_new">New Post</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Email</string>
@@ -31,5 +33,6 @@
     <string name="passwordHint">Password</string>
     <string name="confirmPasswordHint">Confirm Password</string>
     <string name="title_activity_signup">SignupActivity</string>
+    <string name="title_activity_new_item">Post new item</string>
 
 </resources>

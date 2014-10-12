@@ -36,6 +36,10 @@
             android:name=".activity.SignupActivity"
             android:label="@string/title_activity_signup" >
         </activity>
+        <activity
+            android:name=".activity.NewItemActivity"
+            android:label="@string/title_activity_new_item" >
+        </activity>
     </application>
 
 </manifest>
