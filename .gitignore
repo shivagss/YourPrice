@@ -4,3 +4,12 @@
 /.idea/libraries
 .DS_Store
 /build
+local.properties
+.gradle/*
+build/*
+*.iml
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/gradle.xml
+.idea/dictionaries
+.idea/libraries

@@ -2,30 +2,29 @@ package com.gabiq.youbid.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.Toast;
 
 import com.gabiq.youbid.R;
+import com.gabiq.youbid.fragment.LoginFragment;
 
-
-public class HomeActivity extends Activity {
+public class LoginActivity extends Activity implements LoginFragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-
-        Intent i = new Intent(this, LoginActivity.class);
-        startActivity(i);
+        setContentView(R.layout.activity_login);
+        getActionBar().hide();
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
+        getMenuInflater().inflate(R.menu.login, menu);
         return true;
     }
 
@@ -41,9 +40,13 @@ public class HomeActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void onDetailsClick(View v)
-    {
-        Intent i = new Intent(this, DetailsActivity.class);
+    public void onLoginSuccessful() {
+        Toast.makeText(getApplicationContext(), "Login successful", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    public void onSignupClicked() {
+        Intent i =  new Intent(this, SignupActivity.class);
         startActivity(i);
     }
 }
