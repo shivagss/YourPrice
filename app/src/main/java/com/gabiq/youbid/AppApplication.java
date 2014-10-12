@@ -12,8 +12,8 @@ import com.parse.Parse;
 import com.parse.ParseObject;
 
 public class AppApplication extends Application {
-    public static final String YOUR_APPLICATION_ID = "QY1YDlP7oSnz9l5FuRChPYCHrAzZcE4tc12uiCNW";
-    public static final String YOUR_CLIENT_KEY = "xSrwaefRGYgN1Y4Dn7PvVhVUYkpxOrvOgYcagGxG";
+    public static final String YOUR_APPLICATION_ID = "1pKjrKTD8PkqWMZNbwisMTbSlXnPw8eH16kn0JG2";
+    public static final String YOUR_CLIENT_KEY = "lWoRPA81XQ7SW5DcwtIMbQe7nYLQMogGndk0AV7w";
     @Override
     public void onCreate() {
         super.onCreate();
