@@ -5,7 +5,6 @@ import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
-import com.parse.ParseUser;
 
 @ParseClassName("Item")
 public class Item extends ParseObject {
@@ -34,7 +33,7 @@ public class Item extends ParseObject {
         return getDouble("minPrice");
     }
 
-    public void putMinPrice(double minPrice) {
+    public void setMinPrice(double minPrice) {
         put("minPrice", minPrice);
     }
 
@@ -42,7 +41,7 @@ public class Item extends ParseObject {
         return getBoolean("hasSold");
     }
 
-    public void putHasSold(Boolean hasSold) {
+    public void setHasSold(Boolean hasSold) {
         put("hasSold", hasSold);
     }
 
@@ -50,16 +49,17 @@ public class Item extends ParseObject {
         return getParseGeoPoint("location");
     }
 
-    public void putLocation(ParseGeoPoint location) {
+    public void setLocation(ParseGeoPoint location) {
         put("geoLocation", location);
     }
 
     public User getUser() {
-        return (User)getParseUser("userId");
+        return (User)getParseUser("user");
     }
 
-    public void putUser(User user){
-        put("userId", ParseUser.createWithoutData(User.class, user.getObjectId()));
+    public void setUser(User user){
+        //put("user", ParseUser.createWithoutData(User.class, user.getObjectId()));
+        put("user", user);
     }
 
 }
