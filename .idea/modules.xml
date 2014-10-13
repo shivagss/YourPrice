@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/ParseLoginUI/ParseLoginUI.iml" filepath="$PROJECT_DIR$/ParseLoginUI/ParseLoginUI.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/facebook-sdk/facebook/facebook.iml" filepath="$PROJECT_DIR$/facebook-sdk/facebook/facebook.iml" />
       <module fileurl="file://$PROJECT_DIR$/youbid.iml" filepath="$PROJECT_DIR$/youbid.iml" />
     </modules>
   </component>

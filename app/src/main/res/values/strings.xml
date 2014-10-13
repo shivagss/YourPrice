@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Please put your application's app ID and keys here -->
+    <string name="parse_app_id">1pKjrKTD8PkqWMZNbwisMTbSlXnPw8eH16kn0JG2</string>
+    <string name="parse_client_key">lWoRPA81XQ7SW5DcwtIMbQe7nYLQMogGndk0AV7w</string>
+    <string name="facebook_app_id">708503052566712</string>
+
     <string name="app_name">youbid</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -34,5 +39,6 @@
     <string name="confirmPasswordHint">Confirm Password</string>
     <string name="title_activity_signup">SignupActivity</string>
     <string name="title_activity_new_item">Post new item</string>
+    <string name="action_logout">Logout</string>
 
 </resources>

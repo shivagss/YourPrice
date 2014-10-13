@@ -1,0 +1,8 @@
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_pressed="true" android:drawable="@color/com_facebook_blue"/>
+    <item android:state_focused="true" android:drawable="@color/com_facebook_blue"/>
+    <item android:drawable="@android:color/darker_gray"/>
+
+</selector>
+<!-- From: file:/C:/Users/Sandeep/CodePathProjects/youbid/ParseLoginUI/res/drawable/com_parse_ui_parse_login_button_background_selector.xml -->
