@@ -3,12 +3,21 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:orientation="vertical">
-    
-    <View
+
+    <!--<com.flaviofaria.kenburnsview.KenBurnsView
+        android:id="@+id/kbvBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:alpha="0.5"
-        android:background="@drawable/gg"/>
+        android:src="@drawable/gg"/>-->
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/gg"/>
 
     <LinearLayout
         android:layout_width="match_parent"

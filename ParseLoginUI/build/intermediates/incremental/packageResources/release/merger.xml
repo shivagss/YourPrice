@@ -79,21 +79,6 @@
                 qualifiers=""
                 type="layout" />
             <file
-                name="com_parse_ui_parse_login_fragment"
-                path="C:\Users\Sandeep\CodePathProjects\youbid\ParseLoginUI\res\layout-land\com_parse_ui_parse_login_fragment.xml"
-                qualifiers="land"
-                type="layout" />
-            <file
-                name="com_parse_ui_parse_login_help_fragment"
-                path="C:\Users\Sandeep\CodePathProjects\youbid\ParseLoginUI\res\layout-land\com_parse_ui_parse_login_help_fragment.xml"
-                qualifiers="land"
-                type="layout" />
-            <file
-                name="com_parse_ui_parse_signup_fragment"
-                path="C:\Users\Sandeep\CodePathProjects\youbid\ParseLoginUI\res\layout-land\com_parse_ui_parse_signup_fragment.xml"
-                qualifiers="land"
-                type="layout" />
-            <file
                 path="C:\Users\Sandeep\CodePathProjects\youbid\ParseLoginUI\res\values\colors.xml"
                 qualifiers="" >
                 <color name="com_parse_ui_parse_login_button" >#40CCCCCC
@@ -364,6 +349,11 @@ wrap_content
                 name="app_logo"
                 path="C:\Users\Sandeep\CodePathProjects\youbid\ParseLoginUI\res\drawable-xhdpi\app_logo.png"
                 qualifiers="xhdpi-v4"
+                type="drawable" />
+            <file
+                name="bg"
+                path="C:\Users\Sandeep\CodePathProjects\youbid\ParseLoginUI\res\drawable\bg.jpg"
+                qualifiers=""
                 type="drawable" />
         </source>
         <source path="C:\Users\Sandeep\CodePathProjects\youbid\ParseLoginUI\build\generated\res\rs\release" />

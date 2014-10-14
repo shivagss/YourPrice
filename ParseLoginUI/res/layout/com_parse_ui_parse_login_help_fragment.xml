@@ -1,22 +1,29 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="@dimen/com_parse_ui_vertical_margin"
-    android:paddingLeft="@dimen/com_parse_ui_horizontal_margin"
-    android:paddingRight="@dimen/com_parse_ui_horizontal_margin"
-    android:paddingBottom="@dimen/com_parse_ui_vertical_margin"
-    android:gravity="center"
-    android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="vertical">
 
-    <include
-        layout="@layout/com_parse_ui_parse_login_app_logo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.5" />
+    <!--<com.flaviofaria.kenburnsview.KenBurnsView
+        android:id="@+id/kbvBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        android:src="@drawable/gg"/>-->
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.5"
+        android:adjustViewBounds="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/gg"/>
 
     <include
         layout="@layout/com_parse_ui_parse_login_help_form"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:layout_margin="40dp"
         android:layout_weight="0.5" />
-</LinearLayout>
+</RelativeLayout>
