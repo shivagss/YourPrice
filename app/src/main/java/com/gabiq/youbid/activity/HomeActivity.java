@@ -10,14 +10,18 @@ import android.view.View;
 import com.gabiq.youbid.R;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseUser;
+import com.gabiq.youbid.model.Item;
+import com.parse.ParseQueryAdapter;
+
 
 public class HomeActivity extends Activity {
+
+    private ParseQueryAdapter<Item> itemAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
         /*Intent i = new Intent(this, LoginActivity.class);
         startActivity(i);*/
     }

@@ -2,15 +2,124 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="com.gabiq.youbid.activity.DetailsActivity$PlaceholderFragment">
 
-    <TextView
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:id="@+id/ivProfile"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="5dp"
+        android:src="@drawable/ic_launcher" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Angelina Jolie"
+        android:id="@+id/tvUserName"
+        android:layout_toRightOf="@+id/ivProfile"
+        android:layout_toEndOf="@+id/ivProfile"
+        android:layout_alignTop="@+id/ivProfile" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sunnyvale, CA"
+        android:id="@+id/tvItemLocation"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/tvUserName"
+        android:layout_alignLeft="@+id/tvUserName"
+        android:layout_alignStart="@+id/tvUserName" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="10 min ago"
+        android:id="@+id/tvTimePosted"
+        android:layout_alignTop="@+id/tvUserName"
+        android:layout_marginRight="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:id="@+id/ivItemPic"
+        android:layout_below="@+id/ivProfile"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="5dp"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Place holder for caption. Limited text like twitter. May be we can restrict while posting the item."
+        android:id="@+id/tvCaption"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ivItemPic"
+        android:lines="2"
+        android:layout_margin="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="98 views"
+        android:id="@+id/tvViewsCount"
+        android:layout_marginRight="10dp"
+        android:layout_alignTop="@+id/tvItemLocation"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ask questions"
+        android:id="@+id/tvAskQuestion"
+        android:layout_below="@+id/tvCaption"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="50dp"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/ivLike"
+        android:layout_below="@+id/ivProfile"
+        android:layout_alignRight="@+id/ivItemPic"
+        android:layout_alignEnd="@+id/ivItemPic"
+        android:layout_margin="20dp"
+
+        android:src="@drawable/ic_launcher" />
+
+    <EditText
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/etBidAmount"
+        android:layout_toRightOf="@+id/tvUserName"
+        android:layout_toEndOf="@+id/tvUserName"
+
+        android:layout_below="@+id/tvCaption"
+        android:text="45.50"
+        android:textAlignment="textEnd"
+        android:gravity="end"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btnBid"
+        android:layout_alignRight="@+id/ivLike"
+        android:layout_alignEnd="@+id/ivLike"
+        android:layout_alignBottom="@+id/etBidAmount"
+        android:layout_alignTop="@+id/etBidAmount"
+        android:layout_toRightOf="@+id/etBidAmount"
+        android:layout_toEndOf="@+id/etBidAmount"
+        android:text="BID" />
 </RelativeLayout>
