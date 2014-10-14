@@ -1,1 +1,7 @@
+// Parse Login UI Library
+include ':ParseLoginUI'
+
+// Facebook SDK
+include 'facebook-sdk:facebook'
+
 include ':app'

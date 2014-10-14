@@ -8,7 +8,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.gabiq.youbid.R;
-
+import com.parse.ParseFacebookUtils;
+import com.parse.ParseUser;
 
 public class HomeActivity extends Activity {
 
@@ -17,8 +18,8 @@ public class HomeActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        Intent i = new Intent(this, LoginActivity.class);
-        startActivity(i);
+        /*Intent i = new Intent(this, LoginActivity.class);
+        startActivity(i);*/
     }
 
 
@@ -40,8 +41,22 @@ public class HomeActivity extends Activity {
                 postItem();
                 break;
             }
+            case R.id.action_logout:{
+                logout();
+            }
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void logout() {
+        if(ParseFacebookUtils.getSession() != null)
+            ParseFacebookUtils.getSession().closeAndClearTokenInformation();
+        ParseUser.logOut();
+        Intent intent = new Intent(HomeActivity.this,
+                LoginDispatchActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+                | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     private void postItem() {
@@ -53,5 +68,11 @@ public class HomeActivity extends Activity {
     {
         Intent i = new Intent(this, DetailsActivity.class);
         startActivity(i);
+    }
+
+    @Override
+    public void onBackPressed() {
+        //Hijack accidental back button press to avoid finishing activity.
+        //User should logout from action menu
     }
 }
