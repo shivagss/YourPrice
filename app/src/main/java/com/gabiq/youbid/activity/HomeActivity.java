@@ -49,7 +49,8 @@ public class HomeActivity extends Activity {
     }
 
     private void logout() {
-        ParseFacebookUtils.getSession().closeAndClearTokenInformation();
+        if(ParseFacebookUtils.getSession() != null)
+            ParseFacebookUtils.getSession().closeAndClearTokenInformation();
         ParseUser.logOut();
         Intent intent = new Intent(HomeActivity.this,
                 LoginDispatchActivity.class);
