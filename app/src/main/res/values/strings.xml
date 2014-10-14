@@ -41,4 +41,9 @@
     <string name="title_activity_new_item">Post new item</string>
     <string name="action_logout">Logout</string>
 
+    <!-- Strings related to Item Grid -->
+    <string name="empty_list_label">No items found</string>
+    <string name="item_cell_item_caption">Item Caption</string>
+
+
 </resources>

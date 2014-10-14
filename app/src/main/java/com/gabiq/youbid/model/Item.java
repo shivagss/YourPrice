@@ -6,8 +6,10 @@ import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 
+import java.io.Serializable;
+
 @ParseClassName("Item")
-public class Item extends ParseObject {
+public class Item extends ParseObject implements Serializable {
 
     public Item() {
         // A default constructor is required by Parse.

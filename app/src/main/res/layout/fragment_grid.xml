@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="5dp"
+    android:background="#f0f0f0">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeContainer"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.etsy.android.grid.StaggeredGridView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/gvItemGrid"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:item_margin="5dp"
+            android:background="#f0f0f0"
+            app:column_count_portrait="2"
+            app:column_count_landscape="4"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <RelativeLayout
+        android:id="@android:id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/empty_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="@string/empty_list_label"
+            android:layout_centerInParent="true" />
+
+        <ImageView
+            android:id="@+id/empty_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@id/empty_label"
+            android:layout_centerInParent="true"
+            android:src="@drawable/ic_launcher"/>
+    </RelativeLayout>
+</RelativeLayout>
