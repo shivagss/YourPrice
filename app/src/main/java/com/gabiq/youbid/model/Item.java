@@ -9,7 +9,9 @@ import com.parse.ParseObject;
 import java.io.Serializable;
 
 @ParseClassName("Item")
-public class Item extends ParseObject implements Serializable {
+public class Item extends ParseObject implements Serializable{
+
+    private static final long serialVersionUID = 1212121212L;
 
     public Item() {
         // A default constructor is required by Parse.

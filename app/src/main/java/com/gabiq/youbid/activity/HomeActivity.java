@@ -5,15 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.fragment.GridFragment;
-import com.gabiq.youbid.fragment.LoginFragment;
-import com.parse.ParseFacebookUtils;
-import com.parse.ParseUser;
 import com.gabiq.youbid.model.Item;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseQueryAdapter;
+import com.parse.ParseUser;
 
 
 public class HomeActivity extends Activity implements GridFragment.OnFragmentInteractionListener {
@@ -70,11 +68,6 @@ public class HomeActivity extends Activity implements GridFragment.OnFragmentInt
         startActivity(i);
     }
 
-    public void onDetailsClick(View v)
-    {
-        Intent i = new Intent(this, DetailsActivity.class);
-        startActivity(i);
-    }
 
     @Override
     public void onBackPressed() {

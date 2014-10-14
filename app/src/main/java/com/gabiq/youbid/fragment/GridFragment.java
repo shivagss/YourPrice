@@ -1,12 +1,10 @@
 package com.gabiq.youbid.fragment;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +18,6 @@ import com.gabiq.youbid.activity.DetailsActivity;
 import com.gabiq.youbid.adapter.ItemAdapter;
 import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.utils.EndlessScrollListener;
-
-import java.util.ArrayList;
 
 public class GridFragment extends Fragment {
     public static final String INTENT_EXTRA_ITEM = "item";
@@ -75,8 +71,8 @@ public class GridFragment extends Fragment {
                 Item item = mItemAdapter.getItem(position);
 
                 Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                intent.putExtra(INTENT_EXTRA_ITEM, item);
-
+                //TODO: Quick fix, since the item serialization is not working as expected, hence sending the item_id
+                intent.putExtra("item_id",item.getObjectId());
                 startActivity(intent);
             }
         });

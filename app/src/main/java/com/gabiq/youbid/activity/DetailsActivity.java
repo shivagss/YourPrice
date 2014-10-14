@@ -1,17 +1,13 @@
 package com.gabiq.youbid.activity;
 
 import android.app.Activity;
-import android.app.ActionBar;
-import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.os.Build;
 
 import com.gabiq.youbid.R;
+import com.gabiq.youbid.fragment.DetailsFragment;
 
 public class DetailsActivity extends Activity {
 
@@ -19,10 +15,19 @@ public class DetailsActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
-        if (savedInstanceState == null) {
+
+    /* if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new DetailsFragment())
                     .commit();
+        }
+     */
+        String itemId = getIntent().getStringExtra("item_id");
+        if (savedInstanceState == null) {
+            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            DetailsFragment detailsFragment = DetailsFragment.newInstance(itemId);
+            ft.replace(R.id.container, detailsFragment);
+            ft.commit();
         }
     }
 
@@ -46,19 +51,4 @@ public class DetailsActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
-
-        public PlaceholderFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_details, container, false);
-            return rootView;
-        }
-    }
 }
