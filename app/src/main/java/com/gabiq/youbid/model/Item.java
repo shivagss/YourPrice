@@ -33,6 +33,14 @@ public class Item extends ParseObject implements Serializable{
         put("photo", file);
     }
 
+    public ParseFile getThumbnailFile() {
+        return getParseFile("thumbnail");
+    }
+
+    public void setThumbnailFile(ParseFile file) {
+        put("thumbnail", file);
+    }
+
     public double getMinPrice() {
         return getDouble("minPrice");
     }
@@ -54,7 +62,7 @@ public class Item extends ParseObject implements Serializable{
     }
 
     public void setLocation(ParseGeoPoint location) {
-        put("geoLocation", location);
+        put("location", location);
     }
 
     public User getUser() {
