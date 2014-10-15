@@ -45,5 +45,8 @@
     <string name="empty_list_label">No items found</string>
     <string name="item_cell_item_caption">Item Caption</string>
 
+    <!-- Strings related to navigation drawer -->
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 
 </resources>

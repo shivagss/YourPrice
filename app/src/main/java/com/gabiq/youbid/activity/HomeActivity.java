@@ -2,11 +2,15 @@ package com.gabiq.youbid.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
 import com.gabiq.youbid.R;
+import com.gabiq.youbid.fragment.FragmentNavigationDrawer;
 import com.gabiq.youbid.fragment.GridFragment;
 import com.gabiq.youbid.model.Item;
 import com.parse.ParseFacebookUtils;
@@ -14,7 +18,8 @@ import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 
 
-public class HomeActivity extends Activity implements GridFragment.OnFragmentInteractionListener {
+public class HomeActivity extends FragmentActivity implements GridFragment.OnFragmentInteractionListener {
+    private FragmentNavigationDrawer dlDrawer;
 
     private ParseQueryAdapter<Item> itemAdapter;
 
@@ -22,8 +27,39 @@ public class HomeActivity extends Activity implements GridFragment.OnFragmentInt
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        /*Intent i = new Intent(this, LoginActivity.class);
-        startActivity(i);*/
+
+        setupDrawer(savedInstanceState);
+    }
+
+    private void setupDrawer(Bundle savedInstanceState) {
+        dlDrawer = (FragmentNavigationDrawer) findViewById(R.id.drawer_layout);
+        // Setup drawer view
+        dlDrawer.setupDrawerConfiguration((ListView) findViewById(R.id.lvDrawer),
+                R.layout.drawer_nav_item, R.id.flContent);
+        // Add nav items
+        dlDrawer.addNavItem("Activity Feed", R.drawable.ic_action_new, "Feed", GridFragment.class);
+        dlDrawer.addNavItem("My Store", R.drawable.ic_action_photo, "My Store", GridFragment.class);
+        dlDrawer.addNavItem("Favorites", R.drawable.ic_action_new, "Favorites", GridFragment.class);
+        dlDrawer.addNavItem("Settings", R.drawable.ic_action_photo, "Settings", GridFragment.class);
+        // Select default
+        if (savedInstanceState == null) {
+            dlDrawer.selectDrawerItem(0);
+        }
+    }
+
+
+    @Override
+    protected void onPostCreate(Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        // Sync the toggle state after onRestoreInstanceState has occurred.
+        dlDrawer.getDrawerToggle().syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Pass any configuration change to the drawer toggles
+        dlDrawer.getDrawerToggle().onConfigurationChanged(newConfig);
     }
 
 
@@ -36,6 +72,10 @@ public class HomeActivity extends Activity implements GridFragment.OnFragmentInt
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        if (dlDrawer.getDrawerToggle().onOptionsItemSelected(item)) {
+            return true;
+        }
+
         switch (item.getItemId()) {
             case R.id.action_search: {
                 //TODO: Invoke search
