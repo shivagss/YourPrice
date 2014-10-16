@@ -1,58 +1,75 @@
 package com.gabiq.youbid.model;
 
 import com.parse.FindCallback;
-import com.parse.ParseClassName;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
-import java.text.ParseException;
-import java.util.List;
+public class User {
 
-@ParseClassName("User")
-public class User extends ParseUser {
+    private ParseUser user;
+
+    public User(ParseUser user) {
+        this.user = user;
+    }
+
+    public ParseUser getParseUser(){
+        return user;
+    }
+
+    public String getObjectId(){
+        return user.getObjectId();
+    }
+
+    public String getUsername(){
+        return user.getUsername();
+    }
+
+    public String getEmail(){
+        return user.getEmail();
+    }
 
     public ParseFile getProfilePhoto() {
-        return getParseFile("profilePhoto");
+        return user.getParseFile("profilePhoto");
     }
 
     public void setProfilePhoto(ParseFile profilePhoto) {
-        put("profilePhoto", profilePhoto);;
+        user.put("profilePhoto", profilePhoto);;
     }
 
     public String getDescription() {
-        return getString("description");
+        return user.getString("description");
     }
 
     public void setDescription(String description) {
-        put("description", description);;
+        user.put("description", description);;
     }
 
     public ParseGeoPoint getLocation() {
-        return getParseGeoPoint("location");
+        return user.getParseGeoPoint("location");
     }
 
     public void setLocation(ParseGeoPoint location) {
-        put("location", location);
+        user.put("location", location);
     }
 
     // Favorites accessors
     public void addToFavorites(Item item) {
-        ParseRelation<ParseObject> relation = getRelation("favorite");
+        ParseRelation<ParseObject> relation = user.getRelation("favorite");
         relation.add(item);
-        saveInBackground();
+        user.saveInBackground();
     }
 
     public void removeFromFavorites(Item item) {
-        ParseRelation<ParseObject> relation = getRelation("favorite");
+        ParseRelation<ParseObject> relation = user.getRelation("favorite");
         relation.remove(item);
-        saveInBackground();
+        user.saveInBackground();
     }
 
     public void getFavorites(FindCallback<ParseObject> findCallback) {
-        ParseRelation<ParseObject> relation = getRelation("favorite");
+        ParseRelation<ParseObject> relation = user.getRelation("favorite");
         relation.getQuery().findInBackground(findCallback);
     }
 }

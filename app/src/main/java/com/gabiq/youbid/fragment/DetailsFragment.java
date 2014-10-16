@@ -30,6 +30,7 @@ public class DetailsFragment extends Fragment {
     private String itemId;
     private ProgressBar progressBar;
     private TextView tvTimePosted;
+    private TextView tvUserName;
 
     public DetailsFragment() {
     }
@@ -94,5 +95,8 @@ public class DetailsFragment extends Fragment {
 
         tvTimePosted = (TextView) rootView.findViewById(R.id.tvTimePosted);
         tvTimePosted.setText(Utils.getRelativeTimeAgo(item.getUpdatedAt()));
+
+        tvUserName = (TextView)rootView.findViewById(R.id.tvUserName);
+        tvUserName.setText(item.getUser().getUsername());
     }
 }

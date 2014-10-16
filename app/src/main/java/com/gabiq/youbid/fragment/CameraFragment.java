@@ -134,7 +134,7 @@ public class CameraFragment extends Fragment {
         byte[] scaledData = bos.toByteArray();
 
         // Save the scaled image to Parse
-        photoFile = new ParseFile("meal_photo.jpg", scaledData);
+        photoFile = new ParseFile("item_photo.jpg", scaledData);
         photoFile.saveInBackground(new SaveCallback() {
 
             public void done(ParseException e) {
@@ -143,23 +143,18 @@ public class CameraFragment extends Fragment {
                             "Error saving: " + e.getMessage(),
                             Toast.LENGTH_LONG).show();
                 } else {
-                    addPhotoToMealAndReturn(photoFile);
+                    addPhotoToItemAndReturn(photoFile);
                 }
             }
         });
     }
 
-    /*
-     * Once the photo has saved successfully, we're ready to return to the
-     * NewMealFragment. When we added the CameraFragment to the back stack, we
-     * named it "NewMealFragment". Now we'll pop fragments off the back stack
-     * until we reach that Fragment.
-     */
-    private void addPhotoToMealAndReturn(ParseFile photoFile) {
+
+    private void addPhotoToItemAndReturn(ParseFile photoFile) {
         ((NewItemActivity) getActivity()).getNewItem().setPhotoFile(
                 photoFile);
         FragmentManager fm = getActivity().getFragmentManager();
-        fm.popBackStack("NewMealFragment",
+        fm.popBackStack("NewItemFragment",
                 FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 

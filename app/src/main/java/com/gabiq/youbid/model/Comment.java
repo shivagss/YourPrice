@@ -15,11 +15,11 @@ public class Comment extends ParseObject {
     }
 
     public User getUser() {
-        return (User) getParseUser("user");
+        return new User(getParseUser("userId"));
     }
 
-    public void setUser(User user) {
-        put("user", user);
+    public void setUser(User user){
+        put("userId", user.getParseUser().getObjectId());
     }
 
     public String getBody() {

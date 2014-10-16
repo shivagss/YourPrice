@@ -3,15 +3,11 @@ package com.gabiq.youbid.model;
 
 import com.parse.ParseClassName;
 import com.parse.ParseFile;
-import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
-
-import java.io.Serializable;
+import com.parse.ParseUser;
 
 @ParseClassName("Item")
-public class Item extends ParseObject implements Serializable{
-
-    private static final long serialVersionUID = 1212121212L;
+public class Item extends ParseObject{
 
     public Item() {
         // A default constructor is required by Parse.
@@ -23,6 +19,14 @@ public class Item extends ParseObject implements Serializable{
 
     public void setCaption(String caption) {
         put("caption", caption);
+    }
+
+    public String getCaption1() {
+        return getString("caption1");
+    }
+
+    public void setCaption1(String caption) {
+        put("caption1", caption);
     }
 
     public ParseFile getPhotoFile() {
@@ -57,21 +61,15 @@ public class Item extends ParseObject implements Serializable{
         put("hasSold", hasSold);
     }
 
-    public ParseGeoPoint getLocation() {
-        return getParseGeoPoint("location");
-    }
-
-    public void setLocation(ParseGeoPoint location) {
-        put("location", location);
-    }
-
     public User getUser() {
-        return (User)getParseUser("user");
+        return new User(getParseUser(getUserId()));
     }
 
-    public void setUser(User user){
-        //put("user", ParseUser.createWithoutData(User.class, user.getObjectId()));
-        put("user", user);
+    public String getUserId(){
+        return getString("user_Id");
+    }
+    public void setUserId(){
+        put("user_Id", ParseUser.getCurrentUser().getObjectId());
     }
 
 }

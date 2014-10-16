@@ -1,9 +1,8 @@
 package com.gabiq.youbid.model;
 
 import com.parse.ParseClassName;
-import com.parse.ParseFile;
-import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 @ParseClassName("Bid")
 public class Bid extends ParseObject {
@@ -24,11 +23,11 @@ public class Bid extends ParseObject {
     }
 
     public User getBuyer() {
-        return (User) getParseUser("buyer");
+        return new User(getParseUser("buyer"));
     }
 
-    public void setBuyer(User buyer) {
-        put("buyer", buyer);
+    public void setBuyer(User user){
+        put("buyer", ParseUser.createWithoutData(ParseUser.class, user.getParseUser().getObjectId()));
     }
 
     public String getState() {

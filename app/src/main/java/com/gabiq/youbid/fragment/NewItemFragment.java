@@ -70,10 +70,11 @@ public class NewItemFragment extends Fragment {
                 // When the user clicks "Save," upload the item to Parse
                 item.setCaption(etItemCaption.getText().toString());
 
-
-                //TODO: Its crashing now, need to fix
                 // Associate the item with the current user
-             //   item.setUser((User) ParseUser.getCurrentUser());
+                item.setUserId();
+                //TODO: update with real value
+                item.setMinPrice(78);
+                item.setHasSold(false);
 
                 // If the user added a photo, that data will be
                 // added in the CameraFragment
@@ -122,7 +123,7 @@ public class NewItemFragment extends Fragment {
         FragmentTransaction transaction = getActivity().getFragmentManager()
                 .beginTransaction();
         transaction.replace(R.id.fragmentContainer, cameraFragment);
-        transaction.addToBackStack("NewMealFragment");
+        transaction.addToBackStack("NewItemFragment");
         transaction.commit();
     }
 

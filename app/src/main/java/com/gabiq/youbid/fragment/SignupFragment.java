@@ -1,8 +1,8 @@
 package com.gabiq.youbid.fragment;
 
 import android.app.Activity;
-import android.os.Bundle;
 import android.app.Fragment;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,10 +12,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.gabiq.youbid.R;
-import com.gabiq.youbid.model.User;
 import com.gabiq.youbid.utils.ConnectionManager;
 import com.gabiq.youbid.utils.Utils;
 import com.parse.ParseException;
+import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
 import java.util.Locale;
@@ -158,12 +158,12 @@ public class SignupFragment extends Fragment {
     }
 
     private void signUp(String username, String email, String password) {
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setEmail(email);
+        ParseUser User = new ParseUser();
+        User.setUsername(username);
+        User.setPassword(password);
+        User.setEmail(email);
 
-        user.signUpInBackground(new SignUpCallback() {
+        User.signUpInBackground(new SignUpCallback() {
             public void done(ParseException e) {
                 if (e == null) {
                     signUpMsg("Account Created Successfully");
