@@ -2,13 +2,16 @@ package com.gabiq.youbid.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.model.Item;
+import com.gabiq.youbid.utils.Utils;
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -25,6 +28,8 @@ public class DetailsFragment extends Fragment {
     private ParseImageView ivItemPic;
     private TextView tvCaption;
     private String itemId;
+    private ProgressBar progressBar;
+    private TextView tvTimePosted;
 
     public DetailsFragment() {
     }
@@ -79,13 +84,15 @@ public class DetailsFragment extends Fragment {
         ivItemPic.loadInBackground(new GetDataCallback() {
             @Override
             public void done(byte[] data, ParseException e) {
-
+                progressBar = (ProgressBar)rootView.findViewById(R.id.progressBar);
+                progressBar.setVisibility(View.INVISIBLE);
             }
         });
 
         tvCaption = (TextView)rootView.findViewById(R.id.tvCaption);
         tvCaption.setText(item.getCaption());
 
-
+        tvTimePosted = (TextView) rootView.findViewById(R.id.tvTimePosted);
+        tvTimePosted.setText(Utils.getRelativeTimeAgo(item.getUpdatedAt()));
     }
 }
