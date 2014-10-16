@@ -16,7 +16,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Angelina Jolie"
         android:id="@+id/tvUserName"
         android:layout_toRightOf="@+id/ivProfile"
         android:layout_toEndOf="@+id/ivProfile"

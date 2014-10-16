@@ -12,13 +12,16 @@ import android.widget.ListView;
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.fragment.FragmentNavigationDrawer;
 import com.gabiq.youbid.fragment.GridFragment;
+import com.gabiq.youbid.fragment.UserItemsFragment;
+import com.gabiq.youbid.fragment.UserStoreFragment;
 import com.gabiq.youbid.model.Item;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 
 
-public class HomeActivity extends FragmentActivity implements GridFragment.OnFragmentInteractionListener {
+public class HomeActivity extends FragmentActivity implements GridFragment.OnFragmentInteractionListener,
+        UserStoreFragment.OnUserStoreFragmentInteractionListener {
     private FragmentNavigationDrawer dlDrawer;
 
     private ParseQueryAdapter<Item> itemAdapter;
@@ -37,8 +40,8 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
         dlDrawer.setupDrawerConfiguration((ListView) findViewById(R.id.lvDrawer),
                 R.layout.drawer_nav_item, R.id.flContent);
         // Add nav items
-        dlDrawer.addNavItem("Activity Feed", R.drawable.ic_action_new, "Feed", GridFragment.class);
-        dlDrawer.addNavItem("My Store", R.drawable.ic_action_photo, "My Store", GridFragment.class);
+        dlDrawer.addNavItem("Activity Feed", R.drawable.ic_action_new, "Activity", GridFragment.class);
+        dlDrawer.addNavItem("My Store", R.drawable.ic_action_photo, "My Store", UserStoreFragment.class);
         dlDrawer.addNavItem("Favorites", R.drawable.ic_action_new, "Favorites", GridFragment.class);
         dlDrawer.addNavItem("Settings", R.drawable.ic_action_photo, "Settings", GridFragment.class);
         // Select default
@@ -118,5 +121,10 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
     public void onFragmentMessage() {
         // placeholder
     }
+
+    public void OnUserStoreFragmentInteraction() {
+
+    }
+
 
 }
