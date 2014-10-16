@@ -82,9 +82,68 @@
             android:label="@string/title_activity_preview_photo" >
         </activity>
 
+
+        <!-- Main Editor Activity -->
+        <activity
+            android:name="com.aviary.android.feather.sdk.FeatherActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="unspecified"
+            android:hardwareAccelerated="true"
+            android:largeHeap="true"
+            android:process=":aviarysdk"
+            android:theme="@style/AviaryTheme" />
+
+        <!-- Alert -->
+        <activity
+            android:name="com.aviary.android.feather.sdk.AlertActivity"
+            android:launchMode="standard"
+            android:noHistory="true"
+            android:theme="@style/AviaryTheme.Dialog">
+            <intent-filter>
+                <action android:name="aviary.intent.action.ALERT"/>
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- CDS Content Service -->
+        <service
+            android:process=":aviarycds"
+            android:name="com.aviary.android.feather.cds.AviaryCdsService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="aviary.intent.action.CDS_DOWNLOAD_START"/>
+                <action android:name="aviary.intent.action.CDS_RESTORE_USER_ITEMS"/>
+            </intent-filter>
+        </service>
+
+        <!--
+            Cds Content Provider,
+            NOTE that the "authorities" value MUST be formatted in this way:
+            android:authorities="{your.packagename}.AviaryCdsProvider"
+         -->
+        <provider
+            android:name="com.aviary.android.feather.cds.AviaryCdsProvider"
+            android:authorities="com.gabiq.youbid.AviaryCdsProvider"
+            android:process=":aviarycds"
+            android:exported="false"
+            android:syncable="true" />
+
+        <!-- CDS Download Receiver -->
+        <receiver
+            android:name="com.aviary.android.feather.cds.AviaryCdsReceiver"
+            android:process=":aviarycds" >
+            <intent-filter>
+                <action android:name="android.intent.action.DOWNLOAD_COMPLETE" />
+            </intent-filter>
+        </receiver>
+
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="com.aviary.android.feather.v1.API_KEY"
+            android:value="@string/aviary_app_id" />
 
     </application>
 

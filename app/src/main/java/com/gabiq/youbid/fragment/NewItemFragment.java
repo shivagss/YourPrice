@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aviary.android.feather.library.Constants;
+import com.aviary.android.feather.sdk.FeatherActivity;
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.activity.NewItemActivity;
 import com.gabiq.youbid.activity.PreviewPhotoActivity;
@@ -47,6 +50,7 @@ import java.util.Locale;
 public class NewItemFragment extends Fragment {
 
     private static final int TAKE_PHOTO_CODE = 1;
+    private static final int AVIARY_PHOTO_CODE = 2;
     private static final int CROP_PHOTO_CODE = 3;
     private static final int POST_PHOTO_CODE = 4;
 
@@ -180,12 +184,39 @@ public class NewItemFragment extends Fragment {
                 } else {
                     selectedImageUri = data == null ? null : data.getData();
                 }
+//                try {
+//                    photoBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
+////                    startPreviewPhotoActivity();
+//                    btnPhoto.setVisibility(View.VISIBLE);
+//                    btnPhoto.setImageBitmap(photoBitmap);
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                    Toast.makeText(
+//                            getActivity().getApplicationContext(),
+//                            "Error saving: " + e.getMessage(),
+//                            Toast.LENGTH_SHORT).show();
+//                }
+
+                Intent newIntent = new Intent( getActivity(), FeatherActivity.class );
+                newIntent.setData( selectedImageUri );
+                newIntent.putExtra(Constants.EXTRA_IN_API_KEY_SECRET, getActivity().getString(R.string.aviary_api_secret));
+                startActivityForResult( newIntent, AVIARY_PHOTO_CODE );
+
+            } else if (requestCode == AVIARY_PHOTO_CODE) {
+                Uri mImageUri = data.getData();
+                Bundle extra = data.getExtras();
+                if( null != extra ) {
+                    // image has been changed by the user?
+                    boolean changed = extra.getBoolean( Constants.EXTRA_OUT_BITMAP_CHANGED );
+                }
+
                 try {
-                    photoBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), selectedImageUri);
+                    photoBitmap = BitmapFactory.decodeFile(mImageUri.getPath());
+//                    photoBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), mImageUri);
 //                    startPreviewPhotoActivity();
                     btnPhoto.setVisibility(View.VISIBLE);
                     btnPhoto.setImageBitmap(photoBitmap);
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                     Toast.makeText(
                             getActivity().getApplicationContext(),
@@ -193,7 +224,7 @@ public class NewItemFragment extends Fragment {
                             Toast.LENGTH_SHORT).show();
                 }
 
-            } else if (requestCode == CROP_PHOTO_CODE) {
+            }  else if (requestCode == CROP_PHOTO_CODE) {
                 photoBitmap = data.getParcelableExtra("data");
                 startPreviewPhotoActivity();
             } else if (requestCode == POST_PHOTO_CODE) {
