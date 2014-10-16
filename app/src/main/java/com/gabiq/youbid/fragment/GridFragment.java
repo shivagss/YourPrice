@@ -18,6 +18,8 @@ import com.gabiq.youbid.activity.DetailsActivity;
 import com.gabiq.youbid.adapter.ItemAdapter;
 import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.utils.EndlessScrollListener;
+import com.parse.ParseQuery;
+import com.parse.ParseQueryAdapter;
 
 public class GridFragment extends Fragment {
     public static final String INTENT_EXTRA_ITEM = "item";
@@ -31,12 +33,13 @@ public class GridFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    public static GridFragment newInstance(String param1, String param2) {
+    public static GridFragment newInstance() {
         GridFragment fragment = new GridFragment();
         Bundle args = new Bundle();
         fragment.setArguments(args);
         return fragment;
     }
+
     public GridFragment() {
     }
 
@@ -45,6 +48,15 @@ public class GridFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
         }
+    }
+
+    protected ParseQueryAdapter.QueryFactory<Item> getParseQuery() {
+        return new ParseQueryAdapter.QueryFactory<Item>() {
+            public ParseQuery<Item> create() {
+                ParseQuery query = new ParseQuery("Item");
+                return query;
+            }
+        };
     }
 
     @Override
@@ -114,7 +126,7 @@ public class GridFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        mItemAdapter = new ItemAdapter(activity);
+        mItemAdapter = new ItemAdapter(activity, getParseQuery());
 
         try {
             mListener = (OnFragmentInteractionListener) activity;
