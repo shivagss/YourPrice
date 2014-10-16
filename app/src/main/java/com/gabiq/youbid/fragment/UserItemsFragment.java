@@ -14,7 +14,7 @@ public class UserItemsFragment extends GridFragment {
         return new ParseQueryAdapter.QueryFactory<Item>() {
             public ParseQuery<Item> create() {
                 ParseQuery query = new ParseQuery("Item");
-                query.whereEqualTo("userId", ParseUser.getCurrentUser());
+                query.whereEqualTo("createdBy", ParseUser.getCurrentUser());
 
                 return query;
             }

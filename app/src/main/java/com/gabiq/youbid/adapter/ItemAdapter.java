@@ -34,7 +34,7 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
 
         // randomize sizes for now...
         Random r = new Random();
-        int i = r.nextInt(10);
+        int i = 6; // r.nextInt(10);
 
         textView.setText(item.getString("caption"));
         ParseFile photoFile = item.getParseFile("photo");
