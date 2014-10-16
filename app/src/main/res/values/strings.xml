@@ -54,5 +54,6 @@
     <string name="hint_price">0.00</string>
     <string name="title_activity_preview_photo">Preview</string>
     <string name="saving_item">Saving Item...</string>
+    <string name="hint_add_comment">Add comment</string>
 
 </resources>
