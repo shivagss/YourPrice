@@ -31,6 +31,7 @@ public class DetailsFragment extends Fragment {
     private ProgressBar progressBar;
     private TextView tvTimePosted;
     private TextView tvUserName;
+    private TextView tvViewCount;
 
     public DetailsFragment() {
     }
@@ -98,5 +99,11 @@ public class DetailsFragment extends Fragment {
 
         tvUserName = (TextView)rootView.findViewById(R.id.tvUserName);
         tvUserName.setText(item.getUser().getName());
+
+        tvViewCount = (TextView)rootView.findViewById(R.id.tvViewsCount);
+        int viewCount = item.getViewCount() + 1;
+        item.setViewCount(viewCount);
+        item.saveInBackground();
+        tvViewCount.setText(viewCount + " views");
     }
 }

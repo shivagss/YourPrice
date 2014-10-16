@@ -22,14 +22,6 @@ public class Item extends ParseObject{
         put("caption", caption);
     }
 
-    public String getCaption1() {
-        return getString("caption1");
-    }
-
-    public void setCaption1(String caption) {
-        put("caption1", caption);
-    }
-
     public ParseFile getPhotoFile() {
         return getParseFile("photo");
     }
@@ -75,6 +67,13 @@ public class Item extends ParseObject{
     public void setUser(ParseUser user)
     {
         put("createdBy",user);
+    }
+
+    public int getViewCount() {
+        return getInt("viewCount");
+    }
+    public void setViewCount(int viewCount) {
+        put("viewCount", viewCount);
     }
 
 }
