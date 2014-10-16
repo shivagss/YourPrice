@@ -22,7 +22,7 @@ public class AppApplication extends Application {
         Parse.setLogLevel(Parse.LOG_LEVEL_VERBOSE);
 
         // Register your parse models here
-        ParseObject.registerSubclass(User.class);
+//        ParseObject.registerSubclass(User.class);
         ParseObject.registerSubclass(Item.class);
         ParseObject.registerSubclass(Keyword.class);
         ParseObject.registerSubclass(Comment.class);

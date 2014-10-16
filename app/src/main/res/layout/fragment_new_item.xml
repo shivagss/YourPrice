@@ -1,43 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp">
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/lyCaptionForm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="5dp"
-        android:text="New Item"
-        android:textSize="20sp" />
+        android:layout_alignParentTop="true"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/etCaption"
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="@string/item_caption"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/etCaption"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="right"
+            android:hint="@string/hint_item_desc"
+            android:inputType="textMultiLine"/>
+    </LinearLayout>
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="textMultiLine" />
+        android:layout_below="@id/lyCaptionForm"
+        android:id="@+id/lyPriceForm"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:text="@string/min_price"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+
+        <EditText
+            android:id="@+id/etMinPrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:gravity="right"
+            android:hint="@string/hint_price"
+            android:inputType="numberDecimal"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lyButtons"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnSaveItem"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Save"/>
+
+        <Button
+            android:id="@+id/btnCancelItem"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Cancel"/>
+    </LinearLayout>
 
     <ImageButton
         android:id="@+id/btnPhoto"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_action_photo" />
-
-    <Button
-        android:id="@+id/btnSaveItem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Save" />
-
-    <Button
-        android:id="@+id/btnCancelItem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Cancel" />
-
-    <com.parse.ParseImageView
-        android:id="@+id/ivItemPreview"
-        android:layout_width="wrap_content"
-        android:layout_height="200dp" />
-
-</LinearLayout>
+        android:layout_height="match_parent"
+        android:layout_below="@id/lyPriceForm"
+        android:layout_centerInParent="true"
+        android:adjustViewBounds="true"
+        android:scaleType="centerInside"
+        android:layout_gravity="center"
+        android:background="@android:color/transparent"
+        android:layout_above="@id/lyButtons"
+        android:layout_margin="5dp"
+        android:minHeight="300dp"
+        android:src="@drawable/compose_camera_btn"/>
+</RelativeLayout>

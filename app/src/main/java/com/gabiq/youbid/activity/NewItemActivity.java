@@ -23,8 +23,6 @@ public class NewItemActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         newItem = new Item();
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
 
         // Begin with main data entry view,
