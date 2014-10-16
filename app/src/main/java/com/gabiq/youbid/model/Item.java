@@ -2,6 +2,7 @@ package com.gabiq.youbid.model;
 
 
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
@@ -62,14 +63,18 @@ public class Item extends ParseObject{
     }
 
     public User getUser() {
-        return new User(getParseUser(getUserId()));
+        User user = null;
+        try {
+            user = new User(getParseUser("createdBy").fetch());
+        } catch (ParseException e1) {
+            e1.printStackTrace();
+        }
+        return user;
     }
 
-    public String getUserId(){
-        return getString("user_Id");
-    }
-    public void setUserId(){
-        put("user_Id", ParseUser.getCurrentUser().getObjectId());
+    public void setUser(ParseUser user)
+    {
+        put("createdBy",user);
     }
 
 }

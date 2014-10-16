@@ -22,6 +22,7 @@ import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 /**
@@ -71,7 +72,7 @@ public class NewItemFragment extends Fragment {
                 item.setCaption(etItemCaption.getText().toString());
 
                 // Associate the item with the current user
-                item.setUserId();
+                item.setUser(ParseUser.getCurrentUser());
                 //TODO: update with real value
                 item.setMinPrice(78);
                 item.setHasSold(false);

@@ -97,6 +97,6 @@ public class DetailsFragment extends Fragment {
         tvTimePosted.setText(Utils.getRelativeTimeAgo(item.getUpdatedAt()));
 
         tvUserName = (TextView)rootView.findViewById(R.id.tvUserName);
-        tvUserName.setText(item.getUser().getUsername());
+        tvUserName.setText(item.getUser().getName());
     }
 }
