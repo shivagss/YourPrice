@@ -32,6 +32,7 @@ import com.gabiq.youbid.activity.PreviewPhotoActivity;
 import com.gabiq.youbid.model.Item;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
@@ -112,7 +113,7 @@ public class NewItemFragment extends Fragment {
                 item.setCaption(etItemCaption.getText().toString());
 
                 // Associate the item with the current user
-                item.setUserId();
+                item.setUser(ParseUser.getCurrentUser());
                 //TODO: update with real value
                 item.setMinPrice(Double.parseDouble(etItemPrice.getText().toString()));
                 item.setHasSold(false);

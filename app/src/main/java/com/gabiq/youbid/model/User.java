@@ -31,6 +31,14 @@ public class User {
         return user.getEmail();
     }
 
+    public String getName(){
+       return user.getString("name");
+    }
+
+    public void setName(String name) {
+        user.put("name", name);
+    }
+
     public ParseFile getProfilePhoto() {
         return user.getParseFile("profilePhoto");
     }

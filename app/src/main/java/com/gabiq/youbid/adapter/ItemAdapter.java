@@ -18,13 +18,8 @@ import java.util.Random;
 
 public class ItemAdapter extends ParseQueryAdapter<Item> {
 
-    public ItemAdapter(Context context) {
-        super(context, new ParseQueryAdapter.QueryFactory<Item>() {
-            public ParseQuery<Item> create() {
-                ParseQuery query = new ParseQuery("Item");
-                return query;
-            }
-        });
+    public ItemAdapter(Context context, ParseQueryAdapter.QueryFactory<Item> parseQuery) {
+        super(context, parseQuery);
     }
 
 
