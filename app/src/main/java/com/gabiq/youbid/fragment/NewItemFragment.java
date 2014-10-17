@@ -334,14 +334,14 @@ public class NewItemFragment extends Fragment {
                 * bmImage.getHeight() / bmImage.getWidth(), false);
 
         // Override Android default landscape orientation and save portrait
-        Matrix matrix = new Matrix();
-        matrix.postRotate(90);
-        Bitmap rotatedScaledMealImage = Bitmap.createBitmap(bmImageScaled, 0,
-                0, bmImageScaled.getWidth(), bmImageScaled.getHeight(),
-                matrix, true);
+//        Matrix matrix = new Matrix();
+//        matrix.postRotate(90);
+//        Bitmap rotatedScaledMealImage = Bitmap.createBitmap(bmImageScaled, 0,
+//                0, bmImageScaled.getWidth(), bmImageScaled.getHeight(),
+//                matrix, true);
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        rotatedScaledMealImage.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+        bmImageScaled.compress(Bitmap.CompressFormat.JPEG, 100, bos);
 
         return bos.toByteArray();
 
