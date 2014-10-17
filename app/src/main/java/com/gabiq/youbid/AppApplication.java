@@ -6,12 +6,9 @@ import com.gabiq.youbid.model.Bid;
 import com.gabiq.youbid.model.Comment;
 import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.model.Keyword;
-import com.gabiq.youbid.model.User;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
-import com.parse.ParseACL;
 import com.parse.ParseObject;
-import com.parse.ParseUser;
 
 public class AppApplication extends Application {
 

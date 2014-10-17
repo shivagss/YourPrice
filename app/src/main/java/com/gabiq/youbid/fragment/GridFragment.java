@@ -147,4 +147,13 @@ public class GridFragment extends Fragment {
         public void onFragmentMessage();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(mItemAdapter != null){
+            swipeContainer.setRefreshing(true);
+            mItemAdapter.loadObjects();
+            swipeContainer.setRefreshing(false);
+        }
+    }
 }

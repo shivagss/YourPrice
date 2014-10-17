@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.activity.NewItemActivity;
+import com.gabiq.youbid.model.Item;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.SaveCallback;
@@ -151,7 +152,7 @@ public class CameraFragment extends Fragment {
 
 
     private void addPhotoToItemAndReturn(ParseFile photoFile) {
-        ((NewItemActivity) getActivity()).getNewItem().setPhotoFile(
+        new Item().setPhotoFile(
                 photoFile);
         FragmentManager fm = getActivity().getFragmentManager();
         fm.popBackStack("NewItemFragment",

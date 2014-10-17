@@ -1,19 +1,28 @@
 package com.gabiq.youbid.fragment;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gabiq.youbid.R;
+import com.gabiq.youbid.activity.NewItemActivity;
 import com.gabiq.youbid.model.Comment;
 import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.utils.Utils;
+import com.parse.DeleteCallback;
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -50,9 +59,18 @@ public class DetailsFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if(!TextUtils.isEmpty(itemId)){
+            retrieveItem(itemId);
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_details, container, false);
+
 
         etComments = (EditText)rootView.findViewById(R.id.etComments);
         ivSendComment = (ImageView)rootView.findViewById(R.id.ivSendComment);
@@ -67,6 +85,8 @@ public class DetailsFragment extends Fragment {
             }
         });
 
+
+        setHasOptionsMenu(true);
         retrieveItem(itemId);
         return rootView;
     }
@@ -133,5 +153,64 @@ public class DetailsFragment extends Fragment {
         item.setViewCount(viewCount);
         item.saveInBackground();
         tvViewCount.setText(viewCount + " views");
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getActivity().getMenuInflater().inflate(R.menu.details, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        int id = menuItem.getItemId();
+        if (id == R.id.action_edit) {
+            Intent intent = new Intent(getActivity(), NewItemActivity.class);
+            intent.putExtra("item_id", item.getObjectId());
+            startActivity(intent);
+            return true;
+        }
+        if (id == R.id.action_delete) {
+            if(item != null){
+                showProgress("Deleting item...");
+                item.deleteInBackground(new DeleteCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        dismissProgress();
+                        if (e == null) {
+                            getActivity().finish();
+                        } else {
+                            e.printStackTrace();
+                            Toast.makeText(getActivity(), "Error deleting item. Please try again later", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }
+            return true;
+        }
+        return super.onOptionsItemSelected(menuItem);
+    }
+
+    private ProgressDialog mProgressDialog;
+
+    public void showProgress(String message){
+        if(mProgressDialog == null){
+            mProgressDialog = new ProgressDialog(getActivity());
+        }
+        mProgressDialog.setMessage(message);
+        mProgressDialog.show();
+    }
+
+    public void dismissProgress(){
+        if(mProgressDialog != null){
+            mProgressDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        dismissProgress();
     }
 }

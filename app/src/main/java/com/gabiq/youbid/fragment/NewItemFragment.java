@@ -11,12 +11,12 @@ import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,14 +33,15 @@ import com.gabiq.youbid.R;
 import com.gabiq.youbid.activity.NewItemActivity;
 import com.gabiq.youbid.activity.PreviewPhotoActivity;
 import com.gabiq.youbid.model.Item;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -62,10 +63,50 @@ public class NewItemFragment extends Fragment {
     private TextView etItemCaption;
     private TextView etItemPrice;
     private ParseFile photoFile;
+    private String mItemId;
+    private Item mItem;
+    private ProgressDialog mProgressDialog;
+
+    public NewItemFragment(){};
+
+    public static NewItemFragment newInstance(String itemId) {
+        NewItemFragment newItemFragment = new NewItemFragment();
+        Bundle args = new Bundle();
+        args.putString("item_id", itemId);
+        newItemFragment.setArguments(args);
+        return newItemFragment;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        dismissProgress();
+        super.onPause();
+    }
+
+    private void updateUI(Item item) {
+        etItemPrice.setText(Double.toString(item.getMinPrice()));
+        etItemCaption.setText(item.getCaption());
+        ParseFile itemCoverPhoto = (ParseFile) item.getPhotoFile();
+        byte[] file = new byte[0];
+        try {
+            file = itemCoverPhoto.getData();
+            Bitmap image = BitmapFactory.decodeByteArray(file, 0, file.length);
+            photoBitmap = image;
+            btnPhoto.setImageBitmap(image);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            btnPhoto.setImageResource(android.R.drawable.ic_dialog_alert);
+        }
     }
 
     @Override
@@ -93,10 +134,11 @@ public class NewItemFragment extends Fragment {
 
             @Override
             public void onClick(View v) {
-                final ProgressDialog dialog = new ProgressDialog(getActivity());
-                dialog.setMessage(getActivity().getString(R.string.saving_item));
-                dialog.show();
-                Item item = ((NewItemActivity) getActivity()).getNewItem();
+                showProgress(getActivity().getString(R.string.saving_item));
+                Item item = mItem;
+                if(item == null){
+                    item = new Item();
+                }
 
                 // Save the scaled image to Parse
                 photoFile = new ParseFile("item_photo.jpg", getScaledPhoto(photoBitmap));
@@ -113,30 +155,44 @@ public class NewItemFragment extends Fragment {
 
                 item.setPhotoFile(photoFile);
 
-                // When the user clicks "Save," upload the item to Parse
+                // Save the scaled image to Parse
+                ParseFile photoThumbnailFile = new ParseFile("item_photo_thumnail.jpg", getThumbnailScaledPhoto(photoBitmap));
+                photoThumbnailFile.saveInBackground(new SaveCallback() {
+
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            Toast.makeText(getActivity(),
+                                    "Error saving: " + e.getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+                item.setThumbnailFile(photoThumbnailFile);
+
+                // When the user clicks "Save," upload the mItem to Parse
                 item.setCaption(etItemCaption.getText().toString());
 
-                // Associate the item with the current user
+                // Associate the mItem with the current user
                 item.setUser(ParseUser.getCurrentUser());
                 //TODO: update with real value
                 item.setMinPrice(Double.parseDouble(etItemPrice.getText().toString()));
                 item.setHasSold(false);
 
-                // Save the item and return
+                // Save the mItem and return
                 item.saveInBackground(new SaveCallback() {
 
                     @Override
                     public void done(ParseException e) {
+                        dismissProgress();
                         if (e == null) {
                             getActivity().setResult(Activity.RESULT_OK);
                             getActivity().finish();
-                            dialog.dismiss();
                         } else {
                             Toast.makeText(
                                     getActivity().getApplicationContext(),
                                     "Error saving: " + e.getMessage(),
                                     Toast.LENGTH_SHORT).show();
-                            dialog.dismiss();
                         }
                     }
 
@@ -158,6 +214,13 @@ public class NewItemFragment extends Fragment {
         InputMethodManager imm = (InputMethodManager) getActivity()
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(etItemCaption.getWindowToken(), 0);
+
+
+        mItemId =  getArguments().getString("item_id");
+        if(!TextUtils.isEmpty(mItemId)){
+            retrieveItem(mItemId);
+        }
+
         return v;
     }
 
@@ -330,7 +393,41 @@ public class NewItemFragment extends Fragment {
 
     private byte[] getScaledPhoto(Bitmap bmImage) {
 
-        Bitmap bmImageScaled = Bitmap.createScaledBitmap(bmImage, bmImage.getHeight() / 2, bmImage.getWidth() / 2
+        int height = 300;
+        int width = 300;
+
+        if(bmImage.getHeight() > 300){
+            height = bmImage.getHeight();
+            if(height > 600){
+                height = 600;
+            }
+        }
+        if(bmImage.getWidth() > 300){
+            width = bmImage.getWidth();
+            if(width > 600){
+                width = 600;
+            }
+        }
+
+        Bitmap bmImageScaled = Bitmap.createScaledBitmap(bmImage, width, height, false);
+
+        // Override Android default landscape orientation and save portrait
+//        Matrix matrix = new Matrix();
+//        matrix.postRotate(90);
+//        Bitmap rotatedScaledMealImage = Bitmap.createBitmap(bmImageScaled, 0,
+//                0, bmImageScaled.getWidth(), bmImageScaled.getHeight(),
+//                matrix, true);
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bmImageScaled.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+
+        return bos.toByteArray();
+
+    }
+
+    private byte[] getThumbnailScaledPhoto(Bitmap bmImage) {
+
+        Bitmap bmImageScaled = Bitmap.createScaledBitmap(bmImage, 200, 200
                 * bmImage.getHeight() / bmImage.getWidth(), false);
 
         // Override Android default landscape orientation and save portrait
@@ -345,6 +442,37 @@ public class NewItemFragment extends Fragment {
 
         return bos.toByteArray();
 
+    }
+
+    private void retrieveItem(String itemId){
+        showProgress("Retrieving Item");
+        ParseQuery<Item> query = ParseQuery.getQuery("Item");
+        query.whereEqualTo("objectId", itemId);
+        query.getFirstInBackground(new GetCallback<Item>() {
+            public void done(Item i, ParseException e) {
+                if(e == null){
+                    mItem = i;
+                    updateUI(mItem);
+                } else {
+                    e.printStackTrace();
+                }
+                dismissProgress();
+            }
+        });
+    }
+
+    public void showProgress(String message){
+        if(mProgressDialog == null){
+            mProgressDialog = new ProgressDialog(getActivity());
+        }
+        mProgressDialog.setMessage(message);
+        mProgressDialog.show();
+    }
+
+    public void dismissProgress(){
+        if(mProgressDialog != null){
+            mProgressDialog.dismiss();
+        }
     }
 
 }
