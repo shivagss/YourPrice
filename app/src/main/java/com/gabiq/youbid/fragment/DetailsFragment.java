@@ -48,6 +48,7 @@ public class DetailsFragment extends Fragment {
     private ImageView ivSendComment;
     private TextView etComments;
     private CommentsFragment commentFragment;
+    private Menu detailsMenu;
 
     public DetailsFragment() {
     }
@@ -136,6 +137,19 @@ public class DetailsFragment extends Fragment {
     {
         if(item == null) return;
 
+        //Hide the delete & edit option if the user is not the owner
+        MenuItem deleteMenu = detailsMenu.findItem(R.id.action_delete);
+        MenuItem editIMenu = detailsMenu.findItem(R.id.action_edit);
+        if(item.getUser().getObjectId().equals( ParseUser.getCurrentUser().getObjectId())){
+            deleteMenu.setVisible(true);
+            editIMenu.setVisible(true);
+        }
+        else{
+            deleteMenu.setVisible(false);
+            editIMenu.setVisible(false);
+        }
+
+
         ivItemPic = (ParseImageView) rootView.findViewById(R.id.ivItemPic);
         ivItemPic.setImageResource(0);
 
@@ -152,7 +166,7 @@ public class DetailsFragment extends Fragment {
         tvCaption.setText(item.getCaption());
 
         tvTimePosted = (TextView) rootView.findViewById(R.id.tvTimePosted);
-        tvTimePosted.setText(Utils.getRelativeTimeAgo(item.getUpdatedAt()));
+        tvTimePosted.setText(Utils.getRelativeTimeAgo(item.getCreatedAt()));
 
         tvUserName = (TextView)rootView.findViewById(R.id.tvUserName);
         tvUserName.setText(item.getUser().getName());
@@ -169,6 +183,8 @@ public class DetailsFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         // Inflate the menu; this adds items to the action bar if it is present.
         getActivity().getMenuInflater().inflate(R.menu.details, menu);
+
+        detailsMenu = menu;
     }
 
     @Override
