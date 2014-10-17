@@ -16,23 +16,32 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.aviary.android.feather.library.Constants;
 import com.aviary.android.feather.sdk.FeatherActivity;
+import com.facebook.android.Util;
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.activity.NewItemActivity;
 import com.gabiq.youbid.activity.PreviewPhotoActivity;
 import com.gabiq.youbid.model.Item;
+import com.gabiq.youbid.utils.Utils;
+import com.parse.DeleteCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -66,8 +75,12 @@ public class NewItemFragment extends Fragment {
     private String mItemId;
     private Item mItem;
     private ProgressDialog mProgressDialog;
+    private ImageButton btnEditPhoto;
 
-    public NewItemFragment(){};
+    public NewItemFragment() {
+    }
+
+    ;
 
     public static NewItemFragment newInstance(String itemId) {
         NewItemFragment newItemFragment = new NewItemFragment();
@@ -94,6 +107,7 @@ public class NewItemFragment extends Fragment {
     }
 
     private void updateUI(Item item) {
+        getActivity().getActionBar().setTitle(getActivity().getString(R.string.title_edit_item));
         etItemPrice.setText(Double.toString(item.getMinPrice()));
         etItemCaption.setText(item.getCaption());
         ParseFile itemCoverPhoto = (ParseFile) item.getPhotoFile();
@@ -103,9 +117,13 @@ public class NewItemFragment extends Fragment {
             Bitmap image = BitmapFactory.decodeByteArray(file, 0, file.length);
             photoBitmap = image;
             btnPhoto.setImageBitmap(image);
+            btnPhoto.setScaleType(ImageView.ScaleType.FIT_START);
+            btnEditPhoto.setVisibility(View.VISIBLE);
         } catch (ParseException e) {
             e.printStackTrace();
             btnPhoto.setImageResource(android.R.drawable.ic_dialog_alert);
+            btnPhoto.setScaleType(ImageView.ScaleType.CENTER);
+            btnEditPhoto.setVisibility(View.GONE);
         }
     }
 
@@ -113,6 +131,9 @@ public class NewItemFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup parent,
                              Bundle SavedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_new_item, parent, false);
+
+        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+        setHasOptionsMenu(true);
 
         etItemCaption = ((EditText) v.findViewById(R.id.etCaption));
         etItemPrice = ((EditText) v.findViewById(R.id.etMinPrice));
@@ -129,99 +150,45 @@ public class NewItemFragment extends Fragment {
             }
         });
 
-        btnSaveItem = ((Button) v.findViewById(R.id.btnSaveItem));
-        btnSaveItem.setOnClickListener(new View.OnClickListener() {
-
+        btnPhoto.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public void onClick(View v) {
-                showProgress(getActivity().getString(R.string.saving_item));
-                Item item = mItem;
-                if(item == null){
-                    item = new Item();
-                }
-
-                // Save the scaled image to Parse
-                photoFile = new ParseFile("item_photo.jpg", getScaledPhoto(photoBitmap));
-                photoFile.saveInBackground(new SaveCallback() {
-
-                    public void done(ParseException e) {
-                        if (e != null) {
-                            Toast.makeText(getActivity(),
-                                    "Error saving: " + e.getMessage(),
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-
-                item.setPhotoFile(photoFile);
-
-                // Save the scaled image to Parse
-                ParseFile photoThumbnailFile = new ParseFile("item_photo_thumnail.jpg", getThumbnailScaledPhoto(photoBitmap));
-                photoThumbnailFile.saveInBackground(new SaveCallback() {
-
-                    public void done(ParseException e) {
-                        if (e != null) {
-                            Toast.makeText(getActivity(),
-                                    "Error saving: " + e.getMessage(),
-                                    Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-
-                item.setThumbnailFile(photoThumbnailFile);
-
-                // When the user clicks "Save," upload the mItem to Parse
-                item.setCaption(etItemCaption.getText().toString());
-
-                // Associate the mItem with the current user
-                item.setUser(ParseUser.getCurrentUser());
-                //TODO: update with real value
-                item.setMinPrice(Double.parseDouble(etItemPrice.getText().toString()));
-                item.setHasSold(false);
-
-                // Save the mItem and return
-                item.saveInBackground(new SaveCallback() {
-
-                    @Override
-                    public void done(ParseException e) {
-                        dismissProgress();
-                        if (e == null) {
-                            getActivity().setResult(Activity.RESULT_OK);
-                            getActivity().finish();
-                        } else {
-                            Toast.makeText(
-                                    getActivity().getApplicationContext(),
-                                    "Error saving: " + e.getMessage(),
-                                    Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                });
-
+            public boolean onLongClick(View v) {
+                if(photoBitmap == null) return true;
+                startAviaryActivity(getImageUri(getActivity(), photoBitmap));
+                return true;
             }
         });
 
-        btnCancelItem = ((Button) v.findViewById(R.id.btnCancelItem));
-        btnCancelItem.setOnClickListener(new View.OnClickListener() {
-
+        btnEditPhoto = (ImageButton) v.findViewById(R.id.imageEditButton);
+        btnEditPhoto.setVisibility(View.GONE);
+        btnEditPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().setResult(Activity.RESULT_CANCELED);
-                getActivity().finish();
+                if(photoBitmap == null) return;
+                startAviaryActivity(getImageUri(getActivity(), photoBitmap));
             }
         });
 
-        InputMethodManager imm = (InputMethodManager) getActivity()
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(etItemCaption.getWindowToken(), 0);
+//        InputMethodManager imm = (InputMethodManager) getActivity()
+//                .getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.hideSoftInputFromWindow(etItemCaption.getWindowToken(), 0);
 
+        etItemCaption.clearFocus();
 
-        mItemId =  getArguments().getString("item_id");
-        if(!TextUtils.isEmpty(mItemId)){
+        mItemId = getArguments().getString("item_id");
+        if (!TextUtils.isEmpty(mItemId)) {
             retrieveItem(mItemId);
         }
 
         return v;
+    }
+
+    private void startAviaryActivity(Uri uri) {
+        if(uri == null) return;
+        Intent newIntent = new Intent(getActivity(), FeatherActivity.class);
+        newIntent.setData(uri);
+        newIntent.putExtra(Constants.EXTRA_IN_API_KEY_SECRET, getActivity().getString(R.string.aviary_api_secret));
+        startActivityForResult(newIntent, AVIARY_PHOTO_CODE);
     }
 
     @Override
@@ -260,24 +227,22 @@ public class NewItemFragment extends Fragment {
 //                            Toast.LENGTH_SHORT).show();
 //                }
 
-                Intent newIntent = new Intent( getActivity(), FeatherActivity.class );
-                newIntent.setData( selectedImageUri );
-                newIntent.putExtra(Constants.EXTRA_IN_API_KEY_SECRET, getActivity().getString(R.string.aviary_api_secret));
-                startActivityForResult( newIntent, AVIARY_PHOTO_CODE );
+                startAviaryActivity(selectedImageUri);
 
             } else if (requestCode == AVIARY_PHOTO_CODE) {
                 Uri mImageUri = data.getData();
                 Bundle extra = data.getExtras();
-                if( null != extra ) {
+                if (null != extra) {
                     // image has been changed by the user?
-                    boolean changed = extra.getBoolean( Constants.EXTRA_OUT_BITMAP_CHANGED );
+                    boolean changed = extra.getBoolean(Constants.EXTRA_OUT_BITMAP_CHANGED);
                 }
 
                 try {
                     photoBitmap = BitmapFactory.decodeFile(mImageUri.getPath());
 //                    photoBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), mImageUri);
 //                    startPreviewPhotoActivity();
-                    btnPhoto.setVisibility(View.VISIBLE);
+                    btnPhoto.setScaleType(ImageView.ScaleType.FIT_START);
+                    btnEditPhoto.setVisibility(View.VISIBLE);
                     btnPhoto.setImageBitmap(photoBitmap);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -287,55 +252,55 @@ public class NewItemFragment extends Fragment {
                             Toast.LENGTH_SHORT).show();
                 }
 
-            }  else if (requestCode == CROP_PHOTO_CODE) {
-                photoBitmap = data.getParcelableExtra("data");
-                startPreviewPhotoActivity();
+            } else if (requestCode == CROP_PHOTO_CODE) {
+//                photoBitmap = data.getParcelableExtra("data");
+//                startPreviewPhotoActivity();
             } else if (requestCode == POST_PHOTO_CODE) {
-                savePhotos();
+//                savePhotos();
             }
         }
     }
 
-    private void savePhotos() {
-        //Photo after adding effects
-    }
+//    private void savePhotos() {
+//        //Photo after adding effects
+//    }
 
-    private void cropPhoto(Uri photoUri) {
-        //call the standard crop action intent (the user device may not support it)
-        Intent cropIntent = new Intent("com.android.camera.action.CROP");
-        //indicate image type and Uri
-        cropIntent.setDataAndType(photoUri, "image/*");
-        //set crop properties
-        cropIntent.putExtra("crop", "true");
-        //indicate aspect of desired crop
-        cropIntent.putExtra("aspectX", 1);
-        cropIntent.putExtra("aspectY", 1);
-        //indicate output X and Y
-        cropIntent.putExtra("outputX", 300);
-        cropIntent.putExtra("outputY", 300);
-        //retrieve data on return
-        cropIntent.putExtra("return-data", true);
-        //start the activity - we handle returning in onActivityResult
-        startActivityForResult(cropIntent, CROP_PHOTO_CODE);
-    }
+//    private void cropPhoto(Uri photoUri) {
+//        //call the standard crop action intent (the user device may not support it)
+//        Intent cropIntent = new Intent("com.android.camera.action.CROP");
+//        //indicate image type and Uri
+//        cropIntent.setDataAndType(photoUri, "image/*");
+//        //set crop properties
+//        cropIntent.putExtra("crop", "true");
+//        //indicate aspect of desired crop
+//        cropIntent.putExtra("aspectX", 1);
+//        cropIntent.putExtra("aspectY", 1);
+//        //indicate output X and Y
+//        cropIntent.putExtra("outputX", 300);
+//        cropIntent.putExtra("outputY", 300);
+//        //retrieve data on return
+//        cropIntent.putExtra("return-data", true);
+//        //start the activity - we handle returning in onActivityResult
+//        startActivityForResult(cropIntent, CROP_PHOTO_CODE);
+//    }
 
-    private String getFileUri(Uri mediaStoreUri) {
-        String[] filePathColumn = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getActivity().getContentResolver().query(mediaStoreUri,
-                filePathColumn, null, null, null);
-        cursor.moveToFirst();
-        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-        String fileUri = cursor.getString(columnIndex);
-        cursor.close();
+//    private String getFileUri(Uri mediaStoreUri) {
+//        String[] filePathColumn = {MediaStore.Images.Media.DATA};
+//        Cursor cursor = getActivity().getContentResolver().query(mediaStoreUri,
+//                filePathColumn, null, null, null);
+//        cursor.moveToFirst();
+//        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+//        String fileUri = cursor.getString(columnIndex);
+//        cursor.close();
+//
+//        return fileUri;
+//    }
 
-        return fileUri;
-    }
-
-    private void startPreviewPhotoActivity() {
+    /*private void startPreviewPhotoActivity() {
         Intent i = new Intent(getActivity(), PreviewPhotoActivity.class);
         i.putExtra("photo_bitmap", photoBitmap);
         startActivityForResult(i, POST_PHOTO_CODE);
-    }
+    }*/
 
     private static File getOutputMediaFile() {
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
@@ -383,7 +348,7 @@ public class NewItemFragment extends Fragment {
         galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
 
         // Chooser of filesystem options.
-        final Intent chooserIntent = Intent.createChooser(galleryIntent, "Select Source");
+        final Intent chooserIntent = Intent.createChooser(galleryIntent, getActivity().getString(R.string.title_upload_photo));
 
         // Add the camera options.
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
@@ -396,15 +361,15 @@ public class NewItemFragment extends Fragment {
         int height = 300;
         int width = 300;
 
-        if(bmImage.getHeight() > 300){
+        if (bmImage.getHeight() > 300) {
             height = bmImage.getHeight();
-            if(height > 600){
+            if (height > 600) {
                 height = 600;
             }
         }
-        if(bmImage.getWidth() > 300){
+        if (bmImage.getWidth() > 300) {
             width = bmImage.getWidth();
-            if(width > 600){
+            if (width > 600) {
                 width = 600;
             }
         }
@@ -444,13 +409,13 @@ public class NewItemFragment extends Fragment {
 
     }
 
-    private void retrieveItem(String itemId){
+    private void retrieveItem(String itemId) {
         showProgress("Retrieving Item");
         ParseQuery<Item> query = ParseQuery.getQuery("Item");
         query.whereEqualTo("objectId", itemId);
         query.getFirstInBackground(new GetCallback<Item>() {
             public void done(Item i, ParseException e) {
-                if(e == null){
+                if (e == null) {
                     mItem = i;
                     updateUI(mItem);
                 } else {
@@ -461,16 +426,125 @@ public class NewItemFragment extends Fragment {
         });
     }
 
-    public void showProgress(String message){
-        if(mProgressDialog == null){
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getActivity().getMenuInflater().inflate(R.menu.item, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        int id = menuItem.getItemId();
+        if (id == R.id.action_save) {
+            saveItem();
+            return true;
+        }
+        if (id == android.R.id.home) {
+            getActivity().finish();
+        }
+        return super.onOptionsItemSelected(menuItem);
+    }
+
+    private void saveItem() {
+        if(!isvalidInput()) return;
+        showProgress(getActivity().getString(R.string.saving_item));
+        Item item = mItem;
+        if (item == null) {
+            item = new Item();
+        }
+
+        // Save the scaled image to Parse
+        photoFile = new ParseFile("item_photo.jpg", getScaledPhoto(photoBitmap));
+        photoFile.saveInBackground(new SaveCallback() {
+
+            public void done(ParseException e) {
+                if (e != null) {
+                    Toast.makeText(getActivity(),
+                            "Error saving: " + e.getMessage(),
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        item.setPhotoFile(photoFile);
+
+        // Save the scaled image to Parse
+        ParseFile photoThumbnailFile = new ParseFile("item_photo_thumnail.jpg", getThumbnailScaledPhoto(photoBitmap));
+        photoThumbnailFile.saveInBackground(new SaveCallback() {
+
+            public void done(ParseException e) {
+                if (e != null) {
+                    Toast.makeText(getActivity(),
+                            "Error saving: " + e.getMessage(),
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        item.setThumbnailFile(photoThumbnailFile);
+
+        // When the user clicks "Save," upload the mItem to Parse
+        item.setCaption(etItemCaption.getText().toString());
+
+        // Associate the mItem with the current user
+        item.setUser(ParseUser.getCurrentUser());
+        try {
+            item.setMinPrice(Double.parseDouble(etItemPrice.getText().toString()));
+        }catch (NumberFormatException e){
+            //Do nothing
+        }
+        item.setHasSold(false);
+
+        // Save the mItem and return
+        item.saveInBackground(new SaveCallback() {
+
+            @Override
+            public void done(ParseException e) {
+                dismissProgress();
+                if (e == null) {
+                    getActivity().setResult(Activity.RESULT_OK);
+                    getActivity().finish();
+                } else {
+                    Toast.makeText(
+                            getActivity().getApplicationContext(),
+                            "Error saving: " + e.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+            }
+
+        });
+    }
+
+    private boolean isvalidInput() {
+        if(TextUtils.isEmpty(etItemCaption.getText())){
+            Utils.showAlertDialog(getActivity(), "Message", getActivity().getString(R.string.error_enter_caption), true);
+            return false;
+        }
+        if(photoBitmap == null){
+            Utils.showAlertDialog(getActivity(), "Message", getActivity().getString(R.string.error_upload_photo), true);
+            return false;
+        }
+        return true;
+    }
+
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "item_photo.jpg", null);
+        return Uri.parse(path);
+    }
+
+    public void showProgress(String message) {
+        if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(getActivity());
         }
         mProgressDialog.setMessage(message);
         mProgressDialog.show();
     }
 
-    public void dismissProgress(){
-        if(mProgressDialog != null){
+    public void dismissProgress() {
+        if (mProgressDialog != null) {
             mProgressDialog.dismiss();
         }
     }
