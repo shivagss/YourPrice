@@ -155,6 +155,21 @@ public class NewItemFragment extends Fragment {
 
                 item.setPhotoFile(photoFile);
 
+                // Save the scaled image to Parse
+                ParseFile photoThumbnailFile = new ParseFile("item_photo_thumnail.jpg", getThumbnailScaledPhoto(photoBitmap));
+                photoThumbnailFile.saveInBackground(new SaveCallback() {
+
+                    public void done(ParseException e) {
+                        if (e != null) {
+                            Toast.makeText(getActivity(),
+                                    "Error saving: " + e.getMessage(),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+
+                item.setThumbnailFile(photoThumbnailFile);
+
                 // When the user clicks "Save," upload the mItem to Parse
                 item.setCaption(etItemCaption.getText().toString());
 
@@ -378,7 +393,41 @@ public class NewItemFragment extends Fragment {
 
     private byte[] getScaledPhoto(Bitmap bmImage) {
 
-        Bitmap bmImageScaled = Bitmap.createScaledBitmap(bmImage, bmImage.getHeight() / 2, bmImage.getWidth() / 2
+        int height = 300;
+        int width = 300;
+
+        if(bmImage.getHeight() > 300){
+            height = bmImage.getHeight();
+            if(height > 600){
+                height = 600;
+            }
+        }
+        if(bmImage.getWidth() > 300){
+            width = bmImage.getWidth();
+            if(width > 600){
+                width = 600;
+            }
+        }
+
+        Bitmap bmImageScaled = Bitmap.createScaledBitmap(bmImage, width, height, false);
+
+        // Override Android default landscape orientation and save portrait
+//        Matrix matrix = new Matrix();
+//        matrix.postRotate(90);
+//        Bitmap rotatedScaledMealImage = Bitmap.createBitmap(bmImageScaled, 0,
+//                0, bmImageScaled.getWidth(), bmImageScaled.getHeight(),
+//                matrix, true);
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bmImageScaled.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+
+        return bos.toByteArray();
+
+    }
+
+    private byte[] getThumbnailScaledPhoto(Bitmap bmImage) {
+
+        Bitmap bmImageScaled = Bitmap.createScaledBitmap(bmImage, 200, 200
                 * bmImage.getHeight() / bmImage.getWidth(), false);
 
         // Override Android default landscape orientation and save portrait
