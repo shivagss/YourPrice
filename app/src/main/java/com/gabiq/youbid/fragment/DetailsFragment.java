@@ -1,6 +1,7 @@
 package com.gabiq.youbid.fragment;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -13,12 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.activity.DetailsActivity;
 import com.gabiq.youbid.activity.NewItemActivity;
 import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.utils.Utils;
+import com.parse.DeleteCallback;
 import com.parse.GetCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
@@ -139,6 +142,46 @@ public class DetailsFragment extends Fragment {
             startActivity(intent);
             return true;
         }
+        if (id == R.id.action_delete) {
+            if(item != null){
+                showProgress("Deleting item...");
+                item.deleteInBackground(new DeleteCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        dismissProgress();
+                        if (e == null) {
+                            getActivity().finish();
+                        } else {
+                            e.printStackTrace();
+                            Toast.makeText(getActivity(), "Error deleting item. Please try again later", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+            }
+            return true;
+        }
         return super.onOptionsItemSelected(menuItem);
+    }
+
+    private ProgressDialog mProgressDialog;
+
+    public void showProgress(String message){
+        if(mProgressDialog == null){
+            mProgressDialog = new ProgressDialog(getActivity());
+        }
+        mProgressDialog.setMessage(message);
+        mProgressDialog.show();
+    }
+
+    public void dismissProgress(){
+        if(mProgressDialog != null){
+            mProgressDialog.dismiss();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        dismissProgress();
     }
 }
