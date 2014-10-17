@@ -57,5 +57,6 @@
     <string name="hint_add_comment">Add comment</string>
     <string name="aviary_app_id">165b751a2efa614d</string>
     <string name="aviary_api_secret">0fa764e9db15b26b</string>
+    <string name="comments_title">Comments</string>
 
 </resources>

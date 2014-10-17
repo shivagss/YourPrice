@@ -112,8 +112,7 @@
             android:id="@+id/btnBid"
             android:layout_below="@+id/tvCaption"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="100dp"
+            android:layout_margin="10dp"
             android:text="BID" />
 
         <ProgressBar
@@ -125,7 +124,13 @@
             android:layout_below="@id/ivLike"
             />
 
-
+          <FrameLayout android:id="@+id/flCommentsContainer"
+                android:layout_width="match_parent"
+                android:layout_height="500dp"
+              android:layout_alignParentLeft="true"
+              android:layout_below="@id/btnBid"
+                android:layout_alignParentRight="true">
+            </FrameLayout>
 
         </RelativeLayout>
     </ScrollView>

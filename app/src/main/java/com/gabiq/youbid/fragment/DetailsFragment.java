@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -46,6 +47,7 @@ public class DetailsFragment extends Fragment {
     private TextView tvViewCount;
     private ImageView ivSendComment;
     private TextView etComments;
+    private CommentsFragment commentFragment;
 
     public DetailsFragment() {
     }
@@ -81,6 +83,7 @@ public class DetailsFragment extends Fragment {
                 if(comments !=null  &&  !comments.isEmpty()) {
                     sendComment(comments);
                     etComments.setText(null);
+                    commentFragment.refresh();
                 }
             }
         });
@@ -88,6 +91,12 @@ public class DetailsFragment extends Fragment {
 
         setHasOptionsMenu(true);
         retrieveItem(itemId);
+
+        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        commentFragment = CommentsFragment.newInstance(itemId);
+        ft.replace(R.id.flCommentsContainer, commentFragment);
+        ft.commit();
+
         return rootView;
     }
 
