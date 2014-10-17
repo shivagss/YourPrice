@@ -1,15 +1,22 @@
 package com.gabiq.youbid.fragment;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.gabiq.youbid.R;
+import com.gabiq.youbid.activity.DetailsActivity;
+import com.gabiq.youbid.activity.NewItemActivity;
 import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.utils.Utils;
 import com.parse.GetCallback;
@@ -45,9 +52,18 @@ public class DetailsFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if(!TextUtils.isEmpty(itemId)){
+            retrieveItem(itemId);
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_details, container, false);
+        setHasOptionsMenu(true);
         retrieveItem(itemId);
         return rootView;
     }
@@ -105,5 +121,24 @@ public class DetailsFragment extends Fragment {
         item.setViewCount(viewCount);
         item.saveInBackground();
         tvViewCount.setText(viewCount + " views");
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getActivity().getMenuInflater().inflate(R.menu.details, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        int id = menuItem.getItemId();
+        if (id == R.id.action_edit) {
+            Intent intent = new Intent(getActivity(), NewItemActivity.class);
+            intent.putExtra("item_id", item.getObjectId());
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 }
