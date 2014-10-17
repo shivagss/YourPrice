@@ -2,14 +2,16 @@ package com.gabiq.youbid.fragment;
 
 import android.app.Fragment;
 import android.os.Bundle;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.gabiq.youbid.R;
+import com.gabiq.youbid.model.Comment;
 import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.utils.Utils;
 import com.parse.GetCallback;
@@ -17,6 +19,7 @@ import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseImageView;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 /**
  * Created by sreejumon on 10/14/14.
@@ -32,6 +35,8 @@ public class DetailsFragment extends Fragment {
     private TextView tvTimePosted;
     private TextView tvUserName;
     private TextView tvViewCount;
+    private ImageView ivSendComment;
+    private TextView etComments;
 
     public DetailsFragment() {
     }
@@ -48,8 +53,31 @@ public class DetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_details, container, false);
+
+        etComments = (EditText)rootView.findViewById(R.id.etComments);
+        ivSendComment = (ImageView)rootView.findViewById(R.id.ivSendComment);
+        ivSendComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String comments = etComments.getText().toString();
+                if(comments !=null  &&  !comments.isEmpty()) {
+                    sendComment(comments);
+                    etComments.setText(null);
+                }
+            }
+        });
+
         retrieveItem(itemId);
         return rootView;
+    }
+
+    private void sendComment(String commentText)
+    {
+        Comment comment = new Comment();
+        comment.setBody(commentText);
+        comment.setItemId(itemId);
+        comment.setUser(ParseUser.getCurrentUser());
+        comment.saveInBackground();
     }
 
     public static DetailsFragment newInstance(String itemId) {

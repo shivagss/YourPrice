@@ -127,7 +127,6 @@
 
 
 
-
         </RelativeLayout>
     </ScrollView>
 
@@ -136,7 +135,7 @@
         android:layout_height="50dp"
         android:inputType="textMultiLine"
         android:ems="10"
-        android:id="@+id/editText"
+        android:id="@+id/etComments"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
@@ -155,7 +154,7 @@
         android:id="@+id/ivSendComment"
         android:src="@drawable/ic_comment_send"
         android:layout_alignBottom="@id/scrollView"
-        android:layout_alignRight="@id/editText"
+        android:layout_alignRight="@id/etComments"
         />
 
 
