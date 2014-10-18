@@ -16,6 +16,7 @@ import com.gabiq.youbid.R;
 import com.gabiq.youbid.fragment.FavoriteItemsFragment;
 import com.gabiq.youbid.fragment.FragmentNavigationDrawer;
 import com.gabiq.youbid.fragment.GridFragment;
+import com.gabiq.youbid.fragment.LogoutFragment;
 import com.gabiq.youbid.fragment.MyBidsFragment;
 import com.gabiq.youbid.fragment.ProfileFragment;
 import com.gabiq.youbid.fragment.SearchItemFragment;
@@ -90,6 +91,7 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
         dlDrawer.addNavItem("My Profile", R.drawable.ic_icon_profile, "My Profile", ProfileFragment.class);
         dlDrawer.addNavItem("Favorites", R.drawable.ic_action_new, "Favorites", FavoriteItemsFragment.class);
         dlDrawer.addNavItem("My Bids", R.drawable.ic_action_photo, "My Bids", MyBidsFragment.class);
+        dlDrawer.addNavItem("Logout", R.drawable.ic_action_photo, "Logout", LogoutFragment.class);
 
         // Select default
         if (savedInstanceState == null) {
@@ -136,9 +138,9 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
                 postItem();
                 break;
             }
-            case R.id.action_logout:{
-                logout();
-            }
+//            case R.id.action_logout:{
+//                logout();
+//            }
         }
         return super.onOptionsItemSelected(item);
     }
