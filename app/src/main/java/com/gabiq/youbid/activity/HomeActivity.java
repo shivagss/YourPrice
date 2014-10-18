@@ -14,6 +14,7 @@ import com.gabiq.youbid.fragment.FavoriteItemsFragment;
 import com.gabiq.youbid.fragment.FragmentNavigationDrawer;
 import com.gabiq.youbid.fragment.GridFragment;
 import com.gabiq.youbid.fragment.MyBidsFragment;
+import com.gabiq.youbid.fragment.ProfileFragment;
 import com.gabiq.youbid.fragment.UserItemsFragment;
 import com.gabiq.youbid.fragment.UserStoreFragment;
 import com.gabiq.youbid.model.Item;
@@ -46,7 +47,8 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
         dlDrawer.addNavItem("My Store", R.drawable.ic_action_photo, "My Store", UserStoreFragment.class);
         dlDrawer.addNavItem("Favorites", R.drawable.ic_action_new, "Favorites", FavoriteItemsFragment.class);
         dlDrawer.addNavItem("My Bids", R.drawable.ic_action_photo, "My Bids", MyBidsFragment.class);
-        dlDrawer.addNavItem("Settings", R.drawable.ic_action_photo, "Settings", GridFragment.class);
+        dlDrawer.addNavItem("My Profile", R.drawable.ic_icon_profile, "My Profile", ProfileFragment.class);
+
         // Select default
         if (savedInstanceState == null) {
             dlDrawer.selectDrawerItem(0);

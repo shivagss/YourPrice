@@ -156,6 +156,8 @@
     <color name="DarkBlue">#00008B</color>
     <color name="Navy">#000080</color>
     <color name="Black">#000000</color>
+    <color name="secondary_text_color">#000000</color>
+    <color name="primary_color">#000000</color>
     
     <!--image placeholder palete HEAVY -->
     <color name="placeholder1">#0084c3</color>
@@ -163,5 +165,4 @@
     <color name="placeholder3">#52B14F</color>
     <color name="placeholder4">#F7A645</color>
     <color name="placeholder5">#CE1919</color>
-
 </resources>
