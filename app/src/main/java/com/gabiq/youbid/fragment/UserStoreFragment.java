@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gabiq.youbid.R;
@@ -24,10 +25,13 @@ import java.util.List;
 
 public class UserStoreFragment extends Fragment {
     private static final String ARG_USER_ID = "userId";
+    private static final String ARG_HEADER_VISIBILITY = "headerVisibility";
 
     private String userId;
 
     private OnUserStoreFragmentInteractionListener mListener;
+    private RelativeLayout rlHeader;
+    private int mHeaderVisibility;
 
     public static UserStoreFragment newInstance(String userId) {
         UserStoreFragment fragment = new UserStoreFragment();
@@ -36,6 +40,7 @@ public class UserStoreFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     public UserStoreFragment() {
         // Required empty public constructor
     }
@@ -45,6 +50,7 @@ public class UserStoreFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             userId = getArguments().getString(ARG_USER_ID);
+            mHeaderVisibility = getArguments().getInt(ARG_HEADER_VISIBILITY);
         } else {
             userId = ParseUser.getCurrentUser().getObjectId();
         }
@@ -61,6 +67,8 @@ public class UserStoreFragment extends Fragment {
     }
 
     private void setupViews(View view) {
+        rlHeader = (RelativeLayout) view.findViewById(R.id.rlHeader);
+        rlHeader.setVisibility(mHeaderVisibility);
         final TextView tvUserStoreName = (TextView) view.findViewById(R.id.tvUserStoreName);
         final ParseImageView pivUserStoreProfile = (ParseImageView) view.findViewById(R.id.pivUserStoreProfile);
 
@@ -117,6 +125,12 @@ public class UserStoreFragment extends Fragment {
 
     public interface OnUserStoreFragmentInteractionListener {
         public void OnUserStoreFragmentInteraction();
+    }
+
+    public void setHeaderVisiblity(int visibility){
+        if(rlHeader != null){
+            rlHeader.setVisibility(visibility);
+        }
     }
 
 }

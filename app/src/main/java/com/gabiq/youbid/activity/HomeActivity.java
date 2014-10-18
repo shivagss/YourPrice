@@ -12,6 +12,7 @@ import android.widget.ListView;
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.fragment.FragmentNavigationDrawer;
 import com.gabiq.youbid.fragment.GridFragment;
+import com.gabiq.youbid.fragment.ProfileFragment;
 import com.gabiq.youbid.fragment.UserItemsFragment;
 import com.gabiq.youbid.fragment.UserStoreFragment;
 import com.gabiq.youbid.model.Item;
@@ -40,13 +41,14 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
         dlDrawer.setupDrawerConfiguration((ListView) findViewById(R.id.lvDrawer),
                 R.layout.drawer_nav_item, R.id.flContent);
         // Add nav items
+        dlDrawer.addNavItem("My Profile", R.drawable.ic_icon_profile, "My Profile", ProfileFragment.class);
         dlDrawer.addNavItem("Activity Feed", R.drawable.ic_action_new, "Activity", GridFragment.class);
         dlDrawer.addNavItem("My Store", R.drawable.ic_action_photo, "My Store", UserStoreFragment.class);
         dlDrawer.addNavItem("Favorites", R.drawable.ic_action_new, "Favorites", GridFragment.class);
         dlDrawer.addNavItem("Settings", R.drawable.ic_action_photo, "Settings", GridFragment.class);
         // Select default
         if (savedInstanceState == null) {
-            dlDrawer.selectDrawerItem(0);
+            dlDrawer.selectDrawerItem(1);
         }
     }
 
