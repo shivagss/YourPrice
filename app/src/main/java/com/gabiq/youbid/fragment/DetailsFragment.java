@@ -87,17 +87,19 @@ public class DetailsFragment extends Fragment {
 
 
         etComments = (EditText)rootView.findViewById(R.id.etComments);
+
         etComments.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
                 if(b)
                     scrollView.post(new Runnable() {
                         public void run() {
-                            scrollView.fullScroll(View.FOCUS_DOWN);
+                            scrollView.scrollTo(0, Integer.MAX_VALUE);
                            }
                     });
             }
         });
+
         ivSendComment = (ImageView)rootView.findViewById(R.id.ivSendComment);
         ivSendComment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,12 +114,14 @@ public class DetailsFragment extends Fragment {
         });
         commentBox = (RelativeLayout)rootView.findViewById(R.id.commentBox);
         etBidAmount = (EditText)rootView.findViewById(R.id.etBidAmount);
+
         etBidAmount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 commentBox.setVisibility(View.INVISIBLE);
             }
         });
+
 
         btnBid = (Button)rootView.findViewById(R.id.btnBid);
         tvBidStatus = (TextView)rootView.findViewById(R.id.tvBidStatus);
@@ -187,6 +191,7 @@ public class DetailsFragment extends Fragment {
             tvBidStatus.setText(getResources().getString(R.string.bid_amount_high) );
             tvBidStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light));
         }
+        tvBidStatus.setVisibility(View.VISIBLE);
 
     }
 
