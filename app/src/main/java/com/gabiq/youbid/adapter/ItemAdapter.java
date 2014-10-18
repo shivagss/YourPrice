@@ -20,6 +20,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 
+import java.math.BigInteger;
 import java.util.Random;
 
 public class ItemAdapter extends ParseQueryAdapter<Item> {
@@ -61,8 +62,11 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
 
         super.getItemView(item, convertView, parent);
 
-        Random r = new Random();
-        switch (r.nextInt(5)) {
+//        Random r = new Random();
+        // convert to big integer
+        BigInteger bigInt = new BigInteger(item.getObjectId().getBytes());
+
+        switch (bigInt.intValue() % 5) {
             case 0:
                 viewHolder.ivItemCellImage.setPlaceholder(getContext().getResources().getDrawable(R.color.placeholder1));
                 break;
