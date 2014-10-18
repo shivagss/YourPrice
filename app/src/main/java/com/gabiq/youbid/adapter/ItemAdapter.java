@@ -2,6 +2,7 @@ package com.gabiq.youbid.adapter;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -40,24 +41,16 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
             viewHolder.ivItemCellImage = (ParseImageView) convertView.findViewById(R.id.ivItemCellImage);
             viewHolder.btnItemCellFavorite = (Button) convertView.findViewById(R.id.btnItemCellFavorite);
 
-            viewHolder.btnItemCellFavorite.setOnClickListener(new View.OnClickListener() {
+            viewHolder.btnItemCellFavorite.setOnTouchListener(new View.OnTouchListener() {
+
                 @Override
-                public void onClick(View view) {
-                    Log.d("INFO", "clicked");
-                    boolean statePressed = false;
-                    int[] states = viewHolder.btnItemCellFavorite.getDrawableState();
-                    for (int state : states) {
-                        if (state == android.R.attr.state_pressed) {
-                            statePressed = true;
-                        }
-                    }
+                public boolean onTouch(View v, MotionEvent event) {
+                    boolean isFavorite = !item.isFavorite();
+                    Favorite.setFavorite(item, isFavorite);
+                    item.setFavorite(isFavorite);
+                    viewHolder.btnItemCellFavorite.setPressed(isFavorite);
 
-                    if (statePressed) {
-                        Log.d("INFO", "*********************** unselect button");
-                    } else {
-                        Favorite.setFavorite(item, true);
-                    }
-
+                    return true;
                 }
             });
 
@@ -106,21 +99,16 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
         }
 
         // set favorite
-        viewHolder.btnItemCellFavorite.setVisibility(View.INVISIBLE);
+        viewHolder.btnItemCellFavorite.setPressed(false);
         ParseQuery<Favorite> query = ParseQuery.getQuery("Favorite");
         query.whereEqualTo("user", ParseUser.getCurrentUser());
         query.whereEqualTo("itemId", item.getObjectId());
         final ViewHolder vh = viewHolder;
         query.getFirstInBackground(new GetCallback<Favorite>() {
             public void done(Favorite favorite, ParseException e) {
-                vh.btnItemCellFavorite.setVisibility(View.VISIBLE);
-                if (favorite == null) {
-                    vh.btnItemCellFavorite.setPressed(false);
-                    Log.d("INFO", "%%%%%%%%%%%%%%%%%%%%%% not selected");
-                } else {
-                    vh.btnItemCellFavorite.setPressed(true);
-                    Log.d("INFO", "***************************** selected");
-                }
+                boolean isFavorite = (favorite != null);
+                item.setFavorite(isFavorite);
+                vh.btnItemCellFavorite.setPressed(isFavorite);
             }
         });
 
