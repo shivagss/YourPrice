@@ -119,7 +119,7 @@ public class GridFragment extends Fragment {
             public void onLoadMore(int page, int totalItemsCount) {
                 // this may not be needed
                 Log.d("INFO", "************************ new page " + String.valueOf(page) + " totalItemsCount " + String.valueOf(totalItemsCount));
-                mItemAdapter.loadNextPage();
+//                mItemAdapter.loadNextPage();
             }
         });
 
