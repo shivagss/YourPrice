@@ -51,7 +51,7 @@
     <string name="item_caption">Caption</string>
     <string name="hint_item_desc">Enter item caption</string>
     <string name="min_price">Min price</string>
-    <string name="hint_price">optional</string>
+    <string name="hint_price">Price in $</string>
     <string name="title_activity_preview_photo">Preview</string>
     <string name="saving_item">Saving Item...</string>
     <string name="hint_add_comment">Add comment</string>
@@ -64,6 +64,9 @@
     <string name="title_edit_item">Edit Item</string>
     <string name="error_enter_caption">Please enter caption</string>
     <string name="error_upload_photo">Please upload a picture</string>
-
+    <string name="bid_amount_low">Your bid amount is very low as per seller, try again with a reasonable bid</string>
+    <string name="bid_amount_high">Your bid amount is very high as per seller, try again with a reasonable bid</string>
+    <string name="bid_amount_last">Your most recent bid amount for this product is </string>
+    <string name="bid_amount_submitted">Your bid is submitted successfully</string>
 
 </resources>

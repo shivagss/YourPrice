@@ -1,10 +1,10 @@
 package com.gabiq.youbid.fragment;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.activity.NewItemActivity;
+import com.gabiq.youbid.model.Bid;
 import com.gabiq.youbid.model.Comment;
 import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.utils.Utils;
@@ -49,6 +51,9 @@ public class DetailsFragment extends Fragment {
     private TextView etComments;
     private CommentsFragment commentFragment;
     private Menu detailsMenu;
+    private EditText etBidAmount;
+    private Button btnBid;
+    private TextView tvBidStatus;
 
     public DetailsFragment() {
     }
@@ -89,6 +94,22 @@ public class DetailsFragment extends Fragment {
             }
         });
 
+        etBidAmount = (EditText)rootView.findViewById(R.id.etBidAmount);
+        btnBid = (Button)rootView.findViewById(R.id.btnBid);
+        tvBidStatus = (TextView)rootView.findViewById(R.id.tvBidStatus);
+        btnBid.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    double bidAmount = Double.parseDouble(etBidAmount.getText().toString());
+                    submitBid(bidAmount);
+                }
+                catch(Exception e)
+                {
+                  e.printStackTrace();
+                }
+            }
+        });
 
         setHasOptionsMenu(true);
         retrieveItem(itemId);
@@ -99,6 +120,40 @@ public class DetailsFragment extends Fragment {
         ft.commit();
 
         return rootView;
+    }
+
+    private void submitBid(double amount) {
+        int validity = validBid(amount);
+        if( validity == 0) {
+            Bid bid = new Bid();
+            bid.setItemId(itemId);
+            bid.setBuyer(ParseUser.getCurrentUser());
+            bid.setPrice(amount);
+            bid.setState("pending"); //Pending, accepted, rejected states
+            bid.saveInBackground();
+            tvBidStatus.setText(getResources().getString(R.string.bid_amount_submitted) );
+            tvBidStatus.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+        }
+        else if(validity < 0) //very low bid amount
+        {
+            tvBidStatus.setText(getResources().getString(R.string.bid_amount_low) );
+            tvBidStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+        }
+        else //very high bid amount
+        {
+            tvBidStatus.setText(getResources().getString(R.string.bid_amount_high) );
+            tvBidStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light));
+        }
+
+    }
+
+    private int validBid(double amount) {
+        //Simple rule of basic validation
+        if(amount < item.getMinPrice() / 2)  //Very low if bid amount is less than half of min price
+            return -1;
+        else if(amount > 5 * item.getMinPrice()) //Very high if bid amount is more than 5 X
+            return 1;
+        return 0;
     }
 
     private void sendComment(String commentText)
