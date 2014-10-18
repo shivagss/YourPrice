@@ -3,14 +3,9 @@
     tools:context=".HomeActivity" >
 
     <item
-        android:id="@+id/action_search"
-        android:icon="@drawable/ic_action_search"
-        android:showAsAction="ifRoom"
-        android:title="@string/action_search">
-    </item>
-    <item
         android:id="@+id/action_new"
         android:icon="@drawable/ic_action_new"
+        android:orderInCategory="90"
         android:showAsAction="ifRoom"
         android:title="@string/action_new">
     </item>

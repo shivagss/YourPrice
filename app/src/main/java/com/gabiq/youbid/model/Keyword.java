@@ -3,7 +3,7 @@ package com.gabiq.youbid.model;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
-@ParseClassName("Message")
+@ParseClassName("Keyword")
 public class Keyword extends ParseObject {
     public Item getItem() {
         return (Item) getParseObject("item");
