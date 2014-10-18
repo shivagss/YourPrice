@@ -156,4 +156,8 @@ public class GridFragment extends Fragment {
             swipeContainer.setRefreshing(false);
         }
     }
+
+    public void reloadItems() {
+        mItemAdapter.loadObjects();
+    }
 }

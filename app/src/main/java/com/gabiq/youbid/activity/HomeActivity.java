@@ -5,9 +5,12 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.SearchView;
 
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.fragment.FavoriteItemsFragment;
@@ -15,6 +18,7 @@ import com.gabiq.youbid.fragment.FragmentNavigationDrawer;
 import com.gabiq.youbid.fragment.GridFragment;
 import com.gabiq.youbid.fragment.MyBidsFragment;
 import com.gabiq.youbid.fragment.ProfileFragment;
+import com.gabiq.youbid.fragment.SearchItemFragment;
 import com.gabiq.youbid.fragment.UserItemsFragment;
 import com.gabiq.youbid.fragment.UserStoreFragment;
 import com.gabiq.youbid.model.Item;
@@ -43,7 +47,7 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
         dlDrawer.setupDrawerConfiguration((ListView) findViewById(R.id.lvDrawer),
                 R.layout.drawer_nav_item, R.id.flContent);
         // Add nav items
-        dlDrawer.addNavItem("Items for Sale", R.drawable.ic_action_new, "Items for Sale", GridFragment.class);
+        dlDrawer.addNavItem("Items for Sale", R.drawable.ic_action_new, "Items for Sale", SearchItemFragment.class);
         dlDrawer.addNavItem("My Profile", R.drawable.ic_icon_profile, "My Profile", ProfileFragment.class);
         dlDrawer.addNavItem("Favorites", R.drawable.ic_action_new, "Favorites", FavoriteItemsFragment.class);
         dlDrawer.addNavItem("My Bids", R.drawable.ic_action_photo, "My Bids", MyBidsFragment.class);
@@ -72,7 +76,6 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
         return true;
     }
