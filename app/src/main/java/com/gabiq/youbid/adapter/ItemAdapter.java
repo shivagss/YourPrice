@@ -32,22 +32,44 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
         TextView textView = (TextView) convertView.findViewById(R.id.tvItemCellCaption);
         ParseImageView imageView = (ParseImageView) convertView.findViewById(R.id.ivItemCellImage);
 
+        super.getItemView(item, convertView, parent);
+
         // randomize sizes for now...
         Random r = new Random();
+        switch (r.nextInt(5)) {
+            case 0:
+                imageView.setPlaceholder(getContext().getResources().getDrawable(R.color.placeholder1));
+                break;
+            case 1:
+                imageView.setPlaceholder(getContext().getResources().getDrawable(R.color.placeholder2));
+                break;
+            case 2:
+                imageView.setPlaceholder(getContext().getResources().getDrawable(R.color.placeholder3));
+                break;
+            case 3:
+                imageView.setPlaceholder(getContext().getResources().getDrawable(R.color.placeholder4));
+                break;
+            case 4:
+                imageView.setPlaceholder(getContext().getResources().getDrawable(R.color.placeholder5));
+                break;
+        }
+
         int i = 6; // r.nextInt(10);
 
         textView.setText(item.getString("caption"));
-        ParseFile photoFile = item.getParseFile("photo");
+        ParseFile photoFile = item.getParseFile("thumbnail");
         if (photoFile != null) {
             imageView.setParseFile(photoFile);
-            imageView.setMinimumHeight(200+i*25);
-            imageView.setMaxHeight(200+i*25);
+//            imageView.setMinimumHeight(200+i*25);
+//            imageView.setMaxHeight(200+i*25);
             imageView.loadInBackground(new GetDataCallback() {
                 @Override
                 public void done(byte[] data, ParseException e) {
                     // nothing to do
                 }
             });
+        } else {
+            imageView.setParseFile(null);
         }
 
         return convertView;

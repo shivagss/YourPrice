@@ -54,7 +54,7 @@ public class GridFragment extends Fragment {
         return new ParseQueryAdapter.QueryFactory<Item>() {
             public ParseQuery<Item> create() {
                 ParseQuery query = new ParseQuery("Item");
-                query.orderByDescending("updatedAt");
+                query.orderByDescending("createdAt");
                 return query;
             }
         };
