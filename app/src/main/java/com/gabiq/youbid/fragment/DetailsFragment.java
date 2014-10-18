@@ -241,8 +241,6 @@ public class DetailsFragment extends Fragment {
     {
         if(item == null) return;
 
-        //TODO: detailsMenu is null - It was working earlier, need to look into it
-        /*
         //Hide the delete & edit option if the user is not the owner
         MenuItem deleteMenu = detailsMenu.findItem(R.id.action_delete);
         MenuItem editIMenu = detailsMenu.findItem(R.id.action_edit);
@@ -254,7 +252,7 @@ public class DetailsFragment extends Fragment {
             deleteMenu.setVisible(false);
             editIMenu.setVisible(false);
         }
-        */
+
 
 
         ivItemPic = (ParseImageView) rootView.findViewById(R.id.ivItemPic);
