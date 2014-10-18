@@ -16,6 +16,7 @@ import com.gabiq.youbid.R;
 import com.gabiq.youbid.fragment.FavoriteItemsFragment;
 import com.gabiq.youbid.fragment.FragmentNavigationDrawer;
 import com.gabiq.youbid.fragment.GridFragment;
+import com.gabiq.youbid.fragment.LogoutFragment;
 import com.gabiq.youbid.fragment.MyBidsFragment;
 import com.gabiq.youbid.fragment.ProfileFragment;
 import com.gabiq.youbid.fragment.SearchItemFragment;
@@ -25,6 +26,9 @@ import com.gabiq.youbid.model.Item;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class HomeActivity extends FragmentActivity implements GridFragment.OnFragmentInteractionListener,
@@ -39,7 +43,43 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
         setContentView(R.layout.activity_home);
 
         setupDrawer(savedInstanceState);
+
+        // handle intent
+        Intent intent = getIntent();
+
+        Bundle extras = intent.getExtras();
+        if((extras != null)){
+            dispatchNotification(extras);        }
     }
+
+    protected void onNewIntent(Intent intent) {
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            dispatchNotification(extras);
+        }
+    }
+
+    private void dispatchNotification(Bundle extra) {
+        String jsonString = extra.getString("com.parse.Data");
+        if (jsonString != null) {
+            try {
+            JSONObject json = new JSONObject(jsonString);
+                if (json != null) {
+                    String itemId = json.getString("itemId");
+                    if (itemId != null) {
+                        // Launch Item Detail activity
+                        Intent intent = new Intent(HomeActivity.this, DetailsActivity.class);
+                        intent.putExtra("item_id",itemId);
+                        startActivity(intent);
+                    }
+                }
+            } catch (JSONException e) {
+                Log.e("Error", "Error parsing json in push notification " + e.toString());
+            }
+        }
+    }
+
+
 
     private void setupDrawer(Bundle savedInstanceState) {
         dlDrawer = (FragmentNavigationDrawer) findViewById(R.id.drawer_layout);
@@ -51,12 +91,15 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
         dlDrawer.addNavItem("My Profile", R.drawable.ic_icon_profile, "My Profile", ProfileFragment.class);
         dlDrawer.addNavItem("Favorites", R.drawable.ic_action_new, "Favorites", FavoriteItemsFragment.class);
         dlDrawer.addNavItem("My Bids", R.drawable.ic_action_photo, "My Bids", MyBidsFragment.class);
+        dlDrawer.addNavItem("Logout", R.drawable.ic_action_photo, "Logout", LogoutFragment.class);
 
         // Select default
         if (savedInstanceState == null) {
             dlDrawer.selectDrawerItem(0);
         }
     }
+
+
 
 
     @Override
@@ -95,9 +138,9 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
                 postItem();
                 break;
             }
-            case R.id.action_logout:{
-                logout();
-            }
+//            case R.id.action_logout:{
+//                logout();
+//            }
         }
         return super.onOptionsItemSelected(item);
     }

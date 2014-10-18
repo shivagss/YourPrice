@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.gabiq.youbid.activity.HomeActivity;
@@ -43,7 +44,9 @@ public class AppPushBroadcastReceiver extends ParsePushBroadcastReceiver {
         } else {
             activityIntent = new Intent(context, HomeActivity.class);
         }
-        activityIntent.putExtras(intent.getExtras());
+
+        Bundle extras = intent.getExtras();
+        activityIntent.putExtras(extras);
         if (Build.VERSION.SDK_INT >= 16) {
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
             stackBuilder.addParentStack(cls);

@@ -1,7 +1,8 @@
 
 Parse.Cloud.afterSave("Bid", function(request) {
-  query = new Parse.Query("Item");
+  var bidId = request.object.id;
   var itemId = request.object.get("itemId");
+  query = new Parse.Query("Item");
   query.get(itemId, {
     success: function(item) {
       var seller = item.get("createdBy");
@@ -13,7 +14,9 @@ Parse.Cloud.afterSave("Bid", function(request) {
         where: query, // Set our Installation query
         data: {
           alert: "Your item in sale has a bid",
-          item: itemId
+          type: "bid",
+          bidId: bidId,
+          itemId: itemId
         }
       }, {
         success: function() {
@@ -55,6 +58,7 @@ function getCommenters(itemId, callback) {
 
 Parse.Cloud.afterSave("Comment", function(request) {
   var itemId = request.object.get("itemId");
+  var commentId = request.object.id
   var body = request.object.get("body");
   var commenter = request.object.get("createdBy").id;
 
@@ -89,7 +93,9 @@ Parse.Cloud.afterSave("Comment", function(request) {
             where: query, // Set our Installation query
             data: {
               alert: body,
-              item: itemId
+              type: "comment",
+              itemId: itemId,
+              commentId: commentId
             }
           }, {
             success: function() {
