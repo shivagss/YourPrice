@@ -26,6 +26,9 @@ import com.parse.ParseFacebookUtils;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 public class HomeActivity extends FragmentActivity implements GridFragment.OnFragmentInteractionListener,
         UserStoreFragment.OnUserStoreFragmentInteractionListener {
@@ -39,7 +42,43 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
         setContentView(R.layout.activity_home);
 
         setupDrawer(savedInstanceState);
+
+        // handle intent
+        Intent intent = getIntent();
+
+        Bundle extras = intent.getExtras();
+        if((extras != null)){
+            dispatchNotification(extras);        }
     }
+
+    protected void onNewIntent(Intent intent) {
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            dispatchNotification(extras);
+        }
+    }
+
+    private void dispatchNotification(Bundle extra) {
+        String jsonString = extra.getString("com.parse.Data");
+        if (jsonString != null) {
+            try {
+            JSONObject json = new JSONObject(jsonString);
+                if (json != null) {
+                    String itemId = json.getString("itemId");
+                    if (itemId != null) {
+                        // Launch Item Detail activity
+                        Intent intent = new Intent(HomeActivity.this, DetailsActivity.class);
+                        intent.putExtra("item_id",itemId);
+                        startActivity(intent);
+                    }
+                }
+            } catch (JSONException e) {
+                Log.e("Error", "Error parsing json in push notification " + e.toString());
+            }
+        }
+    }
+
+
 
     private void setupDrawer(Bundle savedInstanceState) {
         dlDrawer = (FragmentNavigationDrawer) findViewById(R.id.drawer_layout);
@@ -57,6 +96,8 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
             dlDrawer.selectDrawerItem(0);
         }
     }
+
+
 
 
     @Override
