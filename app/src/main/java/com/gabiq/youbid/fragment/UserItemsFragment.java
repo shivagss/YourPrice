@@ -20,6 +20,4 @@ public class UserItemsFragment extends GridFragment {
             }
         };
     }
-
-
 }
