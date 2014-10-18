@@ -55,4 +55,10 @@ public class AppPushBroadcastReceiver extends ParsePushBroadcastReceiver {
             context.startActivity(activityIntent);
         }
     }
+
+    @Override
+    protected void onPushReceive(Context context, Intent intent) {
+        super.onPushReceive(context, intent);
+        Log.d("INFO", "****** received push notification");
+    }
 }

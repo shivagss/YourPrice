@@ -41,6 +41,7 @@ public class AppApplication extends Application {
         if (ParseUser.getCurrentUser() != null) {
             ParseInstallation installation = ParseInstallation.getCurrentInstallation();
             installation.put("user", ParseUser.getCurrentUser());
+            installation.put("userId", ParseUser.getCurrentUser().getObjectId());
             installation.saveInBackground();
         }
 
