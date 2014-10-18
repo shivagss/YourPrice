@@ -1,0 +1,14 @@
+{
+    "applications": {
+        "YouBid": {
+            "applicationId": "1pKjrKTD8PkqWMZNbwisMTbSlXnPw8eH16kn0JG2", 
+            "masterKey": "boqbNxGMbql2aHm76BlLXXovsT2zfFvcWDuu7TcT"
+        }, 
+        "_default": {
+            "link": "YouBid"
+        }
+    }, 
+    "global": {
+        "parseVersion": "1.3.0"
+    }
+}
