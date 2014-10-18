@@ -8,7 +8,9 @@ import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.model.Keyword;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParseUser;
 
 public class AppApplication extends Application {
 
@@ -34,6 +36,13 @@ public class AppApplication extends Application {
         ParseACL defaultACL = new ParseACL();
         defaultACL.setPublicReadAccess(true);
         ParseACL.setDefaultACL(defaultACL, true);*/
+        ParseInstallation.getCurrentInstallation().saveInBackground();
+
+        if (ParseUser.getCurrentUser() != null) {
+            ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+            installation.put("user", ParseUser.getCurrentUser());
+            installation.saveInBackground();
+        }
 
     }
 }
