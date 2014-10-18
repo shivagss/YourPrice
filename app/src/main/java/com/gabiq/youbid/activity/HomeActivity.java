@@ -44,10 +44,9 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
                 R.layout.drawer_nav_item, R.id.flContent);
         // Add nav items
         dlDrawer.addNavItem("Items for Sale", R.drawable.ic_action_new, "Items for Sale", GridFragment.class);
-        dlDrawer.addNavItem("My Store", R.drawable.ic_action_photo, "My Store", UserStoreFragment.class);
+        dlDrawer.addNavItem("My Profile", R.drawable.ic_icon_profile, "My Profile", ProfileFragment.class);
         dlDrawer.addNavItem("Favorites", R.drawable.ic_action_new, "Favorites", FavoriteItemsFragment.class);
         dlDrawer.addNavItem("My Bids", R.drawable.ic_action_photo, "My Bids", MyBidsFragment.class);
-        dlDrawer.addNavItem("My Profile", R.drawable.ic_icon_profile, "My Profile", ProfileFragment.class);
 
         // Select default
         if (savedInstanceState == null) {
