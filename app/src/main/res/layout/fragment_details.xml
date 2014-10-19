@@ -87,14 +87,6 @@
             android:id="@+id/btnBids"
             android:visibility="gone"
             android:layout_height="40dp"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:text="Messages"
-            android:textSize="14dp"
-            android:visibility="gone"
-            android:id="@+id/btnMessages"
-            android:layout_height="40dp" />
         </LinearLayout>
 
     <FrameLayout android:id="@+id/flCommentsContainer"
