@@ -24,6 +24,7 @@ import com.gabiq.youbid.utils.Utils;
 import com.parse.DeleteCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -222,12 +223,12 @@ public class DetailsFragment extends Fragment {
         item.setViewCount(viewCount);
         item.saveInBackground();
         tvViewCount.setText(viewCount + " views");
-
-        ivProfile.setParseFile(item.getUser().getProfilePhoto());
-        ivProfile.loadInBackground();
-
-
-    }
+        ParseFile photoFile = item.getUser().getParseUser().getParseFile("photo");
+        if (photoFile != null) {
+            ivProfile.setParseFile(photoFile);
+            ivProfile.loadInBackground();
+        }
+  }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

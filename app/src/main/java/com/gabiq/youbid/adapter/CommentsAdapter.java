@@ -8,6 +8,8 @@ import android.widget.TextView;
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.model.Comment;
 import com.gabiq.youbid.utils.Utils;
+import com.parse.ParseFile;
+import com.parse.ParseImageView;
 import com.parse.ParseQueryAdapter;
 
 public class CommentsAdapter extends ParseQueryAdapter<Comment> {
@@ -30,6 +32,13 @@ public class CommentsAdapter extends ParseQueryAdapter<Comment> {
 
         TextView tvTime = (TextView)convertView.findViewById(R.id.tvTime);
         tvTime.setText(Utils.getRelativeTimeAgo(comment.getUpdatedAt()));
+
+        ParseImageView ivProfileImg = (ParseImageView)convertView.findViewById(R.id.ivProfileImg);
+        ParseFile photoFile = comment.getUser().getParseUser().getParseFile("photo");
+        if (photoFile != null) {
+            ivProfileImg.setParseFile(photoFile);
+            ivProfileImg.loadInBackground();
+        }
 
         return convertView;
     }
