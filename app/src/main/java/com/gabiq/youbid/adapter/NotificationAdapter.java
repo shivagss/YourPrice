@@ -15,7 +15,10 @@ import com.gabiq.youbid.model.Notification;
 import com.gabiq.youbid.model.User;
 import com.gabiq.youbid.utils.Utils;
 import com.parse.GetCallback;
+import com.parse.GetDataCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -41,11 +44,12 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
 
             viewHolder = new ViewHolder();
 
-            viewHolder.ivProfileImg = (ImageView) convertView
+            viewHolder.ivProfileImg = (ParseImageView) convertView
                     .findViewById(R.id.ivProfileImg);
             viewHolder.tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
             viewHolder.tvBody = (TextView) convertView.findViewById(R.id.tvBody);
             viewHolder.tvTime = (TextView) convertView.findViewById(R.id.tvTime);
+            viewHolder.ivProfileImg.setPlaceholder(getContext().getResources().getDrawable(R.drawable.ic_icon_profile));
 
             convertView.setTag(viewHolder);
         } else {
@@ -63,6 +67,19 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
                     User user = new User(parseUser);
                     vh.tvUserName.setText(user.getName());
                     // load image
+                    ParseFile photoFile = parseUser.getParseFile("photo");
+                    if (photoFile != null) {
+                        viewHolder.ivProfileImg.setParseFile(photoFile);
+                        viewHolder.ivProfileImg.loadInBackground(new GetDataCallback() {
+                            @Override
+                            public void done(byte[] data, ParseException e) {
+                                // nothing to do
+                            }
+                        });
+                    } else {
+                        viewHolder.ivProfileImg.setParseFile(null);
+                    }
+
                 } else {
                     // something went wrong
                     Log.e("ERROR", "Error reading user in RecentActivityFragment");
@@ -73,7 +90,7 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
     }
 
     private static class ViewHolder {
-        ImageView ivProfileImg;
+        ParseImageView ivProfileImg;
         TextView tvUserName;
         TextView tvBody;
         TextView tvTime;

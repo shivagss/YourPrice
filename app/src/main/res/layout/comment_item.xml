@@ -5,7 +5,7 @@
     android:padding="10dp"
     >
 
-    <ImageView
+    <com.parse.ParseImageView
         android:id="@+id/ivProfileImg"
         android:layout_width="40dp"
         android:layout_height="40dp"
