@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.activity.NewItemActivity;
+import com.gabiq.youbid.activity.ProfileActivity;
 import com.gabiq.youbid.model.Bid;
 import com.gabiq.youbid.model.Comment;
 import com.gabiq.youbid.model.Item;
@@ -58,6 +59,7 @@ public class DetailsFragment extends Fragment {
     private EditText etBidAmount;
     private Button btnBid;
     private TextView tvBidStatus;
+    private ImageView ivProfile;
     private RelativeLayout commentBox;
     private ScrollView scrollView;
 
@@ -86,6 +88,13 @@ public class DetailsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_details, container, false);
 
 
+        ivProfile = (ImageView) rootView.findViewById(R.id.ivProfile);
+        ivProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startProfileActivity();
+            }
+        });
         etComments = (EditText)rootView.findViewById(R.id.etComments);
 
         etComments.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -168,6 +177,15 @@ public class DetailsFragment extends Fragment {
         }
     };
 
+
+    private void startProfileActivity() {
+
+        Intent intent = new Intent(getActivity(), ProfileActivity.class);
+        if(item != null)
+            intent.putExtra("userId", item.getUser().getObjectId());
+        startActivity(intent);
+
+    }
 
     private void submitBid(double amount) {
         int validity = validBid(amount);

@@ -1,18 +1,48 @@
 package com.gabiq.youbid.fragment;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import com.aviary.android.feather.library.Constants;
+import com.aviary.android.feather.sdk.FeatherActivity;
 import com.gabiq.youbid.R;
+import com.gabiq.youbid.activity.EditProfileActivity;
+import com.parse.FindCallback;
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseImageView;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,15 +53,31 @@ import com.parse.ParseUser;
 public class ProfileFragment extends Fragment {
     private static final String ARG_USER_ID = "userId";
 
+    private static final int TAKE_PHOTO_CODE = 1;
+    private static final int AVIARY_PHOTO_CODE = 2;
+
     private String userId;
     private UserStoreFragment storeFragment;
+    private ParseUser mUser;
+    private ParseImageView ivBackgroundPic;
+    private ParseImageView ivProfilePic;
+    private TextView tvUserName;
+    private TextView tvScreenName;
+    private TextView tvLocation;
+    private TextView tvWebsite;
+    private TextView tvDescription;
+    private Button btnEditProfile;
+    private Button btnFollow;
+    private Button btnUnFollow;
+    private Bitmap photoBitmap;
+    private ProgressDialog mProgressDialog;
 
 
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param userId user id.
+     * @param userId mUser id.
      * @return A new instance of fragment ProfileFragment.
      */
     public static ProfileFragment newInstance(String userId) {
@@ -41,6 +87,7 @@ public class ProfileFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     public ProfileFragment() {
         // Required empty public constructor
     }
@@ -50,7 +97,7 @@ public class ProfileFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             userId = getArguments().getString(ARG_USER_ID);
-        }else{
+        } else {
             userId = ParseUser.getCurrentUser().getObjectId();
         }
     }
@@ -66,9 +113,257 @@ public class ProfileFragment extends Fragment {
         args.putInt("headerVisibility", View.GONE);
         storeFragment.setArguments(args);
 
+        showProgress("Fetching profile...");
+
+        setupViews(v);
+
+        updateUI();
+
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.add(R.id.flStoreContainer, storeFragment).commit();
         return v;
 
+    }
+
+    private void updateUI() {
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        query.whereEqualTo("objectId", userId);
+        query.findInBackground(new FindCallback<ParseUser>() {
+            public void done(List<ParseUser> objects, ParseException e) {
+                if (e == null) {
+                    mUser = (ParseUser) objects.get(0);
+                    if(mUser.getObjectId().equalsIgnoreCase(ParseUser.getCurrentUser().getObjectId())){
+                        btnEditProfile.setVisibility(View.VISIBLE);
+                        btnFollow.setVisibility(View.GONE);
+                    }else{
+                        btnEditProfile.setVisibility(View.GONE);
+                        btnFollow.setVisibility(View.VISIBLE);
+                    }
+                    tvUserName.setText(mUser.getString("name"));
+                    tvScreenName.setText(mUser.getString("username"));
+//                    tvUserName.setText(mUser.getString("location"));
+                    tvWebsite.setText(mUser.getString("website"));
+                    tvDescription.setText(mUser.getString("about"));
+                    ParseFile photoFile = mUser.getParseFile("photo");
+                    if (photoFile != null) {
+                        ivProfilePic.setParseFile(photoFile);
+                        ivProfilePic.loadInBackground(new GetDataCallback() {
+                            @Override
+                            public void done(byte[] data, ParseException e) {
+                                // nothing to do
+                            }
+                        });
+                    }
+                } else {
+                    // Something went wrong.
+                }
+                dismissProgress();
+            }
+        });
+    }
+
+    private void setupViews(View v) {
+        ivBackgroundPic = (ParseImageView) v.findViewById(R.id.ivBackgroundPic);
+        ivProfilePic = (ParseImageView) v.findViewById(R.id.ivProfilePic);
+        ivProfilePic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(userId.equalsIgnoreCase(ParseUser.getCurrentUser().getObjectId())) {
+                    openImageIntent();
+                }
+            }
+        });
+        tvUserName = (TextView) v.findViewById(R.id.tvUserName);
+        tvScreenName = (TextView) v.findViewById(R.id.tvScreenName);
+        tvLocation = (TextView) v.findViewById(R.id.tvLocation);
+        tvWebsite = (TextView) v.findViewById(R.id.tvDisplayURL);
+        tvDescription = (TextView) v.findViewById(R.id.tvUserDescription);
+        btnEditProfile = (Button) v.findViewById(R.id.btnEditProfile);
+        btnFollow = (Button) v.findViewById(R.id.btnFollowIcon);
+        btnUnFollow = (Button) v.findViewById(R.id.btnFollowingIcon);
+
+        btnEditProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+
+    private static File getOutputMediaFile() {
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "youbid");
+        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()) {
+            return null;
+        }
+
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+        File mediaFile = new File(mediaStorageDir.getPath() + File.separator +
+                "IMG_" + timeStamp + ".jpg");
+
+        return mediaFile;
+    }
+
+    private Uri outputFileUri;
+
+    private void openImageIntent() {
+
+        final File root = new File(Environment.getExternalStorageDirectory() + File.separator + "MyDir" + File.separator);
+        root.mkdirs();
+        final String fname = getOutputMediaFile().getName();//Utils.getUniqueImageFilename();
+        final File sdImageMainDirectory = new File(root, fname);
+        outputFileUri = Uri.fromFile(sdImageMainDirectory);
+
+        // Camera.
+        final List<Intent> cameraIntents = new ArrayList<Intent>();
+        final Intent captureIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        final PackageManager packageManager = getActivity().getPackageManager();
+        final List<ResolveInfo> listCam = packageManager.queryIntentActivities(captureIntent, 0);
+        for (ResolveInfo res : listCam) {
+            final String packageName = res.activityInfo.packageName;
+            final Intent intent = new Intent(captureIntent);
+            intent.setComponent(new ComponentName(res.activityInfo.packageName, res.activityInfo.name));
+            intent.setPackage(packageName);
+            intent.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+            cameraIntents.add(intent);
+        }
+
+        // Filesystem.
+        final Intent galleryIntent = new Intent();
+        galleryIntent.setType("image/*");
+        galleryIntent.addCategory(Intent.CATEGORY_OPENABLE);
+        galleryIntent.setAction(Intent.ACTION_GET_CONTENT);
+
+        // Chooser of filesystem options.
+        final Intent chooserIntent = Intent.createChooser(galleryIntent, getActivity().getString(R.string.title_upload_photo));
+
+        // Add the camera options.
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
+
+        startActivityForResult(chooserIntent, TAKE_PHOTO_CODE);
+    }
+
+    private void startAviaryActivity(Uri uri) {
+        if (uri == null) return;
+        Intent newIntent = new Intent(getActivity(), FeatherActivity.class);
+        newIntent.setData(uri);
+        newIntent.putExtra(Constants.EXTRA_IN_API_KEY_SECRET, getActivity().getString(R.string.aviary_api_secret));
+        startActivityForResult(newIntent, AVIARY_PHOTO_CODE);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == TAKE_PHOTO_CODE) {
+
+                final boolean isCamera;
+                if (data == null) {
+                    isCamera = true;
+                } else {
+                    final String action = data.getAction();
+                    if (action == null) {
+                        isCamera = false;
+                    } else {
+                        isCamera = action.equals(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                    }
+                }
+
+                Uri selectedImageUri;
+                if (isCamera) {
+                    selectedImageUri = outputFileUri;
+                } else {
+                    selectedImageUri = data == null ? null : data.getData();
+                }
+
+                startAviaryActivity(selectedImageUri);
+
+            } else if (requestCode == AVIARY_PHOTO_CODE) {
+                Uri mImageUri = data.getData();
+                Bundle extra = data.getExtras();
+                if (null != extra) {
+                    boolean changed = extra.getBoolean(Constants.EXTRA_OUT_BITMAP_CHANGED);
+                }
+
+                try {
+                    photoBitmap = BitmapFactory.decodeFile(mImageUri.getPath());
+                    ivProfilePic.setImageBitmap(photoBitmap);
+                    ParseFile photoThumbnailFile = new ParseFile("profile_photo_thumbnail.jpg", getThumbnailScaledPhoto(photoBitmap));
+                    photoThumbnailFile.saveInBackground(new SaveCallback() {
+
+                        public void done(ParseException e) {
+                            if (e != null) {
+                                Toast.makeText(getActivity(),
+                                        "Error saving: " + e.getMessage(),
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
+                    mUser.put("photo", photoThumbnailFile);
+                    mUser.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if(e != null){
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(
+                            getActivity().getApplicationContext(),
+                            "Error saving: " + e.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        }
+    }
+    private byte[] getThumbnailScaledPhoto(Bitmap bmImage) {
+
+        Bitmap bmImageScaled = Bitmap.createScaledBitmap(bmImage, 200, 200
+                * bmImage.getHeight() / bmImage.getWidth(), false);
+
+        // Override Android default landscape orientation and save portrait
+//        Matrix matrix = new Matrix();
+//        matrix.postRotate(90);
+//        Bitmap rotatedScaledMealImage = Bitmap.createBitmap(bmImageScaled, 0,
+//                0, bmImageScaled.getWidth(), bmImageScaled.getHeight(),
+//                matrix, true);
+
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        bmImageScaled.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+
+        return bos.toByteArray();
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateUI();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        dismissProgress();
+    }
+
+    public void showProgress(String message) {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(getActivity());
+        }
+        mProgressDialog.setMessage(message);
+        mProgressDialog.show();
+    }
+
+    public void dismissProgress() {
+        if (mProgressDialog != null) {
+            mProgressDialog.dismiss();
+        }
     }
 }

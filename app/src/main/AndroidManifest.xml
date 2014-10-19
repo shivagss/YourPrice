@@ -5,18 +5,21 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <uses-feature android:name="android.hardware.camera" />
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
 
-    <permission android:protectionLevel="signature"
-        android:name="com.gabiq.youbid.permission.C2D_MESSAGE" />
+    <permission
+        android:name="com.gabiq.youbid.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
     <uses-permission android:name="com.gabiq.youbid.permission.C2D_MESSAGE" />
 
     <uses-sdk
@@ -41,11 +44,13 @@
             android:name=".activity.HomeActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name" >
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
         <activity
             android:name=".activity.DetailsActivity"
@@ -67,48 +72,45 @@
             android:screenOrientation="portrait"
             android:label="@string/title_activity_new_item" >
         </activity>
-
-
         <activity
             android:name=".activity.LoginDispatchActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name="com.parse.ui.ParseLoginActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop" >
             <meta-data
                 android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_ENABLED"
-                android:value="true"/>
+                android:value="true" />
             <meta-data
                 android:name="com.parse.ui.ParseLoginActivity.PARSE_LOGIN_EMAIL_AS_USERNAME"
-                android:value="true"/>
+                android:value="true" />
             <meta-data
                 android:name="com.parse.ui.ParseLoginActivity.FACEBOOK_LOGIN_ENABLED"
-                android:value="true"/>
+                android:value="true" />
             <meta-data
                 android:name="com.parse.ui.ParseLoginActivity.TWITTER_LOGIN_ENABLED"
-                android:value="false"/>
+                android:value="false" />
         </activity>
         <activity
             android:name="com.facebook.LoginActivity"
             android:screenOrientation="portrait"
             android:label="@string/app_name"
-            android:launchMode="singleTop"/>
+            android:launchMode="singleTop" />
         <activity
             android:name=".activity.PreviewPhotoActivity"
             android:screenOrientation="portrait"
             android:label="@string/title_activity_preview_photo" >
         </activity>
-
 
         <!-- Main Editor Activity -->
         <activity
@@ -126,21 +128,22 @@
             android:screenOrientation="portrait"
             android:launchMode="standard"
             android:noHistory="true"
-            android:theme="@style/AviaryTheme.Dialog">
+            android:theme="@style/AviaryTheme.Dialog" >
             <intent-filter>
-                <action android:name="aviary.intent.action.ALERT"/>
+                <action android:name="aviary.intent.action.ALERT" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
         <!-- CDS Content Service -->
         <service
-            android:process=":aviarycds"
             android:name="com.aviary.android.feather.cds.AviaryCdsService"
-            android:exported="false">
+            android:exported="false"
+            android:process=":aviarycds" >
             <intent-filter>
-                <action android:name="aviary.intent.action.CDS_DOWNLOAD_START"/>
-                <action android:name="aviary.intent.action.CDS_RESTORE_USER_ITEMS"/>
+                <action android:name="aviary.intent.action.CDS_DOWNLOAD_START" />
+                <action android:name="aviary.intent.action.CDS_RESTORE_USER_ITEMS" />
             </intent-filter>
         </service>
 
@@ -148,12 +151,12 @@
             Cds Content Provider,
             NOTE that the "authorities" value MUST be formatted in this way:
             android:authorities="{your.packagename}.AviaryCdsProvider"
-         -->
+        -->
         <provider
             android:name="com.aviary.android.feather.cds.AviaryCdsProvider"
             android:authorities="com.gabiq.youbid.AviaryCdsProvider"
-            android:process=":aviarycds"
             android:exported="false"
+            android:process=":aviarycds"
             android:syncable="true" />
 
         <!-- CDS Download Receiver -->
@@ -165,38 +168,49 @@
             </intent-filter>
         </receiver>
 
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id"/>
+            android:value="@string/facebook_app_id" />
         <meta-data
             android:name="com.aviary.android.feather.v1.API_KEY"
             android:value="@string/aviary_app_id" />
 
         <service android:name="com.parse.PushService" />
-        <receiver android:name="com.parse.ParseBroadcastReceiver">
+
+        <receiver android:name="com.parse.ParseBroadcastReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
                 <action android:name="android.intent.action.USER_PRESENT" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.gabiq.youbid.AppPushBroadcastReceiver"
-            android:exported="false">
+        <receiver
+            android:name=".AppPushBroadcastReceiver"
+            android:exported="false" >
             <intent-filter>
                 <action android:name="com.parse.push.intent.RECEIVE" />
                 <action android:name="com.parse.push.intent.DELETE" />
                 <action android:name="com.parse.push.intent.OPEN" />
             </intent-filter>
         </receiver>
-        <receiver android:name="com.parse.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
+        <receiver
+            android:name="com.parse.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
                 <category android:name="com.gabiq.youbid" />
             </intent-filter>
-        </receiver>    </application>
+        </receiver>
 
+        <activity
+            android:name=".activity.EditProfileActivity"
+            android:label="@string/title_activity_edit_profile" >
+        </activity>
+        <activity
+            android:name=".activity.ProfileActivity"
+            android:label="@string/title_activity_profile" >
+        </activity>
+    </application>
 
 </manifest>

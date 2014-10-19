@@ -16,22 +16,23 @@
             android:layout_height="150dp"
             android:gravity="center">
 
-            <ImageView
+            <com.parse.ParseImageView
                 android:id="@+id/ivBackgroundPic"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop" />
 
-            <ImageView
+            <com.parse.ParseImageView
                 android:id="@+id/ivProfilePic"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginLeft="10dp"
                 android:adjustViewBounds="true"
-                android:background="@drawable/button_white"
-                android:padding="3dp" />
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_icon_profile"
+                android:padding="5dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -181,7 +182,6 @@
                 android:layout_weight="1"
                 android:background="@android:color/white"
                 android:gravity="left|center_vertical"
-                android:onClick="onViewUserTweets"
                 android:paddingLeft="10dp"
                 android:text="32\nPOSTS"
                 android:textColor="@color/secondary_text_color"
@@ -201,8 +201,8 @@
                 android:layout_weight="1"
                 android:background="@android:color/white"
                 android:gravity="left|center_vertical"
-                android:onClick="onViewUserFriends"
                 android:paddingLeft="10dp"
+                android:text="12\nFOLLOWERS"
                 android:textColor="@color/secondary_text_color"
                 android:textSize="12sp" />
 
@@ -221,8 +221,8 @@
                 android:layout_weight="1"
                 android:background="@android:color/white"
                 android:gravity="left|center_vertical"
-                android:onClick="onViewUserFollowers"
                 android:paddingLeft="10dp"
+                android:text="7\nFOLLOWING"
                 android:textColor="@color/secondary_text_color"
                 android:textSize="12sp" />
         </LinearLayout>
