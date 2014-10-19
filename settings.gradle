@@ -4,4 +4,7 @@ include ':ParseLoginUI'
 // Facebook SDK
 include 'facebook-sdk:facebook'
 
+// Aviary SDK
+include ':Aviary-SDK'
+
 include ':app'

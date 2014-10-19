@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.activity.NewItemActivity;
+import com.gabiq.youbid.activity.ProfileActivity;
 import com.gabiq.youbid.model.Bid;
 import com.gabiq.youbid.model.Comment;
 import com.gabiq.youbid.model.Item;
@@ -54,6 +55,7 @@ public class DetailsFragment extends Fragment {
     private EditText etBidAmount;
     private Button btnBid;
     private TextView tvBidStatus;
+    private ImageView ivProfile;
 
     public DetailsFragment() {
     }
@@ -80,6 +82,13 @@ public class DetailsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_details, container, false);
 
 
+        ivProfile = (ImageView) rootView.findViewById(R.id.ivProfile);
+        ivProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startProfileActivity();
+            }
+        });
         etComments = (EditText)rootView.findViewById(R.id.etComments);
         ivSendComment = (ImageView)rootView.findViewById(R.id.ivSendComment);
         ivSendComment.setOnClickListener(new View.OnClickListener() {
@@ -120,6 +129,15 @@ public class DetailsFragment extends Fragment {
         ft.commit();
 
         return rootView;
+    }
+
+    private void startProfileActivity() {
+
+        Intent intent = new Intent(getActivity(), ProfileActivity.class);
+        if(item != null)
+            intent.putExtra("userId", item.getUser().getObjectId());
+        startActivity(intent);
+
     }
 
     private void submitBid(double amount) {
@@ -203,6 +221,7 @@ public class DetailsFragment extends Fragment {
             deleteMenu.setVisible(false);
             editIMenu.setVisible(false);
         }
+
 
 
         ivItemPic = (ParseImageView) rootView.findViewById(R.id.ivItemPic);

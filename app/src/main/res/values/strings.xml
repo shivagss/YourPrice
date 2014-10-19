@@ -5,7 +5,6 @@
     <string name="parse_app_id">1pKjrKTD8PkqWMZNbwisMTbSlXnPw8eH16kn0JG2</string>
     <string name="parse_client_key">lWoRPA81XQ7SW5DcwtIMbQe7nYLQMogGndk0AV7w</string>
     <string name="facebook_app_id">708503052566712</string>
-
     <string name="app_name">youbid</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -57,9 +56,7 @@
     <string name="hint_add_comment">Add comment</string>
     <string name="aviary_app_id">165b751a2efa614d</string>
     <string name="aviary_api_secret">0fa764e9db15b26b</string>
-
     <string name="comments_title">Comments</string>
-
     <string name="title_upload_photo">Upload New Photo</string>
     <string name="title_edit_item">Edit Item</string>
     <string name="error_enter_caption">Please enter caption</string>
@@ -68,5 +65,22 @@
     <string name="bid_amount_high">Your bid amount is very high as per seller, try again with a reasonable bid</string>
     <string name="bid_amount_last">Your most recent bid amount for this product is </string>
     <string name="bid_amount_submitted">Your bid is submitted successfully</string>
+    <string name="title_activity_edit_profile">Edit Profile</string>
+    <string name="save">save</string>
+    <string name="label_name">Name</string>
+    <string name="hint_name">John Doe</string>
+    <string name="label_screenname">Username</string>
+    <string name="hint_screenname">johndoe</string>
+    <string name="label_about_me">About me</string>
+    <string name="hint_description">Tell us about yourself</string>
+    <string name="label_location">Location</string>
+    <string name="hint_location">City or Zip</string>
+    <string name="lable_email">Email</string>
+    <string name="hint_email">johndoe@email.com</string>
+    <string name="label_website">Website</string>
+    <string name="hint_website">johndoe.com</string>
+    <string name="saving">saving...</string>
+    <string name="error_enter_name">Please enter valid name</string>
+    <string name="title_activity_profile">User Profile</string>
 
 </resources>

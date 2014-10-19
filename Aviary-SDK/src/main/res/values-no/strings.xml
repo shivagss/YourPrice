@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<string name="feather_draw">Tegne</string>
+	<string name="feather_effects">effekter</string>
+	<string name="feather_blur">blur</string>
+	<string name="feather_effect_loading_message">bruke effekter</string>
+	<string name="feather_enhance">fremhev</string>
+	<string name="feather_tool">verktøy</string>
+	<string name="feather_save">Ferdig</string>
+	<string name="feather_tool_temperature">Varme</string>
+	<string name="feather_brightness">lysstyrke</string>
+	<string name="feather_yes_leave">forlat redigering</string>
+	<string name="feather_enter_text_here">skriv inn tekst her</string>
+	<string name="confirm_quit_message">Vent! du har ikke lagret. Er du sikker på at du vil avslutte?</string>
+	<string name="feather_save_progress">lagrer..</string>
+	<string name="feather_loading_image">lader bilde</string>
+	<string name="feather_edit_your_photo">foto redaktør</string>
+	<string name="feather_tool_leave_question">er du sikker på at du vil forkaste endringene gjort med dette verktøyet?</string>
+	<string name="feather_error_saving_image">Oi, en feil skjedde ved lagring av bildet.</string>
+	<string name="feather_contrast">kontrast</string>
+	<string name="feather_generic_error_title">feil</string>
+	<string name="feather_rotate">rotere</string>
+	<string name="feather_confirm">bekreft</string>
+	<string name="feather_delete">slette</string>
+	<string name="feather_zoom_mode">Zoom Modus</string>
+	<string name="feather_text">tekst</string>
+	<string name="feather_attention">Obs</string>
+	<string name="feather_edit_bottom_text">rediger bunn tekst</string>
+	<string name="feather_close">steng</string>
+	<string name="feather_loading_title">lader</string>
+	<string name="feather_original">original</string>
+	<string name="feather_edit_top_text">rediger topp tekst</string>
+	<string name="feather_revert_dialog_title">tilbake til original?</string>
+	<string name="feather_keep_editing">fortsette redigere</string>
+	<string name="feather_adjust">Orientering</string>
+	<string name="feather_cancel">kanselere</string>
+	<string name="feather_error_download_image_message">Det var en feil ved nedlasting av bilde, prøv igjen senere.</string>
+	<string name="feather_infoscreen_bottom_button">Om denne redaktøren</string>
+	<string name="feather_saturation">metning</string>
+	<string name="feather_revert_dialog_message">Du vil miste alle endringene du har gjort. Er du sikker på at du vil endre tilbake til original?</string>
+	<string name="feather_apply">bruke</string>
+	<string name="feather_sharpen">Skarphet</string>
+</resources>
