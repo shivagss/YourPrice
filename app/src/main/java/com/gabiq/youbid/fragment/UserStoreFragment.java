@@ -54,6 +54,10 @@ public class UserStoreFragment extends Fragment {
         } else {
             userId = ParseUser.getCurrentUser().getObjectId();
         }
+
+        Fragment userItemsFragment = UserItemsFragment.newInstance(userId);
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        transaction.add(R.id.flUserItems, userItemsFragment).commit();
     }
 
     @Override
@@ -111,10 +115,6 @@ public class UserStoreFragment extends Fragment {
             throw new ClassCastException(activity.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-
-        Fragment userItemsFragment = UserItemsFragment.newInstance(userId);
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        transaction.add(R.id.flUserItems, userItemsFragment).commit();
     }
 
     @Override
