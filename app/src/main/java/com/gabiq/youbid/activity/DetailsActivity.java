@@ -1,8 +1,8 @@
 package com.gabiq.youbid.activity;
 
-import android.app.Activity;
-import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -10,7 +10,7 @@ import android.view.WindowManager;
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.fragment.DetailsFragment;
 
-public class DetailsActivity extends Activity {
+public class DetailsActivity extends FragmentActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +25,7 @@ public class DetailsActivity extends Activity {
      */
         String itemId = getIntent().getStringExtra("item_id");
         if (savedInstanceState == null) {
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             DetailsFragment detailsFragment = DetailsFragment.newInstance(itemId);
             ft.replace(R.id.container, detailsFragment);
             ft.commit();

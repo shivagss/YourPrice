@@ -1,10 +1,10 @@
 package com.gabiq.youbid.fragment;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -49,7 +49,7 @@ public class DetailsFragment extends Fragment {
     private Button btnDetails ;
     private Button btnComments ;
     private Button btnBids ;
-    private Button btnMessages ;
+//    private Button btnMessages ;
 
 
     private enum ViewType{
@@ -118,23 +118,13 @@ public class DetailsFragment extends Fragment {
                 updateView(ViewType.Bids);
             }
         });
-        btnMessages = (Button)rootView.findViewById(R.id.btnMessages);
-        btnMessages.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-/* removed in merge?
-                try {
-                    double bidAmount = Double.parseDouble(etBidAmount.getText().toString());
-                    submitBid(bidAmount);
-                }
-                catch(Exception e)
-                {
-                  e.printStackTrace();
-                }
-*/
-                updateView(ViewType.Messages);
-            }
-        });
+//        btnMessages = (Button)rootView.findViewById(R.id.btnMessages);
+//        btnMessages.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                updateView(ViewType.Messages);
+//            }
+//        });
 
 
         setHasOptionsMenu(true);
@@ -310,13 +300,16 @@ public class DetailsFragment extends Fragment {
                 btnComments.setBackgroundColor(getResources().getColor(android.R.color.background_light));
                 break;
             case Bids:
-                //TODO: copy the similar code from above section
+                ft = getFragmentManager().beginTransaction();
+                BidListFragment bidListFragment = BidListFragment.newInstance(itemId, isSeller);
+                ft.replace(R.id.flCommentsContainer, bidListFragment);
+                ft.commit();
                 btnBids.setBackgroundColor(getResources().getColor(android.R.color.background_light));
                 break;
-            case Messages:
-                //TODO: Copy the similar code from above section
-                btnMessages.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-                break;
+//            case Messages:
+//                //TODO: Copy the similar code from above section
+//                btnMessages.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+//                break;
 
         }
 
@@ -327,7 +320,7 @@ public class DetailsFragment extends Fragment {
     {
         btnBids.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
         btnComments.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
-        btnMessages.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
+//        btnMessages.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
         btnDetails.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
     }
 
