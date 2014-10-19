@@ -112,7 +112,7 @@ public class UserStoreFragment extends Fragment {
                     + " must implement OnFragmentInteractionListener");
         }
 
-        Fragment userItemsFragment = new UserItemsFragment();
+        Fragment userItemsFragment = UserItemsFragment.newInstance(userId);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.add(R.id.flUserItems, userItemsFragment).commit();
     }
