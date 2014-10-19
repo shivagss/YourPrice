@@ -42,7 +42,6 @@ public class DetailsFragment extends Fragment {
 
     private CommentsFragment commentFragment;
     private Menu detailsMenu;
-
     private ParseImageView ivProfile;
 
     private Button btnDetails ;
@@ -121,9 +120,20 @@ public class DetailsFragment extends Fragment {
         btnMessages.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+/* removed in merge?
+                try {
+                    double bidAmount = Double.parseDouble(etBidAmount.getText().toString());
+                    submitBid(bidAmount);
+                }
+                catch(Exception e)
+                {
+                  e.printStackTrace();
+                }
+*/
                 updateView(ViewType.Messages);
             }
         });
+
 
         setHasOptionsMenu(true);
 
@@ -178,9 +188,13 @@ public class DetailsFragment extends Fragment {
             btnBid.setText(R.string.btn_bid_list);
         } else {
             etBidAmount.setVisibility(View.VISIBLE);
+            btnBid.setVisibility(View.VISIBLE);
+            btnBidList.setText("MY BIDS");
         }
+
+        btnBidList.setVisibility(View.VISIBLE);
         btnBid.setVisibility(View.VISIBLE);
-        */
+*/
 
         //Hide the delete & edit option if the user is not the owner
         MenuItem deleteMenu = detailsMenu.findItem(R.id.action_delete);
@@ -314,8 +328,8 @@ public class DetailsFragment extends Fragment {
     private void resetButtons()
     {
         btnBids.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
-        btnComments.setBackgroundColor(getResources().getColor(android.R.color.holo_purple));
-        btnMessages.setBackgroundColor(getResources().getColor(android.R.color.holo_orange_light));
+        btnComments.setBackgroundColor(getResources().getColor(android.R.color.holo_orange_light));
+        btnMessages.setBackgroundColor(getResources().getColor(android.R.color.holo_purple));
         btnDetails.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
     }
 

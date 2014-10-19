@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.activity.MessageListActivity;
@@ -26,6 +27,7 @@ import com.gabiq.youbid.model.Bid;
 import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.model.Message;
 import com.gabiq.youbid.utils.EndlessScrollListener;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -36,8 +38,10 @@ import com.parse.SaveCallback;
 public class MessageListFragment extends Fragment {
     private static final String ARG_ITEM_ID = "itemId";
     private static final String ARG_BID_ID = "bidId";
+    private static final String ARG_ISSELLER_ID = "isSeller";
     private String itemId;
     private String bidId;
+    private boolean isSeller;
 
     private Button btnBidAccept;
     private Button btnBidReject;
@@ -51,7 +55,7 @@ public class MessageListFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
 
-    public static MessageListFragment newInstance(String bidId, String itemId) {
+    public static MessageListFragment newInstance(String bidId, String itemId, boolean isSeller) {
         MessageListFragment fragment = new MessageListFragment();
         Bundle args = new Bundle();
         if (itemId != null) {
@@ -60,6 +64,7 @@ public class MessageListFragment extends Fragment {
         if (bidId != null) {
             args.putString(ARG_BID_ID, bidId);
         }
+        args.putBoolean(ARG_ISSELLER_ID, isSeller);
         fragment.setArguments(args);
         return fragment;
     }
@@ -74,6 +79,7 @@ public class MessageListFragment extends Fragment {
         if (getArguments() != null) {
             itemId = getArguments().getString(ARG_ITEM_ID);
             bidId = getArguments().getString(ARG_BID_ID);
+            isSeller = getArguments().getBoolean(ARG_ISSELLER_ID);
         }
     }
 
@@ -97,21 +103,25 @@ public class MessageListFragment extends Fragment {
         etPostMessage = (EditText) view.findViewById(R.id.etPostMessage);
         ivPostMessage = (ImageView) view.findViewById(R.id.ivPostMessage);
 
+        RelativeLayout rlHeader = (RelativeLayout) view.findViewById(R.id.rlHeader);
+
+        if (!isSeller) {
+            rlHeader.setVisibility(View.GONE);
+        }
+
         etPostMessage.clearFocus();
 
         btnBidAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("INFO", "******** Accepted Bid");
-                getActivity().finish();
+                setBidAction(true);
             }
         });
 
         btnBidReject.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("INFO", "******** Rejected Bid");
-                getActivity().finish();
+                setBidAction(false);
             }
         });
 
@@ -122,6 +132,37 @@ public class MessageListFragment extends Fragment {
                 if(message !=null  &&  !message.isEmpty()) {
                     postMessage(message);
                     etPostMessage.setText(null);
+                }
+            }
+        });
+
+    }
+
+    private void setBidAction(final boolean accepted) {
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Bid");
+        query.getInBackground(bidId, new GetCallback<ParseObject>() {
+            public void done(ParseObject parseObject, ParseException e) {
+
+                if (e == null && parseObject != null) {
+                    Bid bid = (Bid) parseObject;
+
+                    if (bid != null) {
+                        if (accepted) {
+                            bid.setState("accepted");
+                        } else {
+                            bid.setState("rejected");
+                        }
+                    }
+
+                    bid.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            getActivity().finish();
+                        }
+                    });
+                } else {
+                    // something went wrong
+                    Log.e("ERROR", "Error getting bid in MessageListFragment");
                 }
             }
         });

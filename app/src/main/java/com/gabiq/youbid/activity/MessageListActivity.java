@@ -17,9 +17,10 @@ public class MessageListActivity extends FragmentActivity implements MessageList
 
         String bidId = getIntent().getStringExtra("bidId");
         String itemId = getIntent().getStringExtra("itemId");
+        boolean isSeller = getIntent().getBooleanExtra("isSeller", false);
         if (savedInstanceState == null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            MessageListFragment messageListFragment = MessageListFragment.newInstance(bidId, itemId);
+            MessageListFragment messageListFragment = MessageListFragment.newInstance(bidId, itemId, isSeller);
             ft.replace(R.id.MessageListContainer, messageListFragment);
             ft.commit();
         }

@@ -27,8 +27,10 @@ import com.parse.ParseQueryAdapter;
 import com.parse.SaveCallback;
 
 public class BidListFragment extends Fragment {
+    private static final String ARG_ISSELLER_ID = "isSeller";
     private static final String ARG_ITEM_ID = "itemId";
     private String itemId;
+    private boolean isSeller;
     private BidListAdapter bidListAdapter;
     private ListView lvBidList;
     private SwipeRefreshLayout swipeContainer;
@@ -36,10 +38,11 @@ public class BidListFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
 
-    public static BidListFragment newInstance(String itemId) {
+    public static BidListFragment newInstance(String itemId, boolean isSeller) {
         BidListFragment fragment = new BidListFragment();
         Bundle args = new Bundle();
         args.putString(ARG_ITEM_ID, itemId);
+        args.putBoolean(ARG_ISSELLER_ID, isSeller);
         fragment.setArguments(args);
         return fragment;
     }
@@ -53,6 +56,7 @@ public class BidListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             itemId = getArguments().getString(ARG_ITEM_ID);
+            isSeller = getArguments().getBoolean(ARG_ISSELLER_ID);
         }
     }
 
@@ -68,6 +72,14 @@ public class BidListFragment extends Fragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (bidListAdapter != null) {
+            bidListAdapter.loadObjects();
+        }
+    }
+
     private void setupViews(View view) {
         lvBidList = (ListView) view.findViewById(R.id.lvBidList);
 
@@ -80,6 +92,7 @@ public class BidListFragment extends Fragment {
                 Intent i = new Intent(getActivity(), MessageListActivity.class);
                 i.putExtra("bidId", bid.getObjectId());
                 i.putExtra("itemId", bid.getItemId());
+                i.putExtra("isSeller", isSeller);
                 startActivity(i);
 
 //                if (bid.getState().equals("pending")) {
@@ -148,6 +161,7 @@ public class BidListFragment extends Fragment {
     private void setupListView(View view) {
 
         bidListAdapter = new BidListAdapter(getActivity(), getParseQuery());
+        bidListAdapter.setAutoload(false);
 
         lvBidList.setAdapter(bidListAdapter);
         lvBidList.setOnScrollListener(new EndlessScrollListener() {

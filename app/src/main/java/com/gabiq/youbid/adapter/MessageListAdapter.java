@@ -78,34 +78,6 @@ public class MessageListAdapter extends ParseQueryAdapter<Message> {
             }
         });
 
-//        // change to fetch
-//        ParseQuery<ParseUser> query = ParseUser.getQuery();
-//        query.getInBackground(message.getSender().getObjectId(), new GetCallback<ParseUser>() {
-//            public void done(ParseUser parseUser, ParseException e) {
-//                if (e == null && parseUser != null) {
-//                    User user = new User(parseUser);
-//                    vh.tvUserName.setText(user.getName());
-//                    // load image
-//                    ParseFile photoFile = parseUser.getParseFile("photo");
-//                    if (photoFile != null) {
-//                        viewHolder.ivProfileImg.setParseFile(photoFile);
-//                        viewHolder.ivProfileImg.loadInBackground(new GetDataCallback() {
-//                            @Override
-//                            public void done(byte[] data, ParseException e) {
-//                                // nothing to do
-//                            }
-//                        });
-//                    } else {
-//                        viewHolder.ivProfileImg.setParseFile(null);
-//                    }
-//
-//                } else {
-//                    // something went wrong
-//                    Log.e("ERROR", "Error reading user in RecentActivityFragment");
-//                }
-//            }
-//        });
-
         return convertView;
     }
 
