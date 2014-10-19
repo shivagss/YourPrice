@@ -7,6 +7,7 @@ import com.gabiq.youbid.model.Comment;
 import com.gabiq.youbid.model.Favorite;
 import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.model.Keyword;
+import com.gabiq.youbid.model.Message;
 import com.parse.Parse;
 import com.parse.ParseFacebookUtils;
 import com.parse.ParseInstallation;
@@ -28,6 +29,7 @@ public class AppApplication extends com.activeandroid.app.Application {
         ParseObject.registerSubclass(Comment.class);
         ParseObject.registerSubclass(Bid.class);
         ParseObject.registerSubclass(Favorite.class);
+        ParseObject.registerSubclass(Message.class);
         Parse.initialize(this, getString(R.string.parse_app_id),
                 getString(R.string.parse_client_key));
 

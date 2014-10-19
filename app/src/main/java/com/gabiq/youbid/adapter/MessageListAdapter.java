@@ -16,6 +16,7 @@ import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
@@ -30,7 +31,7 @@ public class MessageListAdapter extends ParseQueryAdapter<Message> {
         final ViewHolder viewHolder;
 
         if (convertView == null) {
-            convertView = View.inflate(getContext(), R.layout.entry_bid, null);
+            convertView = View.inflate(getContext(), R.layout.comment_item, null);
 
             viewHolder = new ViewHolder();
 
@@ -53,14 +54,12 @@ public class MessageListAdapter extends ParseQueryAdapter<Message> {
 
         final ViewHolder vh = viewHolder;
 
-        // change to fetch
-        ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.getInBackground(message.getSender().getObjectId(), new GetCallback<ParseUser>() {
+        ParseUser sender = message.getSender();
+        sender.fetchIfNeededInBackground(new GetCallback<ParseUser>() {
+            @Override
             public void done(ParseUser parseUser, ParseException e) {
-                if (e == null && parseUser != null) {
-                    User user = new User(parseUser);
-                    vh.tvUserName.setText(user.getName());
-                    // load image
+                if (parseUser != null) {
+                    vh.tvUserName.setText(parseUser.getString("name"));
                     ParseFile photoFile = parseUser.getParseFile("photo");
                     if (photoFile != null) {
                         viewHolder.ivProfileImg.setParseFile(photoFile);
@@ -74,12 +73,38 @@ public class MessageListAdapter extends ParseQueryAdapter<Message> {
                         viewHolder.ivProfileImg.setParseFile(null);
                     }
 
-                } else {
-                    // something went wrong
-                    Log.e("ERROR", "Error reading user in RecentActivityFragment");
                 }
+
             }
         });
+
+//        // change to fetch
+//        ParseQuery<ParseUser> query = ParseUser.getQuery();
+//        query.getInBackground(message.getSender().getObjectId(), new GetCallback<ParseUser>() {
+//            public void done(ParseUser parseUser, ParseException e) {
+//                if (e == null && parseUser != null) {
+//                    User user = new User(parseUser);
+//                    vh.tvUserName.setText(user.getName());
+//                    // load image
+//                    ParseFile photoFile = parseUser.getParseFile("photo");
+//                    if (photoFile != null) {
+//                        viewHolder.ivProfileImg.setParseFile(photoFile);
+//                        viewHolder.ivProfileImg.loadInBackground(new GetDataCallback() {
+//                            @Override
+//                            public void done(byte[] data, ParseException e) {
+//                                // nothing to do
+//                            }
+//                        });
+//                    } else {
+//                        viewHolder.ivProfileImg.setParseFile(null);
+//                    }
+//
+//                } else {
+//                    // something went wrong
+//                    Log.e("ERROR", "Error reading user in RecentActivityFragment");
+//                }
+//            }
+//        });
 
         return convertView;
     }

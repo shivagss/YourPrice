@@ -2,6 +2,7 @@ package com.gabiq.youbid.fragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,14 +20,17 @@ import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.gabiq.youbid.R;
+import com.gabiq.youbid.activity.MessageListActivity;
 import com.gabiq.youbid.adapter.MessageListAdapter;
 import com.gabiq.youbid.model.Bid;
+import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.model.Message;
 import com.gabiq.youbid.utils.EndlessScrollListener;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 public class MessageListFragment extends Fragment {
@@ -92,22 +97,13 @@ public class MessageListFragment extends Fragment {
         etPostMessage = (EditText) view.findViewById(R.id.etPostMessage);
         ivPostMessage = (ImageView) view.findViewById(R.id.ivPostMessage);
 
-//        etPostMessage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View view, boolean b) {
-//                if(b)
-//                    scrollView.post(new Runnable() {
-//                        public void run() {
-//                            scrollView.scrollTo(0, Integer.MAX_VALUE);
-//                        }
-//                    });
-//            }
-//        });
+        etPostMessage.clearFocus();
 
         btnBidAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Log.d("INFO", "******** Accepted Bid");
+                getActivity().finish();
             }
         });
 
@@ -115,6 +111,7 @@ public class MessageListFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Log.d("INFO", "******** Rejected Bid");
+                getActivity().finish();
             }
         });
 
@@ -131,8 +128,28 @@ public class MessageListFragment extends Fragment {
 
     }
 
-    private void postMessage(String message) {
-        Log.d("INFO", "******** Posted message " + message);
+    private void postMessage(String messageText) {
+        Message message = new Message();
+
+        message.setSender(ParseUser.getCurrentUser());
+        message.setBody(messageText);
+        Bid bid = ParseObject.createWithoutData(Bid.class, bidId);
+        message.setBid(bid);
+        Item item = ParseObject.createWithoutData(Item.class, itemId);
+        message.setItem(item);
+        message.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                messageListAdapter.loadObjects();
+                closeKeyboard();
+            }
+        });
+    }
+
+    private void closeKeyboard() {
+        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(etPostMessage.getWindowToken(), 0);
     }
 
     private void setupSwipeContainer(View view) {
