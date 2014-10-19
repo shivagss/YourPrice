@@ -53,6 +53,7 @@ dependencies {
     compile 'com.etsy.android.grid:library:1.0.5'
     compile files('libs/androidjhlabs.jar')
     compile files('libs/codepath-utils.jar')
+    compile files('libs/activeandroid.jar')
     compile files('libs/codepath-android-view-helpers-0.1.0.jar')
     compile 'com.aviary.android.feather.sdk:aviary-sdk:3.4.3.351'
 }

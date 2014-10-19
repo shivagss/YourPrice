@@ -13,7 +13,7 @@ import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-public class AppApplication extends Application {
+public class AppApplication extends com.activeandroid.app.Application {
 
     @Override
     public void onCreate() {

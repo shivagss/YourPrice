@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/ivProfileImg"
-        android:text="TextView"
+        android:text=""
         android:textStyle="bold" />
     <TextView
         android:id="@+id/tvBody"
@@ -29,7 +29,7 @@
         android:layout_alignLeft="@+id/tvUserName"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/tvUserName"
-        android:autoLink="web"
+        android:autoLink=""
         android:text="TextView" />
 
     <TextView
@@ -38,6 +38,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="TextView" />
+        android:text="" />
 
 </RelativeLayout>
