@@ -24,6 +24,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gabiq.youbid.R;
+import com.gabiq.youbid.activity.BidListActivity;
+import com.gabiq.youbid.activity.DetailsActivity;
 import com.gabiq.youbid.activity.NewItemActivity;
 import com.gabiq.youbid.activity.ProfileActivity;
 import com.gabiq.youbid.model.Bid;
@@ -62,6 +64,7 @@ public class DetailsFragment extends Fragment {
     private ImageView ivProfile;
     private RelativeLayout commentBox;
     private ScrollView scrollView;
+    private boolean isSeller = false;
 
     public DetailsFragment() {
     }
@@ -123,6 +126,7 @@ public class DetailsFragment extends Fragment {
         });
         commentBox = (RelativeLayout)rootView.findViewById(R.id.commentBox);
         etBidAmount = (EditText)rootView.findViewById(R.id.etBidAmount);
+        etBidAmount.setVisibility(View.INVISIBLE);
 
         etBidAmount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,13 +137,20 @@ public class DetailsFragment extends Fragment {
 
 
         btnBid = (Button)rootView.findViewById(R.id.btnBid);
+        btnBid.setVisibility(View.INVISIBLE);
         tvBidStatus = (TextView)rootView.findViewById(R.id.tvBidStatus);
         btnBid.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 try {
-                    double bidAmount = Double.parseDouble(etBidAmount.getText().toString());
-                    submitBid(bidAmount);
+                    if (isSeller) {
+                        Intent i = new Intent(getActivity(), BidListActivity.class);
+                        i.putExtra("itemId",itemId);
+                        startActivity(i);
+                    } else {
+                        double bidAmount = Double.parseDouble(etBidAmount.getText().toString());
+                        submitBid(bidAmount);
+                    }
                 }
                 catch(Exception e)
                 {
@@ -162,6 +173,7 @@ public class DetailsFragment extends Fragment {
                 return false;
             }
         });
+
 
        FragmentTransaction ft = getFragmentManager().beginTransaction();
         commentFragment = CommentsFragment.newInstance(itemId);
@@ -258,6 +270,14 @@ public class DetailsFragment extends Fragment {
     private void updateUI()
     {
         if(item == null) return;
+
+        isSeller = item.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
+        if (isSeller) {
+            btnBid.setText(R.string.btn_bid_list);
+        } else {
+            etBidAmount.setVisibility(View.VISIBLE);
+        }
+        btnBid.setVisibility(View.VISIBLE);
 
         //Hide the delete & edit option if the user is not the owner
         MenuItem deleteMenu = detailsMenu.findItem(R.id.action_delete);

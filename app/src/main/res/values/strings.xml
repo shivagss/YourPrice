@@ -82,5 +82,7 @@
     <string name="saving">saving...</string>
     <string name="error_enter_name">Please enter valid name</string>
     <string name="title_activity_profile">User Profile</string>
+    <string name="title_activity_bid_list">Item Bids</string>
+    <string name="btn_bid_list">BID LIST</string>
 
 </resources>
