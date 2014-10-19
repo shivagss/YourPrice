@@ -82,5 +82,11 @@
     <string name="saving">saving...</string>
     <string name="error_enter_name">Please enter valid name</string>
     <string name="title_activity_profile">User Profile</string>
+    <string name="title_activity_bid_list">Item Bids</string>
+    <string name="btn_bid_list">BID LIST</string>
+    <string name="hint_type_message">Type Message</string>
+    <string name="title_activity_message_list">Biding Messages</string>
+    <string name="btn_bid_accept">ACCEPT</string>
+    <string name="btn_bid_reject">REJECT</string>
 
 </resources>

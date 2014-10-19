@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+
+
+<com.parse.ParseImageView
+        android:id="@+id/pivEntryBidPhoto"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:paddingRight="5dp"
+        android:src="@drawable/ic_launcher" />
+
+    <TextView
+        android:id="@+id/tvEntryBidName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/pivEntryBidPhoto"
+        android:text="@string/feather_enhance_effect_food"
+        android:textStyle="bold" />
+    <TextView
+        android:id="@+id/tvEntryBidBody"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvEntryBidName"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tvEntryBidName"
+        android:autoLink=""
+        android:text="$50 " />
+
+    <TextView
+        android:id="@+id/tvEntryBidState"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignLeft="@+id/tvEntryBidName"
+        android:layout_below="@+id/tvEntryBidBody"
+        android:autoLink=""
+        android:text="pending " />
+
+    <TextView
+        android:id="@+id/tvEntryBidTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:text="2h" />
+
+</RelativeLayout>

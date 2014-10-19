@@ -17,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gabiq.youbid.R;
+import com.gabiq.youbid.activity.BidListActivity;
+import com.gabiq.youbid.activity.DetailsActivity;
 import com.gabiq.youbid.activity.NewItemActivity;
 import com.gabiq.youbid.activity.ProfileActivity;
 import com.gabiq.youbid.model.Item;
@@ -57,6 +59,9 @@ public class DetailsFragment extends Fragment {
         Bids,
         Messages
     }
+
+    private boolean isSeller = false;
+
 
     public DetailsFragment() {
     }
@@ -114,7 +119,6 @@ public class DetailsFragment extends Fragment {
                 updateView(ViewType.Bids);
             }
         });
-
         btnMessages = (Button)rootView.findViewById(R.id.btnMessages);
         btnMessages.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,13 +127,14 @@ public class DetailsFragment extends Fragment {
             }
         });
 
-
-
         setHasOptionsMenu(true);
 
         retrieveItem(itemId);
 
+
         updateView(ViewType.Details);
+
+
         return rootView;
     }
 
@@ -169,10 +174,21 @@ public class DetailsFragment extends Fragment {
     {
         if(item == null) return;
 
+        isSeller = item.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
+/*
+        if (isSeller) {
+            btnBid.setText(R.string.btn_bid_list);
+        } else {
+            etBidAmount.setVisibility(View.VISIBLE);
+        }
+        btnBid.setVisibility(View.VISIBLE);
+        */
+
         //Hide the delete & edit option if the user is not the owner
         MenuItem deleteMenu = detailsMenu.findItem(R.id.action_delete);
         MenuItem editIMenu = detailsMenu.findItem(R.id.action_edit);
-        if(item.getUser().getObjectId().equals( ParseUser.getCurrentUser().getObjectId())){
+
+        if (isSeller) {
             deleteMenu.setVisible(true);
             editIMenu.setVisible(true);
         }
@@ -180,6 +196,7 @@ public class DetailsFragment extends Fragment {
             deleteMenu.setVisible(false);
             editIMenu.setVisible(false);
         }
+
         tvTimePosted = (TextView) rootView.findViewById(R.id.tvTimePosted);
         tvTimePosted.setText(Utils.getRelativeTimeAgo(item.getCreatedAt()));
 
