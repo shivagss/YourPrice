@@ -112,9 +112,18 @@
             android:layout_height="wrap_content"
             android:id="@+id/btnBid"
             android:layout_below="@+id/tvBidStatus"
-            android:layout_alignParentRight="true"
+            android:layout_toLeftOf="@+id/btnBidList"
             android:layout_margin="10dp"
             android:text="BID" />
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnBidList"
+                android:layout_below="@+id/tvBidStatus"
+                android:layout_alignParentRight="true"
+                android:layout_margin="10dp"
+                android:text="BID LIST" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -143,7 +152,7 @@
                 android:layout_height="wrap_content"
               android:layout_alignParentLeft="true"
               android:layout_marginBottom="50dp"
-              android:layout_below="@id/btnBid"
+              android:layout_below="@id/btnBidList"
                 android:layout_alignParentRight="true">
             </FrameLayout>
 

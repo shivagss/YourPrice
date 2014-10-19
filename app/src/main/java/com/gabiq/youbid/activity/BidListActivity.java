@@ -16,9 +16,10 @@ public class BidListActivity extends FragmentActivity implements BidListFragment
         setContentView(R.layout.activity_bid_list);
 
         String itemId = getIntent().getStringExtra("itemId");
+        boolean isSeller = getIntent().getBooleanExtra("isSeller", false);
         if (savedInstanceState == null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            BidListFragment bidListFragment = BidListFragment.newInstance(itemId);
+            BidListFragment bidListFragment = BidListFragment.newInstance(itemId, isSeller);
             ft.replace(R.id.BidListContainer, bidListFragment);
             ft.commit();
         }

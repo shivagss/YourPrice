@@ -60,6 +60,7 @@ public class DetailsFragment extends Fragment {
     private Menu detailsMenu;
     private EditText etBidAmount;
     private Button btnBid;
+    private Button btnBidList;
     private TextView tvBidStatus;
     private ImageView ivProfile;
     private RelativeLayout commentBox;
@@ -143,14 +144,8 @@ public class DetailsFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    if (isSeller) {
-                        Intent i = new Intent(getActivity(), BidListActivity.class);
-                        i.putExtra("itemId",itemId);
-                        startActivity(i);
-                    } else {
-                        double bidAmount = Double.parseDouble(etBidAmount.getText().toString());
-                        submitBid(bidAmount);
-                    }
+                    double bidAmount = Double.parseDouble(etBidAmount.getText().toString());
+                    submitBid(bidAmount);
                 }
                 catch(Exception e)
                 {
@@ -158,6 +153,25 @@ public class DetailsFragment extends Fragment {
                 }
             }
         });
+
+        btnBidList = (Button)rootView.findViewById(R.id.btnBidList);
+        btnBidList.setVisibility(View.INVISIBLE);
+        btnBidList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    Intent intent = new Intent(getActivity(), BidListActivity.class);
+                    intent.putExtra("itemId",itemId);
+                    intent.putExtra("isSeller", isSeller);
+                    startActivity(intent);
+                }
+                catch(Exception e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        });
+
 
         setHasOptionsMenu(true);
 
@@ -273,12 +287,13 @@ public class DetailsFragment extends Fragment {
 
         isSeller = item.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
 
-        if (isSeller) {
-            btnBid.setText(R.string.btn_bid_list);
-        } else {
+        if (!isSeller) {
             etBidAmount.setVisibility(View.VISIBLE);
+            btnBid.setVisibility(View.VISIBLE);
+            btnBidList.setText("MY BIDS");
         }
-        btnBid.setVisibility(View.VISIBLE);
+
+        btnBidList.setVisibility(View.VISIBLE);
 
         //Hide the delete & edit option if the user is not the owner
         MenuItem deleteMenu = detailsMenu.findItem(R.id.action_delete);
