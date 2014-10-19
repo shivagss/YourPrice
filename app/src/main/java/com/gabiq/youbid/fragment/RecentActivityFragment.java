@@ -1,14 +1,17 @@
 package com.gabiq.youbid.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.gabiq.youbid.R;
+import com.gabiq.youbid.activity.DetailsActivity;
 import com.gabiq.youbid.adapter.NotificationAdapter;
 import com.gabiq.youbid.model.Notification;
 
@@ -50,6 +53,16 @@ public class RecentActivityFragment extends Fragment {
     private void setupViews(View view) {
         lvNotifications = (ListView) view.findViewById(R.id.lvNotifications);
         lvNotifications.setAdapter(notificationAdapter);
+
+        lvNotifications.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Notification notification = notificationList.get(i);
+                Intent intent = new Intent(getActivity(), DetailsActivity.class);
+                intent.putExtra("item_id", notification.getItemId());
+                startActivity(intent);
+            }
+        });
 
     }
 

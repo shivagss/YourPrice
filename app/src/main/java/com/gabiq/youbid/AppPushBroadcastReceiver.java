@@ -96,7 +96,7 @@ public class AppPushBroadcastReceiver extends ParsePushBroadcastReceiver {
                         notification.setBidId(bidId);
                     }
 
-                    if (json.has("itemid")) {
+                    if (json.has("itemId")) {
                         String itemId = json.getString("itemId");
                         notification.setItemId(itemId);
                     }
