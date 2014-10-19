@@ -10,12 +10,16 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +60,8 @@ public class DetailsFragment extends Fragment {
     private Button btnBid;
     private TextView tvBidStatus;
     private ImageView ivProfile;
+    private RelativeLayout commentBox;
+    private ScrollView scrollView;
 
     public DetailsFragment() {
     }
@@ -90,6 +96,19 @@ public class DetailsFragment extends Fragment {
             }
         });
         etComments = (EditText)rootView.findViewById(R.id.etComments);
+
+        etComments.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b)
+                    scrollView.post(new Runnable() {
+                        public void run() {
+                            scrollView.scrollTo(0, Integer.MAX_VALUE);
+                           }
+                    });
+            }
+        });
+
         ivSendComment = (ImageView)rootView.findViewById(R.id.ivSendComment);
         ivSendComment.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,12 +117,21 @@ public class DetailsFragment extends Fragment {
                 if(comments !=null  &&  !comments.isEmpty()) {
                     sendComment(comments);
                     etComments.setText(null);
-                    commentFragment.refresh();
+
                 }
             }
         });
-
+        commentBox = (RelativeLayout)rootView.findViewById(R.id.commentBox);
         etBidAmount = (EditText)rootView.findViewById(R.id.etBidAmount);
+
+        etBidAmount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                commentBox.setVisibility(View.INVISIBLE);
+            }
+        });
+
+
         btnBid = (Button)rootView.findViewById(R.id.btnBid);
         tvBidStatus = (TextView)rootView.findViewById(R.id.tvBidStatus);
         btnBid.setOnClickListener(new View.OnClickListener() {
@@ -121,15 +149,34 @@ public class DetailsFragment extends Fragment {
         });
 
         setHasOptionsMenu(true);
+
         retrieveItem(itemId);
 
-        FragmentTransaction ft = getFragmentManager().beginTransaction();
+        scrollView = (ScrollView)rootView.findViewById(R.id.scrollView);
+        scrollView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                ViewTreeObserver observer = scrollView.getViewTreeObserver();
+                observer.addOnScrollChangedListener(onScrollChangedListener);
+
+                return false;
+            }
+        });
+
+       FragmentTransaction ft = getFragmentManager().beginTransaction();
         commentFragment = CommentsFragment.newInstance(itemId);
         ft.replace(R.id.flCommentsContainer, commentFragment);
         ft.commit();
-
         return rootView;
     }
+    final ViewTreeObserver.OnScrollChangedListener onScrollChangedListener = new
+            ViewTreeObserver.OnScrollChangedListener() {
+        @Override
+        public void onScrollChanged() {
+            commentBox.setVisibility(View.VISIBLE);
+        }
+    };
+
 
     private void startProfileActivity() {
 
@@ -162,6 +209,7 @@ public class DetailsFragment extends Fragment {
             tvBidStatus.setText(getResources().getString(R.string.bid_amount_high) );
             tvBidStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light));
         }
+        tvBidStatus.setVisibility(View.VISIBLE);
 
     }
 
@@ -181,6 +229,7 @@ public class DetailsFragment extends Fragment {
         comment.setItemId(itemId);
         comment.setUser(ParseUser.getCurrentUser());
         comment.saveInBackground();
+        commentFragment.addComment(comment);
     }
 
     public static DetailsFragment newInstance(String itemId) {

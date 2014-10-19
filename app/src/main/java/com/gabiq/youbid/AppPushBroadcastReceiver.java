@@ -7,14 +7,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
 
 import com.gabiq.youbid.activity.HomeActivity;
+import com.gabiq.youbid.model.Notification;
 import com.parse.ParseAnalytics;
 import com.parse.ParsePushBroadcastReceiver;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Date;
 
 public class AppPushBroadcastReceiver extends ParsePushBroadcastReceiver {
 
@@ -43,7 +47,9 @@ public class AppPushBroadcastReceiver extends ParsePushBroadcastReceiver {
         } else {
             activityIntent = new Intent(context, HomeActivity.class);
         }
-        activityIntent.putExtras(intent.getExtras());
+
+        Bundle extras = intent.getExtras();
+        activityIntent.putExtras(extras);
         if (Build.VERSION.SDK_INT >= 16) {
             TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
             stackBuilder.addParentStack(cls);
@@ -60,5 +66,51 @@ public class AppPushBroadcastReceiver extends ParsePushBroadcastReceiver {
     protected void onPushReceive(Context context, Intent intent) {
         super.onPushReceive(context, intent);
         Log.d("INFO", "****** received push notification");
+
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            createNotification(extras);
+        }
     }
+
+    private void createNotification(Bundle extra) {
+        String jsonString = extra.getString("com.parse.Data");
+        if (jsonString != null) {
+            try {
+                JSONObject json = new JSONObject(jsonString);
+                if (json != null) {
+                    Notification notification = new Notification();
+
+                    if (json.has("alert")) {
+                        String message = json.getString("alert");
+                        notification.setMessage(message);
+                    }
+
+                    if (json.has("senderId")) {
+                        String senderId = json.getString("senderId");
+                        notification.setSenderId(senderId);
+                    }
+
+                    if (json.has("bidId")) {
+                        String bidId = json.getString("bidId");
+                        notification.setBidId(bidId);
+                    }
+
+                    if (json.has("itemid")) {
+                        String itemId = json.getString("itemId");
+                        notification.setItemId(itemId);
+                    }
+
+                    Date createdTime = new Date();
+                    notification.setCreatedAt(createdTime);
+
+
+                    notification.save();
+                }
+            } catch (JSONException e) {
+                Log.e("Error", "Error parsing json in push notification " + e.toString());
+            }
+        }
+    }
+
 }

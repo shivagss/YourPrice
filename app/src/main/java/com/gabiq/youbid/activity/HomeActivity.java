@@ -1,24 +1,29 @@
 package com.gabiq.youbid.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.gabiq.youbid.R;
+import com.gabiq.youbid.fragment.RecentActivityFragment;
+import com.gabiq.youbid.fragment.FavoriteItemsFragment;
 import com.gabiq.youbid.fragment.FragmentNavigationDrawer;
 import com.gabiq.youbid.fragment.GridFragment;
+import com.gabiq.youbid.fragment.LogoutFragment;
+import com.gabiq.youbid.fragment.MyBidsFragment;
 import com.gabiq.youbid.fragment.ProfileFragment;
-import com.gabiq.youbid.fragment.UserItemsFragment;
+import com.gabiq.youbid.fragment.SearchItemFragment;
 import com.gabiq.youbid.fragment.UserStoreFragment;
 import com.gabiq.youbid.model.Item;
-import com.parse.ParseFacebookUtils;
 import com.parse.ParseQueryAdapter;
-import com.parse.ParseUser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 public class HomeActivity extends FragmentActivity implements GridFragment.OnFragmentInteractionListener,
@@ -33,7 +38,43 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
         setContentView(R.layout.activity_home);
 
         setupDrawer(savedInstanceState);
+
+        // handle intent
+        Intent intent = getIntent();
+
+        Bundle extras = intent.getExtras();
+        if((extras != null)){
+            dispatchNotification(extras);        }
     }
+
+    protected void onNewIntent(Intent intent) {
+        Bundle extras = intent.getExtras();
+        if (extras != null) {
+            dispatchNotification(extras);
+        }
+    }
+
+    private void dispatchNotification(Bundle extra) {
+        String jsonString = extra.getString("com.parse.Data");
+        if (jsonString != null) {
+            try {
+            JSONObject json = new JSONObject(jsonString);
+                if (json != null) {
+                    String itemId = json.getString("itemId");
+                    if (itemId != null) {
+                        // Launch Item Detail activity
+                        Intent intent = new Intent(HomeActivity.this, DetailsActivity.class);
+                        intent.putExtra("item_id",itemId);
+                        startActivity(intent);
+                    }
+                }
+            } catch (JSONException e) {
+                Log.e("Error", "Error parsing json in push notification " + e.toString());
+            }
+        }
+    }
+
+
 
     private void setupDrawer(Bundle savedInstanceState) {
         dlDrawer = (FragmentNavigationDrawer) findViewById(R.id.drawer_layout);
@@ -41,16 +82,20 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
         dlDrawer.setupDrawerConfiguration((ListView) findViewById(R.id.lvDrawer),
                 R.layout.drawer_nav_item, R.id.flContent);
         // Add nav items
+        dlDrawer.addNavItem("Items for Sale", R.drawable.ic_action_new, "Items for Sale", SearchItemFragment.class);
         dlDrawer.addNavItem("My Profile", R.drawable.ic_icon_profile, "My Profile", ProfileFragment.class);
-        dlDrawer.addNavItem("Activity Feed", R.drawable.ic_action_new, "Activity", GridFragment.class);
-        dlDrawer.addNavItem("My Store", R.drawable.ic_action_photo, "My Store", UserStoreFragment.class);
-        dlDrawer.addNavItem("Favorites", R.drawable.ic_action_new, "Favorites", GridFragment.class);
-        dlDrawer.addNavItem("Settings", R.drawable.ic_action_photo, "Settings", GridFragment.class);
+        dlDrawer.addNavItem("My Favorites", R.drawable.ic_action_new, "My Favorites", FavoriteItemsFragment.class);
+        dlDrawer.addNavItem("My Bids", R.drawable.ic_action_photo, "My Bids", MyBidsFragment.class);
+        dlDrawer.addNavItem("Recent Activity", R.drawable.ic_action_photo, "Recent Activity", RecentActivityFragment.class);
+        dlDrawer.addNavItem("Logout", R.drawable.ic_action_photo, "Logout", LogoutFragment.class);
+
         // Select default
         if (savedInstanceState == null) {
-            dlDrawer.selectDrawerItem(1);
+            dlDrawer.selectDrawerItem(0);
         }
     }
+
+
 
 
     @Override
@@ -70,7 +115,6 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.home, menu);
         return true;
     }
@@ -90,23 +134,23 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
                 postItem();
                 break;
             }
-            case R.id.action_logout:{
-                logout();
-            }
+//            case R.id.action_logout:{
+//                logout();
+//            }
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void logout() {
-        if(ParseFacebookUtils.getSession() != null)
-            ParseFacebookUtils.getSession().closeAndClearTokenInformation();
-        ParseUser.logOut();
-        Intent intent = new Intent(HomeActivity.this,
-                LoginDispatchActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
-                | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
-    }
+//    private void logout() {
+//        if(ParseFacebookUtils.getSession() != null)
+//            ParseFacebookUtils.getSession().closeAndClearTokenInformation();
+//        ParseUser.logOut();
+//        Intent intent = new Intent(HomeActivity.this,
+//                LoginDispatchActivity.class);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK
+//                | Intent.FLAG_ACTIVITY_NEW_TASK);
+//        startActivity(intent);
+//    }
 
     private void postItem() {
         Intent i = new Intent(this, NewItemActivity.class);

@@ -111,7 +111,7 @@
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:id="@+id/btnBid"
-            android:layout_below="@+id/tvCaption"
+            android:layout_below="@+id/tvBidStatus"
             android:layout_alignParentRight="true"
             android:layout_margin="10dp"
             android:text="BID" />
@@ -122,8 +122,9 @@
                 android:id="@+id/tvBidStatus"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
-                android:layout_below="@id/btnBid"
+                android:layout_below="@id/tvCaption"
                 android:gravity="center"
+                android:visibility="gone"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
@@ -139,41 +140,43 @@
 
           <FrameLayout android:id="@+id/flCommentsContainer"
                 android:layout_width="match_parent"
-                android:layout_height="500dp"
+                android:layout_height="wrap_content"
               android:layout_alignParentLeft="true"
-              android:layout_below="@id/tvBidStatus"
+              android:layout_marginBottom="50dp"
+              android:layout_below="@id/btnBid"
                 android:layout_alignParentRight="true">
             </FrameLayout>
 
         </RelativeLayout>
     </ScrollView>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/commentBox"
+        android:layout_alignBottom="@id/scrollView">
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/etComments"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:paddingRight="50dp"
+            android:paddingLeft="5dp"
+            android:hint="@string/hint_add_comment"
+            android:background="#EEEEEE"
+            android:maxLines="4" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:inputType="textMultiLine"
-        android:ems="10"
-        android:id="@+id/etComments"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignBottom="@id/scrollView"
-
-        android:paddingRight="50dp"
-        android:paddingLeft="5dp"
-        android:hint="@string/hint_add_comment"
-        android:background="#EEEEEE"
-        android:maxLines="4" />
-
-    <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:id="@+id/ivSendComment"
-        android:src="@drawable/ic_comment_send"
-        android:layout_alignBottom="@id/scrollView"
-        android:layout_alignRight="@id/etComments"
-        />
-
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/ivSendComment"
+            android:src="@drawable/ic_comment_send"
+            android:layout_alignRight="@id/etComments"
+            />
+    </RelativeLayout>
 
 </RelativeLayout>

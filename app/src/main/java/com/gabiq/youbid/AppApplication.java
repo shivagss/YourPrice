@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.gabiq.youbid.model.Bid;
 import com.gabiq.youbid.model.Comment;
+import com.gabiq.youbid.model.Favorite;
 import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.model.Keyword;
 import com.parse.Parse;
@@ -12,7 +13,7 @@ import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
-public class AppApplication extends Application {
+public class AppApplication extends com.activeandroid.app.Application {
 
     @Override
     public void onCreate() {
@@ -26,6 +27,7 @@ public class AppApplication extends Application {
         ParseObject.registerSubclass(Keyword.class);
         ParseObject.registerSubclass(Comment.class);
         ParseObject.registerSubclass(Bid.class);
+        ParseObject.registerSubclass(Favorite.class);
         Parse.initialize(this, getString(R.string.parse_app_id),
                 getString(R.string.parse_client_key));
 

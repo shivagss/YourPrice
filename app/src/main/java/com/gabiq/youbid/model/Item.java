@@ -9,6 +9,15 @@ import com.parse.ParseUser;
 
 @ParseClassName("Item")
 public class Item extends ParseObject{
+    private boolean favorite;
+
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
 
     public Item() {
         // A default constructor is required by Parse.

@@ -1,7 +1,9 @@
 
 Parse.Cloud.afterSave("Bid", function(request) {
-  query = new Parse.Query("Item");
+  var bidId = request.object.id;
   var itemId = request.object.get("itemId");
+  var bidderId = request.object.get("createdBy").id;
+  query = new Parse.Query("Item");
   query.get(itemId, {
     success: function(item) {
       var seller = item.get("createdBy");
@@ -13,7 +15,10 @@ Parse.Cloud.afterSave("Bid", function(request) {
         where: query, // Set our Installation query
         data: {
           alert: "Your item in sale has a bid",
-          item: itemId
+          type: "bid",
+          bidId: bidId,
+          senderId: bidderId,
+          itemId: itemId
         }
       }, {
         success: function() {
@@ -55,8 +60,9 @@ function getCommenters(itemId, callback) {
 
 Parse.Cloud.afterSave("Comment", function(request) {
   var itemId = request.object.get("itemId");
+  var commentId = request.object.id
   var body = request.object.get("body");
-  var commenter = request.object.get("createdBy").id;
+  var commenterId = request.object.get("createdBy").id;
 
   // get all users in comment
   getCommenters(itemId, function(commenters, error) {
@@ -74,7 +80,7 @@ Parse.Cloud.afterSave("Comment", function(request) {
           }
 
           // remove the commenter from the list
-          var commenterIndex = commenters.indexOf(commenter);
+          var commenterIndex = commenters.indexOf(commenterId);
           if (commenterIndex >= 0) {
             commenters.splice(commenterIndex, 1);
           }
@@ -89,7 +95,10 @@ Parse.Cloud.afterSave("Comment", function(request) {
             where: query, // Set our Installation query
             data: {
               alert: body,
-              item: itemId
+              type: "comment",
+              itemId: itemId,
+              senderId: commenterId,
+              commentId: commentId
             }
           }, {
             success: function() {
