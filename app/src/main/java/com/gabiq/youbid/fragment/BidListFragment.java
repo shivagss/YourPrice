@@ -1,10 +1,13 @@
 package com.gabiq.youbid.fragment;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +18,10 @@ import com.gabiq.youbid.R;
 import com.gabiq.youbid.adapter.BidListAdapter;
 import com.gabiq.youbid.model.Bid;
 import com.gabiq.youbid.utils.EndlessScrollListener;
+import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.parse.SaveCallback;
 
 public class BidListFragment extends Fragment {
     private static final String ARG_ITEM_ID = "itemId";
@@ -48,7 +53,6 @@ public class BidListFragment extends Fragment {
         }
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -68,12 +72,45 @@ public class BidListFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position >= bidListAdapter.getCount()) return;
-                Bid bid = bidListAdapter.getItem(position);
+                final Bid bid = bidListAdapter.getItem(position);
 
                 if (bid.getState().equals("pending")) {
-                    FragmentManager fm = getActivity().getSupportFragmentManager();
-                    BidActionDialogFragment bidActionDialogFragment = BidActionDialogFragment.newInstance(bid.getObjectId(), "Accept bid for "+ String.valueOf(bid.getPrice()) + "?");
-                    bidActionDialogFragment.show(fm, "fragment_alert");
+
+                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+                    alertDialogBuilder.setTitle("BID ACTION");
+                    alertDialogBuilder.setMessage("Accept bid for " + String.valueOf(bid.getPrice()) + "?");
+                    alertDialogBuilder.setPositiveButton("ACCEPT", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    bid.setState("accepted");
+                                    bid.saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            bidListAdapter.loadObjects();
+                                        }
+                                    });
+                                }
+                            }
+                    );
+                    alertDialogBuilder.setNegativeButton("REJECT", new DialogInterface.OnClickListener()
+
+                            {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    bid.setState("rejected");
+                                    bid.saveInBackground(new SaveCallback() {
+                                        @Override
+                                        public void done(ParseException e) {
+                                            bidListAdapter.loadObjects();
+                                        }
+                                    });
+                                }
+                            }
+
+                    );
+
+                    AlertDialog alertDialog = alertDialogBuilder.create();
+                    alertDialog.show();
                 }
             }
         });
