@@ -10,29 +10,19 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.activity.NewItemActivity;
 import com.gabiq.youbid.activity.ProfileActivity;
-import com.gabiq.youbid.model.Bid;
-import com.gabiq.youbid.model.Comment;
 import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.utils.Utils;
 import com.parse.DeleteCallback;
 import com.parse.GetCallback;
-import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseImageView;
 import com.parse.ParseQuery;
@@ -45,23 +35,28 @@ public class DetailsFragment extends Fragment {
 
     private Item item;
     private View rootView;
-    private ParseImageView ivItemPic;
-    private TextView tvCaption;
     private String itemId;
-    private ProgressBar progressBar;
     private TextView tvTimePosted;
     private TextView tvUserName;
     private TextView tvViewCount;
-    private ImageView ivSendComment;
-    private TextView etComments;
+
     private CommentsFragment commentFragment;
     private Menu detailsMenu;
-    private EditText etBidAmount;
-    private Button btnBid;
-    private TextView tvBidStatus;
-    private ImageView ivProfile;
-    private RelativeLayout commentBox;
-    private ScrollView scrollView;
+
+    private ParseImageView ivProfile;
+
+    private Button btnDetails ;
+    private Button btnComments ;
+    private Button btnBids ;
+    private Button btnMessages ;
+
+
+    private enum ViewType{
+        Details,
+        Comments,
+        Bids,
+        Messages
+    }
 
     public DetailsFragment() {
     }
@@ -88,95 +83,55 @@ public class DetailsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_details, container, false);
 
 
-        ivProfile = (ImageView) rootView.findViewById(R.id.ivProfile);
+        ivProfile = (ParseImageView) rootView.findViewById(R.id.ivProfile);
         ivProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startProfileActivity();
             }
         });
-        etComments = (EditText)rootView.findViewById(R.id.etComments);
 
-        etComments.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if(b)
-                    scrollView.post(new Runnable() {
-                        public void run() {
-                            scrollView.scrollTo(0, Integer.MAX_VALUE);
-                           }
-                    });
-            }
-        });
-
-        ivSendComment = (ImageView)rootView.findViewById(R.id.ivSendComment);
-        ivSendComment.setOnClickListener(new View.OnClickListener() {
+        btnDetails = (Button)rootView.findViewById(R.id.btnDetails);
+        btnDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String comments = etComments.getText().toString();
-                if(comments !=null  &&  !comments.isEmpty()) {
-                    sendComment(comments);
-                    etComments.setText(null);
-
-                }
+                updateView(ViewType.Details);
             }
         });
-        commentBox = (RelativeLayout)rootView.findViewById(R.id.commentBox);
-        etBidAmount = (EditText)rootView.findViewById(R.id.etBidAmount);
 
-        etBidAmount.setOnClickListener(new View.OnClickListener() {
+        btnComments = (Button)rootView.findViewById(R.id.btnComments);
+        btnComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                commentBox.setVisibility(View.INVISIBLE);
+                updateView(ViewType.Comments);
             }
         });
 
-
-        btnBid = (Button)rootView.findViewById(R.id.btnBid);
-        tvBidStatus = (TextView)rootView.findViewById(R.id.tvBidStatus);
-        btnBid.setOnClickListener(new View.OnClickListener() {
+        btnBids = (Button)rootView.findViewById(R.id.btnBids);
+        btnBids.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    double bidAmount = Double.parseDouble(etBidAmount.getText().toString());
-                    submitBid(bidAmount);
-                }
-                catch(Exception e)
-                {
-                  e.printStackTrace();
-                }
+                updateView(ViewType.Bids);
             }
         });
+
+        btnMessages = (Button)rootView.findViewById(R.id.btnMessages);
+        btnMessages.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateView(ViewType.Messages);
+            }
+        });
+
+
 
         setHasOptionsMenu(true);
 
         retrieveItem(itemId);
 
-        scrollView = (ScrollView)rootView.findViewById(R.id.scrollView);
-        scrollView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                ViewTreeObserver observer = scrollView.getViewTreeObserver();
-                observer.addOnScrollChangedListener(onScrollChangedListener);
-
-                return false;
-            }
-        });
-
-       FragmentTransaction ft = getFragmentManager().beginTransaction();
-        commentFragment = CommentsFragment.newInstance(itemId);
-        ft.replace(R.id.flCommentsContainer, commentFragment);
-        ft.commit();
+        updateView(ViewType.Details);
         return rootView;
     }
-    final ViewTreeObserver.OnScrollChangedListener onScrollChangedListener = new
-            ViewTreeObserver.OnScrollChangedListener() {
-        @Override
-        public void onScrollChanged() {
-            commentBox.setVisibility(View.VISIBLE);
-        }
-    };
-
 
     private void startProfileActivity() {
 
@@ -185,51 +140,6 @@ public class DetailsFragment extends Fragment {
             intent.putExtra("userId", item.getUser().getObjectId());
         startActivity(intent);
 
-    }
-
-    private void submitBid(double amount) {
-        int validity = validBid(amount);
-        if( validity == 0) {
-            Bid bid = new Bid();
-            bid.setItemId(itemId);
-            bid.setBuyer(ParseUser.getCurrentUser());
-            bid.setPrice(amount);
-            bid.setState("pending"); //Pending, accepted, rejected states
-            bid.saveInBackground();
-            tvBidStatus.setText(getResources().getString(R.string.bid_amount_submitted) );
-            tvBidStatus.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
-        }
-        else if(validity < 0) //very low bid amount
-        {
-            tvBidStatus.setText(getResources().getString(R.string.bid_amount_low) );
-            tvBidStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light));
-        }
-        else //very high bid amount
-        {
-            tvBidStatus.setText(getResources().getString(R.string.bid_amount_high) );
-            tvBidStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light));
-        }
-        tvBidStatus.setVisibility(View.VISIBLE);
-
-    }
-
-    private int validBid(double amount) {
-        //Simple rule of basic validation
-        if(amount < item.getMinPrice() / 2)  //Very low if bid amount is less than half of min price
-            return -1;
-        else if(amount > 5 * item.getMinPrice()) //Very high if bid amount is more than 5 X
-            return 1;
-        return 0;
-    }
-
-    private void sendComment(String commentText)
-    {
-        Comment comment = new Comment();
-        comment.setBody(commentText);
-        comment.setItemId(itemId);
-        comment.setUser(ParseUser.getCurrentUser());
-        comment.saveInBackground();
-        commentFragment.addComment(comment);
     }
 
     public static DetailsFragment newInstance(String itemId) {
@@ -270,24 +180,6 @@ public class DetailsFragment extends Fragment {
             deleteMenu.setVisible(false);
             editIMenu.setVisible(false);
         }
-
-
-
-        ivItemPic = (ParseImageView) rootView.findViewById(R.id.ivItemPic);
-        ivItemPic.setImageResource(0);
-
-        ivItemPic.setParseFile(item.getParseFile("photo"));
-        ivItemPic.loadInBackground(new GetDataCallback() {
-            @Override
-            public void done(byte[] data, ParseException e) {
-                progressBar = (ProgressBar)rootView.findViewById(R.id.progressBar);
-                progressBar.setVisibility(View.INVISIBLE);
-            }
-        });
-
-        tvCaption = (TextView)rootView.findViewById(R.id.tvCaption);
-        tvCaption.setText(item.getCaption());
-
         tvTimePosted = (TextView) rootView.findViewById(R.id.tvTimePosted);
         tvTimePosted.setText(Utils.getRelativeTimeAgo(item.getCreatedAt()));
 
@@ -299,6 +191,9 @@ public class DetailsFragment extends Fragment {
         item.setViewCount(viewCount);
         item.saveInBackground();
         tvViewCount.setText(viewCount + " views");
+
+        ivProfile.setParseFile(item.getUser().getProfilePhoto());
+        ivProfile.loadInBackground();
     }
 
     @Override
@@ -361,4 +256,49 @@ public class DetailsFragment extends Fragment {
         super.onPause();
         dismissProgress();
     }
+
+
+    private void updateView(ViewType viewType){
+
+        FragmentTransaction ft;
+        resetButtons();
+        switch (viewType)
+        {
+            case Details:
+                ft = getFragmentManager().beginTransaction();
+                SubmitOfferFragment submitOfferFragment = SubmitOfferFragment.newInstance(itemId);
+                ft.replace(R.id.flCommentsContainer, submitOfferFragment);
+                ft.commit();
+                btnDetails.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                break;
+            case Comments:
+                ft = getFragmentManager().beginTransaction();
+                commentFragment = CommentsFragment.newInstance(itemId);
+                ft.replace(R.id.flCommentsContainer, commentFragment);
+                ft.commit();
+                btnComments.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                break;
+            case Bids:
+                //TODO: copy the similar code from above section
+                btnBids.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                break;
+            case Messages:
+                //TODO: Copy the similar code from above section
+                btnMessages.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                break;
+
+        }
+
+
+    }
+
+    private void resetButtons()
+    {
+        btnBids.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
+        btnComments.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
+        btnMessages.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
+        btnDetails.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
+    }
+
+
 }

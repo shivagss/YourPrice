@@ -5,18 +5,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.gabiq.youbid.R;
+import com.gabiq.youbid.adapter.CommentsAdapter;
 import com.gabiq.youbid.model.Comment;
-import com.gabiq.youbid.utils.Utils;
-import com.parse.FindCallback;
-import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
-
-import java.util.List;
+import com.parse.ParseUser;
 
 /**
  * Created by sreejumon on 10/14/14.
@@ -24,9 +23,10 @@ import java.util.List;
 public class CommentsFragment extends Fragment {
 
     String itemId;
-    private LinearLayout listComments;
-    private static LayoutInflater inflater;
-    private static ViewGroup container;
+    private CommentsAdapter aComments;
+    private ListView lvComments;
+    private ImageView ivSendComment;
+    private TextView etComments;
 
     public static CommentsFragment newInstance(String item_id) {
         CommentsFragment fragmentComments = new CommentsFragment();
@@ -39,54 +39,51 @@ public class CommentsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        CommentsFragment.inflater = inflater;
         if(getArguments() != null)
             itemId = getArguments().getString("itemId");
         View view = inflater.inflate(R.layout.fragment_comments, container, false);
 
-        listComments = (LinearLayout) view.findViewById(R.id.listComments);
+        lvComments = (ListView) view.findViewById(R.id.lvComments);
 
-        ParseQuery query = new ParseQuery("Comment");
-        query.orderByAscending("updatedAt");
-        query.whereEqualTo("itemId",itemId);
+        aComments = new CommentsAdapter(getActivity(), getParseQuery());
+        lvComments.setAdapter(aComments);
 
-        query.findInBackground(new FindCallback() {
+
+        etComments = (EditText)view.findViewById(R.id.etComments);
+
+        etComments.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void done(List comments, ParseException e) {
-                if((comments!= null) && !comments.isEmpty()){
-                    for (int i=0; i < comments.size(); i++){
-                        Comment comm = (Comment)comments.get(i);
-                        addComment(comm);
-
-                    }
+            public void onFocusChange(View view, boolean b) {
+                if(b) {
+                    //TODO: scrol the listview to end
                 }
             }
         });
 
-     return view;
+        ivSendComment = (ImageView)view.findViewById(R.id.ivSendComment);
+        ivSendComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String comments = etComments.getText().toString();
+                if(comments !=null  &&  !comments.isEmpty()) {
+                    sendComment(comments);
+                    etComments.setText(null);
 
+                }
+            }
+        });
+
+        return view;
     }
 
-    //Add comment to already existing comments list
-    public void addComment(Comment comm)
+    private void sendComment(String commentText)
     {
-        View commentView = CommentsFragment.inflater.inflate(R.layout.comment_item,
-                CommentsFragment.container, false);
-        TextView tvComment = (TextView)commentView.findViewById(R.id.tvBody);
-        tvComment.setText(comm.getBody());
-
-        TextView tvUser = (TextView) commentView.findViewById(R.id.tvUserName);
-        tvUser.setText(comm.getUser().getName());
-
-        TextView tvTime = (TextView)commentView.findViewById(R.id.tvTime);
-        if(comm.getUpdatedAt()!= null)
-            tvTime.setText(Utils.getRelativeTimeAgo(comm.getUpdatedAt()));
-        else
-            tvTime.setText("Just now");
-
-        listComments.addView(commentView);
+        Comment comment = new Comment();
+        comment.setBody(commentText);
+        comment.setItemId(itemId);
+        comment.setUser(ParseUser.getCurrentUser());
+        comment.saveInBackground();
     }
-
     protected ParseQueryAdapter.QueryFactory<Comment> getParseQuery() {
         return new ParseQueryAdapter.QueryFactory<Comment>() {
             public ParseQuery<Comment> create() {
