@@ -1,27 +1,19 @@
 package com.gabiq.youbid.fragment;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.TextView;
 
-import com.etsy.android.grid.StaggeredGridView;
 import com.gabiq.youbid.R;
-import com.gabiq.youbid.activity.DetailsActivity;
 import com.gabiq.youbid.adapter.BidListAdapter;
-import com.gabiq.youbid.adapter.ItemAdapter;
 import com.gabiq.youbid.model.Bid;
-import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.utils.EndlessScrollListener;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
@@ -78,9 +70,11 @@ public class BidListFragment extends Fragment {
                 if (position >= bidListAdapter.getCount()) return;
                 Bid bid = bidListAdapter.getItem(position);
 
-//                Intent intent = new Intent(getActivity(), DetailsActivity.class);
-//                intent.putExtra("item_id",item.getObjectId());
-//                startActivity(intent);
+                if (bid.getState().equals("pending")) {
+                    FragmentManager fm = getActivity().getSupportFragmentManager();
+                    BidActionDialogFragment bidActionDialogFragment = BidActionDialogFragment.newInstance(bid.getObjectId(), "Accept bid for "+ String.valueOf(bid.getPrice()) + "?");
+                    bidActionDialogFragment.show(fm, "fragment_alert");
+                }
             }
         });
 
@@ -139,7 +133,6 @@ public class BidListFragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         public void onFragmentInteraction();
     }
 

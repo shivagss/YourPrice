@@ -1,15 +1,12 @@
 package com.gabiq.youbid.activity;
 
-import android.app.Activity;
-import android.app.FragmentTransaction;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.fragment.BidListFragment;
-import com.gabiq.youbid.fragment.DetailsFragment;
 
 public class BidListActivity extends FragmentActivity implements BidListFragment.OnFragmentInteractionListener {
 
@@ -20,7 +17,7 @@ public class BidListActivity extends FragmentActivity implements BidListFragment
 
         String itemId = getIntent().getStringExtra("itemId");
         if (savedInstanceState == null) {
-            FragmentTransaction ft = getFragmentManager().beginTransaction();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             BidListFragment bidListFragment = BidListFragment.newInstance(itemId);
             ft.replace(R.id.BidListContainer, bidListFragment);
             ft.commit();

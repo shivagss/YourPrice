@@ -272,6 +272,7 @@ public class DetailsFragment extends Fragment {
         if(item == null) return;
 
         isSeller = item.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
+
         if (isSeller) {
             btnBid.setText(R.string.btn_bid_list);
         } else {
@@ -282,7 +283,8 @@ public class DetailsFragment extends Fragment {
         //Hide the delete & edit option if the user is not the owner
         MenuItem deleteMenu = detailsMenu.findItem(R.id.action_delete);
         MenuItem editIMenu = detailsMenu.findItem(R.id.action_edit);
-        if(item.getUser().getObjectId().equals( ParseUser.getCurrentUser().getObjectId())){
+
+        if (isSeller) {
             deleteMenu.setVisible(true);
             editIMenu.setVisible(true);
         }
@@ -290,8 +292,6 @@ public class DetailsFragment extends Fragment {
             deleteMenu.setVisible(false);
             editIMenu.setVisible(false);
         }
-
-
 
         ivItemPic = (ParseImageView) rootView.findViewById(R.id.ivItemPic);
         ivItemPic.setImageResource(0);
