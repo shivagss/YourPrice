@@ -3,6 +3,7 @@ package com.gabiq.youbid.fragment;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -15,6 +16,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.gabiq.youbid.R;
+import com.gabiq.youbid.activity.BidListActivity;
+import com.gabiq.youbid.activity.MessageListActivity;
 import com.gabiq.youbid.adapter.BidListAdapter;
 import com.gabiq.youbid.model.Bid;
 import com.gabiq.youbid.utils.EndlessScrollListener;
@@ -74,44 +77,49 @@ public class BidListFragment extends Fragment {
                 if (position >= bidListAdapter.getCount()) return;
                 final Bid bid = bidListAdapter.getItem(position);
 
-                if (bid.getState().equals("pending")) {
+                Intent i = new Intent(getActivity(), MessageListActivity.class);
+                i.putExtra("bidId", bid.getObjectId());
+                i.putExtra("itemId", bid.getItemId());
+                startActivity(i);
 
-                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
-                    alertDialogBuilder.setTitle("BID ACTION");
-                    alertDialogBuilder.setMessage("Accept bid for " + String.valueOf(bid.getPrice()) + "?");
-                    alertDialogBuilder.setPositiveButton("ACCEPT", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    bid.setState("accepted");
-                                    bid.saveInBackground(new SaveCallback() {
-                                        @Override
-                                        public void done(ParseException e) {
-                                            bidListAdapter.loadObjects();
-                                        }
-                                    });
-                                }
-                            }
-                    );
-                    alertDialogBuilder.setNegativeButton("REJECT", new DialogInterface.OnClickListener()
-
-                            {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    bid.setState("rejected");
-                                    bid.saveInBackground(new SaveCallback() {
-                                        @Override
-                                        public void done(ParseException e) {
-                                            bidListAdapter.loadObjects();
-                                        }
-                                    });
-                                }
-                            }
-
-                    );
-
-                    AlertDialog alertDialog = alertDialogBuilder.create();
-                    alertDialog.show();
-                }
+//                if (bid.getState().equals("pending")) {
+//
+//                    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
+//                    alertDialogBuilder.setTitle("BID ACTION");
+//                    alertDialogBuilder.setMessage("Accept bid for " + String.valueOf(bid.getPrice()) + "?");
+//                    alertDialogBuilder.setPositiveButton("ACCEPT", new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    bid.setState("accepted");
+//                                    bid.saveInBackground(new SaveCallback() {
+//                                        @Override
+//                                        public void done(ParseException e) {
+//                                            bidListAdapter.loadObjects();
+//                                        }
+//                                    });
+//                                }
+//                            }
+//                    );
+//                    alertDialogBuilder.setNegativeButton("REJECT", new DialogInterface.OnClickListener()
+//
+//                            {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    bid.setState("rejected");
+//                                    bid.saveInBackground(new SaveCallback() {
+//                                        @Override
+//                                        public void done(ParseException e) {
+//                                            bidListAdapter.loadObjects();
+//                                        }
+//                                    });
+//                                }
+//                            }
+//
+//                    );
+//
+//                    AlertDialog alertDialog = alertDialogBuilder.create();
+//                    alertDialog.show();
+//                }
             }
         });
 
