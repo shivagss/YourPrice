@@ -22,17 +22,20 @@ import com.gabiq.youbid.fragment.Page1Fragment;
 import com.gabiq.youbid.fragment.Page2Fragment;
 import com.gabiq.youbid.listener.OnNewItemFragmentInteractionListener;
 import com.gabiq.youbid.model.Item;
+import com.gabiq.youbid.model.Keyword;
 import com.gabiq.youbid.utils.Utils;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.io.ByteArrayOutputStream;
+import java.util.List;
 
 public class CreateItemActivity extends FragmentActivity implements OnNewItemFragmentInteractionListener {
 
@@ -122,6 +125,7 @@ public class CreateItemActivity extends FragmentActivity implements OnNewItemFra
         item.setHasSold(false);
 
         // Save the mItem and return
+        final Item finalItem = item;
         item.saveInBackground(new SaveCallback() {
 
             @Override
@@ -129,6 +133,12 @@ public class CreateItemActivity extends FragmentActivity implements OnNewItemFra
                 dismissProgress();
                 if (e == null) {
                     setResult(Activity.RESULT_OK);
+                    String objectId = finalItem.getObjectId();
+                    List<Keyword> list = finalItem.getKeywords();
+                    for(Keyword key : list){
+                        key.setItemId(objectId);
+                    }
+                    ParseObject.saveAllInBackground(list);
                     finish();
                 } else {
                     Toast.makeText(
@@ -146,6 +156,7 @@ public class CreateItemActivity extends FragmentActivity implements OnNewItemFra
         showProgress("Retrieving Item");
         ParseQuery<Item> query = ParseQuery.getQuery("Item");
         query.whereEqualTo("objectId", itemId);
+        query.include("keywords");
         query.getFirstInBackground(new GetCallback<Item>() {
             public void done(Item i, ParseException e) {
                 if (e == null) {

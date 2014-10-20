@@ -7,6 +7,9 @@ import com.parse.ParseFile;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @ParseClassName("Item")
 public class Item extends ParseObject{
     private boolean favorite;
@@ -91,6 +94,18 @@ public class Item extends ParseObject{
     }
     public void setViewCount(int viewCount) {
         put("viewCount", viewCount);
+    }
+
+    public List<Keyword> getKeywords(){
+        List<Keyword> list = new ArrayList<Keyword>();
+        List<Keyword> cloudList = getList("keywords");
+        if(cloudList != null){
+            list.addAll(cloudList);
+        }
+        return list;
+    }
+    public void setKeywords(List<Keyword> list){
+        addAllUnique("keywords", list);
     }
 
 }

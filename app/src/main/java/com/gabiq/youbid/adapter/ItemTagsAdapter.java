@@ -8,11 +8,12 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.gabiq.youbid.R;
+import com.gabiq.youbid.model.Keyword;
 
 import java.util.List;
 
-public class ItemTagsAdapter extends ArrayAdapter<String> {
-    public ItemTagsAdapter(Context context, List<String> objects) {
+public class ItemTagsAdapter extends ArrayAdapter<Keyword> {
+    public ItemTagsAdapter(Context context, List<Keyword> objects) {
         super(context, R.layout.tag_item, objects);
     }
 
@@ -30,7 +31,7 @@ public class ItemTagsAdapter extends ArrayAdapter<String> {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        holder.tvTagItem.setText(getItem(position));
+        holder.tvTagItem.setText(getItem(position).getKeyword());
 
         return convertView;
     }
