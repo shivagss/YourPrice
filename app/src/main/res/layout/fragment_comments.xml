@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/listComments"
+    <ListView
+        android:id="@+id/lvComments"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -13,7 +13,7 @@
         android:layout_alignParentRight="true"
         android:layout_below="@+id/tvCommentTitle">
 
-    </LinearLayout>
+    </ListView>
 
     <TextView
         android:layout_width="wrap_content"
@@ -23,6 +23,37 @@
         android:id="@+id/tvCommentTitle"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
+        android:visibility="invisible"
         android:layout_alignParentStart="true" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/commentBox"
+        android:layout_alignBottom="@id/lvComments">
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/etComments"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:paddingRight="50dp"
+            android:paddingLeft="5dp"
+            android:hint="@string/hint_add_comment"
+            android:background="#EEEEEE"
+            android:maxLines="4" />
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:id="@+id/ivSendComment"
+            android:src="@drawable/ic_comment_send"
+            android:layout_alignRight="@id/etComments"
+            />
+    </RelativeLayout>
 
 </RelativeLayout>

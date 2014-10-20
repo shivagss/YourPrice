@@ -217,6 +217,14 @@
             android:label="@string/title_activity_create_item"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".activity.BidListActivity"
+            android:label="@string/title_activity_bid_list" >
+        </activity>
+        <activity
+            android:name=".activity.MessageListActivity"
+            android:label="@string/title_activity_message_list" >
+        </activity>
     </application>
 
 </manifest>
