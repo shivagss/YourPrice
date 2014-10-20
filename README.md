@@ -10,7 +10,7 @@ Demo of core functionality of the YourPrice app:
 
 ## Walkthrough
 
-Includes browsing items for sale, searching, favoriting items, editing posts, checking, checking notifications.
+Includes browsing items for sale, searching, favoriting items, editing posts, checking item details, checking notifications, etc.
 
 ![Walkthrough](Videos/yourprice-walkthrough.gif)
 
