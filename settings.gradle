@@ -7,4 +7,7 @@ include 'facebook-sdk:facebook'
 // Aviary SDK
 include ':Aviary-SDK'
 
+// ViewPager Indicator
+include ':ViewPagerIndicator'
+
 include ':app'

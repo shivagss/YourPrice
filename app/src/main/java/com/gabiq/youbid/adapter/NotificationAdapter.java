@@ -35,7 +35,7 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Notification notification = getItem(position);
+        final Notification notification = getItem(position);
 
         final ViewHolder viewHolder;
         if (convertView == null) {
@@ -58,11 +58,18 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
 
         viewHolder.tvBody.setText(notification.getMessage());
         viewHolder.tvTime.setText(Utils.getRelativeTimeAgo(notification.getCreatedAt()));
+        viewHolder.tvUserName.setText("");
+        viewHolder.ivProfileImg.setParseFile(null);
 
         final ViewHolder vh = viewHolder;
         ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.getInBackground(notification.getSenderId(), new GetCallback<ParseUser>() {
+        final String senderId = notification.getSenderId();
+        vh.notificationId = senderId;
+        query.getInBackground(senderId, new GetCallback<ParseUser>() {
             public void done(ParseUser parseUser, ParseException e) {
+                // check if request is outdated
+                if (!senderId.equals(vh.notificationId)) return;
+
                 if (e == null && parseUser != null) {
                     User user = new User(parseUser);
                     vh.tvUserName.setText(user.getName());
@@ -82,7 +89,7 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
 
                 } else {
                     // something went wrong
-                    Log.e("ERROR", "Error reading user in RecentActivityFragment");
+                    Log.e("ERROR", "Error reading user in NotificationAdapter");
                 }
             }
         });
@@ -90,6 +97,7 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
     }
 
     private static class ViewHolder {
+        String notificationId;
         ParseImageView ivProfileImg;
         TextView tvUserName;
         TextView tvBody;

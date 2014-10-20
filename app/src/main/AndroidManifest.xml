@@ -204,11 +204,18 @@
 
         <activity
             android:name=".activity.EditProfileActivity"
-            android:label="@string/title_activity_edit_profile" >
+            android:label="@string/title_activity_edit_profile"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activity.ProfileActivity"
-            android:label="@string/title_activity_profile" >
+            android:label="@string/title_activity_profile"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".activity.CreateItemActivity"
+            android:label="@string/title_activity_create_item"
+            android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activity.BidListActivity"

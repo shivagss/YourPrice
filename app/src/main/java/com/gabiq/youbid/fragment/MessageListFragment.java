@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.activity.MessageListActivity;
@@ -41,12 +42,14 @@ public class MessageListFragment extends Fragment {
     private static final String ARG_ISSELLER_ID = "isSeller";
     private String itemId;
     private String bidId;
+    private Bid bid;
     private boolean isSeller;
 
     private Button btnBidAccept;
     private Button btnBidReject;
     private EditText etPostMessage;
     private ImageView ivPostMessage;
+    private TextView tvBidStatus;
 
     private MessageListAdapter messageListAdapter;
     private ListView lvMessageList;
@@ -99,14 +102,38 @@ public class MessageListFragment extends Fragment {
         lvMessageList = (ListView) view.findViewById(R.id.lvMessageList);
 
         btnBidAccept = (Button) view.findViewById(R.id.btnBidAccept);
+        btnBidAccept.setVisibility(View.GONE);
         btnBidReject = (Button) view.findViewById(R.id.btnBidReject);
+        btnBidReject.setVisibility(View.GONE);
         etPostMessage = (EditText) view.findViewById(R.id.etPostMessage);
         ivPostMessage = (ImageView) view.findViewById(R.id.ivPostMessage);
+        tvBidStatus = (TextView) view.findViewById(R.id.tvBidStatus);
 
         RelativeLayout rlHeader = (RelativeLayout) view.findViewById(R.id.rlHeader);
 
         if (!isSeller) {
             rlHeader.setVisibility(View.GONE);
+        } else {
+            // fetch bid
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Bid");
+            query.getInBackground(bidId, new GetCallback<ParseObject>() {
+                public void done(ParseObject parseObject, ParseException e) {
+
+                    if (e == null && parseObject != null) {
+                        bid = (Bid) parseObject;
+
+                        tvBidStatus.setText(bid.getState().toUpperCase());
+                        if (bid.getState().equals("pending")) {
+                            btnBidAccept.setVisibility(View.VISIBLE);
+                            btnBidReject.setVisibility(View.VISIBLE);
+                        }
+
+                    } else {
+                        // something went wrong
+                        Log.e("ERROR", "Error getting bid in MessageListFragment");
+                    }
+                }
+            });
         }
 
         etPostMessage.clearFocus();
@@ -139,34 +166,21 @@ public class MessageListFragment extends Fragment {
     }
 
     private void setBidAction(final boolean accepted) {
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Bid");
-        query.getInBackground(bidId, new GetCallback<ParseObject>() {
-            public void done(ParseObject parseObject, ParseException e) {
-
-                if (e == null && parseObject != null) {
-                    Bid bid = (Bid) parseObject;
-
-                    if (bid != null) {
-                        if (accepted) {
-                            bid.setState("accepted");
-                        } else {
-                            bid.setState("rejected");
-                        }
-                    }
-
-                    bid.saveInBackground(new SaveCallback() {
-                        @Override
-                        public void done(ParseException e) {
-                            getActivity().finish();
-                        }
-                    });
-                } else {
-                    // something went wrong
-                    Log.e("ERROR", "Error getting bid in MessageListFragment");
-                }
+        if (bid != null) {
+            if (accepted) {
+                bid.setState("accepted");
+            } else {
+                bid.setState("rejected");
             }
-        });
-
+            bid.saveInBackground(new SaveCallback() {
+                @Override
+                public void done(ParseException e) {
+                    getActivity().finish();
+                }
+            });
+        } else {
+            Log.e("ERROR", "Error getting bid in MessageListFragment");
+        }
     }
 
     private void postMessage(String messageText) {

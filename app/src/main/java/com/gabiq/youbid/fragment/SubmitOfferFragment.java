@@ -133,8 +133,8 @@ public class SubmitOfferFragment extends Fragment {
         //Simple rule of basic validation
         if(amount < item.getMinPrice() / 2)  //Very low if bid amount is less than half of min price
             return -1;
-        else if(amount > 5 * item.getMinPrice()) //Very high if bid amount is more than 5 X
-            return 1;
+        //else if(amount > 5 * item.getMinPrice()) //Very high if bid amount is more than 5 X
+        //    return 1;
         return 0;
     }
 

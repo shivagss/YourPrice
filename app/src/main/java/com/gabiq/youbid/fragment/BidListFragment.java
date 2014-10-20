@@ -24,6 +24,7 @@ import com.gabiq.youbid.utils.EndlessScrollListener;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 public class BidListFragment extends Fragment {
@@ -198,10 +199,19 @@ public class BidListFragment extends Fragment {
     protected ParseQueryAdapter.QueryFactory<Bid> getParseQuery() {
         return new ParseQueryAdapter.QueryFactory<Bid>() {
             public ParseQuery<Bid> create() {
-                ParseQuery query = new ParseQuery("Bid");
-                query.whereEqualTo("itemId", itemId);
-                query.orderByDescending("createdAt");
-                return query;
+                if (isSeller) {
+                    ParseQuery query = new ParseQuery("Bid");
+                    query.whereEqualTo("itemId", itemId);
+                    query.orderByDescending("createdAt");
+                    return query;
+                } else {
+                    ParseQuery query = new ParseQuery("Bid");
+                    query.whereEqualTo("itemId", itemId);
+                    query.whereEqualTo("createdBy", ParseUser.getCurrentUser());
+                    query.orderByDescending("createdAt");
+                    return query;
+                }
+
             }
         };
     }

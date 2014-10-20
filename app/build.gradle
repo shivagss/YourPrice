@@ -56,4 +56,5 @@ dependencies {
     compile files('libs/activeandroid.jar')
     compile files('libs/codepath-android-view-helpers-0.1.0.jar')
     compile project(':Aviary-SDK')
+    compile project(':ViewPagerIndicator')
 }

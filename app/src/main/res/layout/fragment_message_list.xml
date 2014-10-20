@@ -14,8 +14,7 @@
             android:id="@+id/btnBidAccept"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:padding="10dp"
+            android:layout_marginTop="20dp"
             android:layout_marginLeft="30dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
@@ -26,13 +25,37 @@
             android:id="@+id/btnBidReject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:layout_margin="15dp"
             android:layout_marginRight="30dp"
+            android:layout_alignBaseline="@+id/btnBidAccept"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
             android:text="@string/btn_bid_reject"
             />
+
+        <TextView
+            android:id="@+id/tvBidStatusLabel"
+            android:layout_width="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginBottom="20dp"
+            android:textSize="20sp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnBidAccept"
+            android:text="@string/bid_status_label" />
+
+        <TextView
+            android:id="@+id/tvBidStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@+id/tvBidStatusLabel"
+
+            android:layout_marginLeft="10dp"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:layout_below="@+id/btnBidAccept"
+            android:layout_toRightOf="@+id/tvBidStatusLabel"
+            android:text="" />
+
 
     </RelativeLayout>
 
@@ -71,7 +94,7 @@
             android:hint="@string/hint_type_message"
             android:inputType="textMultiLine"
             android:maxLines="4"
-            android:paddingLeft="5dp"
+            android:paddingLeft="15dp"
             android:paddingRight="50dp" />
 
         <ImageView

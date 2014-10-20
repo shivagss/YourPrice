@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gabiq.youbid.R;
+import com.gabiq.youbid.activity.CreateItemActivity;
 import com.gabiq.youbid.activity.NewItemActivity;
 import com.gabiq.youbid.activity.ProfileActivity;
 import com.gabiq.youbid.model.Item;
@@ -174,18 +175,6 @@ public class DetailsFragment extends Fragment {
         if(item == null) return;
 
         isSeller = item.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
-/*
-        if (isSeller) {
-            btnBid.setText(R.string.btn_bid_list);
-        } else {
-            etBidAmount.setVisibility(View.VISIBLE);
-            btnBid.setVisibility(View.VISIBLE);
-            btnBidList.setText("MY BIDS");
-        }
-
-        btnBidList.setVisibility(View.VISIBLE);
-        btnBid.setVisibility(View.VISIBLE);
-*/
 
         //Hide the delete & edit option if the user is not the owner
         MenuItem deleteMenu = detailsMenu.findItem(R.id.action_delete);
@@ -194,12 +183,12 @@ public class DetailsFragment extends Fragment {
         if (isSeller) {
             deleteMenu.setVisible(true);
             editIMenu.setVisible(true);
-            btnBids.setVisibility(View.VISIBLE);
+            btnBids.setText("Bids");
         }
         else{
             deleteMenu.setVisible(false);
             editIMenu.setVisible(false);
-            btnBids.setVisibility(View.GONE);
+            btnBids.setText("My Bids");
         }
 
         tvTimePosted = (TextView) rootView.findViewById(R.id.tvTimePosted);
@@ -233,7 +222,7 @@ public class DetailsFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         int id = menuItem.getItemId();
         if (id == R.id.action_edit) {
-            Intent intent = new Intent(getActivity(), NewItemActivity.class);
+            Intent intent = new Intent(getActivity(), CreateItemActivity.class);
             intent.putExtra("item_id", item.getObjectId());
             startActivity(intent);
             return true;
@@ -309,11 +298,6 @@ public class DetailsFragment extends Fragment {
                 ft.commit();
                 btnBids.setBackgroundColor(getResources().getColor(android.R.color.background_light));
                 break;
-//            case Messages:
-//                //TODO: Copy the similar code from above section
-//                btnMessages.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//                break;
-
         }
 
 
@@ -323,7 +307,6 @@ public class DetailsFragment extends Fragment {
     {
         btnBids.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
         btnComments.setBackgroundColor(getResources().getColor(android.R.color.holo_orange_light));
-  //      btnMessages.setBackgroundColor(getResources().getColor(android.R.color.holo_purple));
         btnDetails.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
 
     }
