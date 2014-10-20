@@ -205,16 +205,19 @@
         <activity
             android:name=".activity.EditProfileActivity"
             android:label="@string/title_activity_edit_profile"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait">
         </activity>
         <activity
             android:name=".activity.ProfileActivity"
             android:label="@string/title_activity_profile"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait" >
         </activity>
         <activity
             android:name=".activity.CreateItemActivity"
             android:label="@string/title_activity_create_item"
+            android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait">
         </activity>
         <activity
