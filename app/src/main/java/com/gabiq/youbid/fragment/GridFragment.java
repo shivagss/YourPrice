@@ -85,7 +85,6 @@ public class GridFragment extends Fragment {
                 Item item = mItemAdapter.getItem(position);
 
                 Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                //TODO: Quick fix, since the item serialization is not working as expected, hence sending the item_id
                 intent.putExtra("item_id",item.getObjectId());
                 startActivity(intent);
             }
@@ -114,14 +113,14 @@ public class GridFragment extends Fragment {
 
     private void setupGrid(View view) {
         mGvItemGrid.setAdapter(mItemAdapter);
-        mGvItemGrid.setOnScrollListener(new EndlessScrollListener() {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount) {
-                // this may not be needed
-                Log.d("INFO", "************************ new page " + String.valueOf(page) + " totalItemsCount " + String.valueOf(totalItemsCount));
+//        mGvItemGrid.setOnScrollListener(new EndlessScrollListener() {
+//            @Override
+//            public void onLoadMore(int page, int totalItemsCount) {
+//                // this may not be needed
+//                Log.d("INFO", "************************ new page " + String.valueOf(page) + " totalItemsCount " + String.valueOf(totalItemsCount));
 //                mItemAdapter.loadNextPage();
-            }
-        });
+//            }
+//        });
 
     }
 
@@ -131,6 +130,7 @@ public class GridFragment extends Fragment {
         super.onAttach(activity);
 
         mItemAdapter = new ItemAdapter(activity, getParseQuery());
+        mItemAdapter.setAutoload(false);
 
         try {
             mListener = (OnFragmentInteractionListener) activity;

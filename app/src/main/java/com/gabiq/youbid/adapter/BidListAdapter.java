@@ -77,7 +77,7 @@ public class BidListAdapter extends ParseQueryAdapter<Bid> {
 
                 } else {
                     // something went wrong
-                    Log.e("ERROR", "Error reading user in RecentActivityFragment");
+                    Log.e("ERROR", "Error reading user in BidListAdapter");
                 }
             }
         });
