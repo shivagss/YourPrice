@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.gabiq.youbid.R;
+import com.gabiq.youbid.fragment.DetailsFragment;
 import com.gabiq.youbid.fragment.RecentActivityFragment;
 import com.gabiq.youbid.fragment.FavoriteItemsFragment;
 import com.gabiq.youbid.fragment.FragmentNavigationDrawer;
@@ -64,7 +65,19 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
                     if (itemId != null) {
                         // Launch Item Detail activity
                         Intent intent = new Intent(HomeActivity.this, DetailsActivity.class);
-                        intent.putExtra("item_id",itemId);
+                        intent.putExtra("item_id", itemId);
+
+                        DetailsFragment.ViewType viewType = DetailsFragment.ViewType.Details;
+                        String type = json.getString("type");
+                        if (type.equals("bid")) {
+                            viewType = DetailsFragment.ViewType.Bids;
+                        } else if (type.equals("comment")) {
+                            viewType = DetailsFragment.ViewType.Comments;
+                        } else if (type.equals("message")) {
+                            viewType = DetailsFragment.ViewType.Bids;
+                        }
+                        intent.putExtra("viewType", viewType);
+
                         startActivity(intent);
                     }
                 }
