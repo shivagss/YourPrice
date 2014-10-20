@@ -183,12 +183,12 @@ public class DetailsFragment extends Fragment {
         if (isSeller) {
             deleteMenu.setVisible(true);
             editIMenu.setVisible(true);
-            btnBids.setText("Bids");
+            btnBids.setText("Offers");
         }
         else{
             deleteMenu.setVisible(false);
             editIMenu.setVisible(false);
-            btnBids.setText("My Bids");
+            btnBids.setText("My Offers");
         }
 
         tvTimePosted = (TextView) rootView.findViewById(R.id.tvTimePosted);

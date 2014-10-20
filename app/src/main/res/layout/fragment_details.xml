@@ -81,7 +81,7 @@
         <Button
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:text="Bids"
+            android:text="Offers"
             android:textSize="14dp"
             android:id="@+id/btnBids"
             android:layout_height="40dp"/>
