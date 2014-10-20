@@ -24,9 +24,14 @@ public class DetailsActivity extends FragmentActivity {
         }
      */
         String itemId = getIntent().getStringExtra("item_id");
+
+        DetailsFragment.ViewType viewType = DetailsFragment.ViewType.Details;
+        if (getIntent().hasExtra("viewType")) {
+            viewType = (DetailsFragment.ViewType) getIntent().getSerializableExtra("viewType");
+        }
         if (savedInstanceState == null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            DetailsFragment detailsFragment = DetailsFragment.newInstance(itemId);
+            DetailsFragment detailsFragment = DetailsFragment.newInstance(itemId, viewType);
             ft.replace(R.id.container, detailsFragment);
             ft.commit();
         }

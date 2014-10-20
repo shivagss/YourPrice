@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.activity.CreateItemActivity;
-import com.gabiq.youbid.activity.NewItemActivity;
 import com.gabiq.youbid.activity.ProfileActivity;
 import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.utils.Utils;
@@ -49,10 +48,10 @@ public class DetailsFragment extends Fragment {
     private Button btnDetails ;
     private Button btnComments ;
     private Button btnBids ;
-//    private Button btnMessages ;
+    private ViewType defaultTab = ViewType.Details;
 
 
-    private enum ViewType{
+    public enum ViewType{
         Details,
         Comments,
         Bids,
@@ -70,7 +69,7 @@ public class DetailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         // Get back arguments
         itemId =  getArguments().getString("item_id");
-
+        defaultTab = (ViewType) getArguments().getSerializable("viewType");
     }
 
     @Override
@@ -118,13 +117,6 @@ public class DetailsFragment extends Fragment {
                 updateView(ViewType.Bids);
             }
         });
-//        btnMessages = (Button)rootView.findViewById(R.id.btnMessages);
-//        btnMessages.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                updateView(ViewType.Messages);
-//            }
-//        });
 
 
         setHasOptionsMenu(true);
@@ -132,7 +124,7 @@ public class DetailsFragment extends Fragment {
         retrieveItem(itemId);
 
 
-        updateView(ViewType.Details);
+        updateView(defaultTab);
 
 
         return rootView;
@@ -147,10 +139,11 @@ public class DetailsFragment extends Fragment {
 
     }
 
-    public static DetailsFragment newInstance(String itemId) {
+    public static DetailsFragment newInstance(String itemId, ViewType viewType) {
         DetailsFragment detailsFragment = new DetailsFragment();
         Bundle args = new Bundle();
         args.putString("item_id", itemId);
+        args.putSerializable("viewType", viewType);
         detailsFragment.setArguments(args);
         return detailsFragment;
     }
@@ -183,12 +176,12 @@ public class DetailsFragment extends Fragment {
         if (isSeller) {
             deleteMenu.setVisible(true);
             editIMenu.setVisible(true);
-            btnBids.setText("Bids");
+            btnBids.setText("Offers");
         }
         else{
             deleteMenu.setVisible(false);
             editIMenu.setVisible(false);
-            btnBids.setText("My Bids");
+            btnBids.setText("My Offers");
         }
 
         tvTimePosted = (TextView) rootView.findViewById(R.id.tvTimePosted);

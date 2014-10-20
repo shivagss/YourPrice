@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.widget.ListView;
 
 import com.gabiq.youbid.R;
+import com.gabiq.youbid.fragment.DetailsFragment;
 import com.gabiq.youbid.fragment.RecentActivityFragment;
 import com.gabiq.youbid.fragment.FavoriteItemsFragment;
 import com.gabiq.youbid.fragment.FragmentNavigationDrawer;
@@ -64,7 +65,19 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
                     if (itemId != null) {
                         // Launch Item Detail activity
                         Intent intent = new Intent(HomeActivity.this, DetailsActivity.class);
-                        intent.putExtra("item_id",itemId);
+                        intent.putExtra("item_id", itemId);
+
+                        DetailsFragment.ViewType viewType = DetailsFragment.ViewType.Details;
+                        String type = json.getString("type");
+                        if (type.equals("bid")) {
+                            viewType = DetailsFragment.ViewType.Bids;
+                        } else if (type.equals("comment")) {
+                            viewType = DetailsFragment.ViewType.Comments;
+                        } else if (type.equals("message")) {
+                            viewType = DetailsFragment.ViewType.Bids;
+                        }
+                        intent.putExtra("viewType", viewType);
+
                         startActivity(intent);
                     }
                 }
@@ -85,7 +98,7 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
         dlDrawer.addNavItem("Items for Sale", R.drawable.ic_action_new, "Items for Sale", SearchItemFragment.class);
         dlDrawer.addNavItem("My Profile", R.drawable.ic_icon_profile, "My Profile", ProfileFragment.class);
         dlDrawer.addNavItem("My Favorites", R.drawable.ic_action_new, "My Favorites", FavoriteItemsFragment.class);
-        dlDrawer.addNavItem("My Bids", R.drawable.ic_action_photo, "My Bids", MyBidsFragment.class);
+        dlDrawer.addNavItem("My Offers", R.drawable.ic_action_photo, "My Offers", MyBidsFragment.class);
         dlDrawer.addNavItem("Notifications", R.drawable.ic_action_photo, "Notifications", RecentActivityFragment.class);
         dlDrawer.addNavItem("Logout", R.drawable.ic_action_photo, "Logout", LogoutFragment.class);
 

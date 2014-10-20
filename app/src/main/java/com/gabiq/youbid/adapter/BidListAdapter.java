@@ -49,7 +49,7 @@ public class BidListAdapter extends ParseQueryAdapter<Bid> {
 
         super.getItemView(bid, convertView, parent);
 
-        viewHolder.tvEntryBidBody.setText("Bid Amount: $" + String.valueOf(bid.getPrice()));
+        viewHolder.tvEntryBidBody.setText("Offer Amount: $" + String.valueOf(bid.getPrice()));
         viewHolder.tvEntryBidState.setText(bid.getState());
         viewHolder.tvEntryBidTime.setText(Utils.getRelativeTimeAgo(bid.getCreatedAt()));
 
