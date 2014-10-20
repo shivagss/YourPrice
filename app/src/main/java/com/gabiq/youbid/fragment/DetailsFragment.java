@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gabiq.youbid.R;
+import com.gabiq.youbid.activity.CreateItemActivity;
 import com.gabiq.youbid.activity.NewItemActivity;
 import com.gabiq.youbid.activity.ProfileActivity;
 import com.gabiq.youbid.model.Item;
@@ -233,7 +234,7 @@ public class DetailsFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         int id = menuItem.getItemId();
         if (id == R.id.action_edit) {
-            Intent intent = new Intent(getActivity(), NewItemActivity.class);
+            Intent intent = new Intent(getActivity(), CreateItemActivity.class);
             intent.putExtra("item_id", item.getObjectId());
             startActivity(intent);
             return true;
