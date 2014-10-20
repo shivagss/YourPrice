@@ -5,12 +5,13 @@ import com.parse.ParseObject;
 
 @ParseClassName("Keyword")
 public class Keyword extends ParseObject {
-    public Item getItem() {
-        return (Item) getParseObject("item");
+
+    public String getItemId() {
+        return getString("itemId");
     }
 
-    public void setItem(Item item) {
-        put("item", item);
+    public void setItemId(String itemId) {
+        put("itemId", itemId);
     }
 
     public String getKeyword() {
@@ -19,5 +20,10 @@ public class Keyword extends ParseObject {
 
     public void setKeyword(String keyword) {
         put("keyword", keyword);
+    }
+
+    @Override
+    public String toString() {
+        return getKeyword();
     }
 }
