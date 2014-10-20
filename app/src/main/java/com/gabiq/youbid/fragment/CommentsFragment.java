@@ -1,10 +1,13 @@
 package com.gabiq.youbid.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -13,9 +16,11 @@ import android.widget.TextView;
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.adapter.CommentsAdapter;
 import com.gabiq.youbid.model.Comment;
+import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 /**
  * Created by sreejumon on 10/14/14.
@@ -27,6 +32,9 @@ public class CommentsFragment extends Fragment {
     private ListView lvComments;
     private ImageView ivSendComment;
     private TextView etComments;
+
+    private SwipeRefreshLayout swipeContainer;
+
 
     public static CommentsFragment newInstance(String item_id) {
         CommentsFragment fragmentComments = new CommentsFragment();
@@ -47,18 +55,8 @@ public class CommentsFragment extends Fragment {
 
         aComments = new CommentsAdapter(getActivity(), getParseQuery());
         lvComments.setAdapter(aComments);
-
-
         etComments = (EditText)view.findViewById(R.id.etComments);
-
-        etComments.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if(b) {
-                    //TODO: scrol the listview to end
-                }
-            }
-        });
+        etComments.clearFocus();
 
         ivSendComment = (ImageView)view.findViewById(R.id.ivSendComment);
         ivSendComment.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +70,7 @@ public class CommentsFragment extends Fragment {
                 }
             }
         });
-
+        setupSwipeContainer(view);
         return view;
     }
 
@@ -82,7 +80,22 @@ public class CommentsFragment extends Fragment {
         comment.setBody(commentText);
         comment.setItemId(itemId);
         comment.setUser(ParseUser.getCurrentUser());
-        comment.saveInBackground();
+        comment.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                aComments.loadObjects();
+                closeKeyboard();
+            }
+        });
+    }
+    private void closeKeyboard() {
+        InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(
+                Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(etComments.getWindowToken(), 0);
+    }
+
+    public interface OnFragmentInteractionListener {
+        public void onFragmentInteraction();
     }
     protected ParseQueryAdapter.QueryFactory<Comment> getParseQuery() {
         return new ParseQueryAdapter.QueryFactory<Comment>() {
@@ -93,5 +106,28 @@ public class CommentsFragment extends Fragment {
                 return query;
             }
         };
+    }
+
+
+
+
+
+    private void setupSwipeContainer(View view) {
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.commentListSwipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                aComments.loadObjects();
+                swipeContainer.setRefreshing(false);
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorScheme(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+
     }
 }
