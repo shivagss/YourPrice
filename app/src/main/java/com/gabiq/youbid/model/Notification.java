@@ -11,6 +11,8 @@ import java.util.List;
 
 @Table(name = "Notifications")
 public class Notification extends Model {
+    @Column(name = "type")
+    private String type;
 
     @Column(name = "senderId")
     private String senderId;
@@ -27,6 +29,13 @@ public class Notification extends Model {
     @Column(name = "itemId")
     private String itemId;
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 
     public String getSenderId() {
         return senderId;

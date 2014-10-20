@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.activity.CreateItemActivity;
-import com.gabiq.youbid.activity.NewItemActivity;
 import com.gabiq.youbid.activity.ProfileActivity;
 import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.utils.Utils;

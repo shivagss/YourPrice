@@ -3,6 +3,13 @@ xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/detailsPicSection">
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
     <com.parse.ParseImageView
         android:layout_width="match_parent"
         android:layout_height="300dp"
@@ -18,8 +25,10 @@ xmlns:tools="http://schemas.android.com/tools"
         style="?android:attr/progressBarStyleLarge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
         android:id="@+id/progressBar"
-        android:layout_centerInParent="true" />
+        android:layout_centerHorizontal="true"
+         />
 
     <ImageView
         android:layout_width="30dp"
@@ -46,6 +55,7 @@ xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/tvCaption"
+        android:visibility="gone"
         android:id="@+id/bidSection">
 
         <TextView
@@ -62,29 +72,51 @@ xmlns:tools="http://schemas.android.com/tools"
             />
 
         <EditText
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
-            android:ems="10"
             android:id="@+id/etBidAmount"
-            android:textAlignment="textEnd"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
             android:gravity="end"
+            android:padding="10dp"
+            android:background="@drawable/edit_text_box"
             android:hint="@string/hint_price"
-            android:layout_marginRight="19dp"
-            android:layout_marginLeft="100dp"
+            android:maxLines="1"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
             android:layout_below="@id/tvBidStatus"
-            />
+            android:inputType="numberDecimal"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/btnBid"
+            android:layout_toStartOf="@+id/btnBid" />
 
         <Button
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:id="@+id/btnBid"
             android:text="Offer"
-            android:layout_toRightOf="@+id/etBidAmount"
-            android:layout_toEndOf="@+id/etBidAmount"
+            android:background="@drawable/edit_text_box"
             android:layout_alignBottom="@+id/etBidAmount"
             android:layout_alignTop="@+id/etBidAmount"
+            android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"/>
+
+        </RelativeLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvDescription"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_below="@id/bidSection"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+             />
     </RelativeLayout>
+    </ScrollView>
+
+
 
 </RelativeLayout>

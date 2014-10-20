@@ -1,7 +1,6 @@
 package com.gabiq.youbid.fragment;
 
 
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -10,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gabiq.youbid.R;
@@ -43,7 +43,7 @@ public class SubmitOfferFragment extends Fragment {
     private TextView tvCaption;
     private ProgressBar progressBar;
     private View view;
-
+    private RelativeLayout bidSection;
 
 
     /**
@@ -51,7 +51,6 @@ public class SubmitOfferFragment extends Fragment {
      * this fragment using the provided parameters.
      * @return A new instance of fragment SubmitOfferFragment.
      */
-    // TODO: Rename and change types and number of parameters
     public static SubmitOfferFragment newInstance(String item_id) {
         SubmitOfferFragment fragment = new SubmitOfferFragment();
         Bundle args = new Bundle();
@@ -92,6 +91,7 @@ public class SubmitOfferFragment extends Fragment {
                 try {
                     double bidAmount = Double.parseDouble(etBidAmount.getText().toString());
                     submitBid(bidAmount);
+                    etBidAmount.clearFocus();
                 }
                 catch(Exception e)
                 {
@@ -99,8 +99,32 @@ public class SubmitOfferFragment extends Fragment {
                 }
             }
         });
+
+        bidSection = (RelativeLayout)view.findViewById(R.id.bidSection);
         retrieveItem(itemId);
+
+        retrievePreviousBid(itemId);
+
         return view;
+    }
+
+    private void retrievePreviousBid(String itemId) {
+        ParseQuery<Bid> query = ParseQuery.getQuery("Bid");
+        query.whereEqualTo("itemId", itemId);
+        query.whereEqualTo("createdBy", ParseUser.getCurrentUser());
+        query.getFirstInBackground(new GetCallback<Bid>() {
+            public void done(Bid bid, ParseException e) {
+                if(e == null){
+                    if(bid != null)
+                    {
+                        tvBidStatus.setText(getResources().getString(R.string.bid_amount_last) + " " + String.valueOf(bid.getPrice()));
+                        tvBidStatus.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+                    }
+                } else {
+                    e.printStackTrace();
+                }
+            }
+        });
     }
 
     private void submitBid(double amount) {
@@ -169,6 +193,15 @@ public class SubmitOfferFragment extends Fragment {
 
         tvCaption = (TextView)view.findViewById(R.id.tvCaption);
         tvCaption.setText(item.getCaption());
+
+        TextView tvDesc = (TextView)view.findViewById(R.id.tvDescription);
+        tvDesc.setText(item.getDescription());
+
+        if(item.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId()))
+            bidSection.setVisibility(View.GONE);
+        else
+            bidSection.setVisibility(View.VISIBLE);
+
     }
 
 

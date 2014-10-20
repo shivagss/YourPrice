@@ -60,6 +60,20 @@ public class RecentActivityFragment extends Fragment {
                 Notification notification = notificationList.get(i);
                 Intent intent = new Intent(getActivity(), DetailsActivity.class);
                 intent.putExtra("item_id", notification.getItemId());
+
+                DetailsFragment.ViewType viewType = DetailsFragment.ViewType.Details;
+                String type = notification.getType();
+                if (type != null) {
+                    if (type.equals("bid")) {
+                        viewType = DetailsFragment.ViewType.Bids;
+                    } else if (type.equals("comment")) {
+                        viewType = DetailsFragment.ViewType.Comments;
+                    } else if (type.equals("message")) {
+                        viewType = DetailsFragment.ViewType.Bids;
+                    }
+                }
+                intent.putExtra("viewType", viewType);
+
                 startActivity(intent);
             }
         });
