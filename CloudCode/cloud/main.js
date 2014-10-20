@@ -1,20 +1,36 @@
 
 Parse.Cloud.afterSave("Bid", function(request) {
-  var bidId = request.object.id;
-  var itemId = request.object.get("itemId");
-  var bidderId = request.object.get("createdBy").id;
+  var bid = request.object;
+  var bidId = bid.id;
+  var itemId = bid.get("itemId");
+  var bidderId = bid.get("createdBy").id;
+  var price = bid.get("price");
+  var state = bid.get("state");
   query = new Parse.Query("Item");
   query.get(itemId, {
     success: function(item) {
-      var seller = item.get("createdBy");
-      // post push notification for new bid to seller
       var query = new Parse.Query(Parse.Installation);
-      query.equalTo('user', seller);
-       
+      var message = "";
+
+      if (state == "pending") {
+        // post push notification for new bid to seller
+        var seller = item.get("createdBy");
+        query.equalTo('user', seller);
+
+        message = "Your got an offer of $" + price;
+
+      } else {
+        // accepted or rejected
+        query.equalTo('userId', bidderId);
+
+        message = "Your offer of $" + price + " got " + state;
+      }
+
+      // send push notification
       Parse.Push.send({
-        where: query, // Set our Installation query
+        where: query,
         data: {
-          alert: "Your item in sale has a bid",
+          alert: message,
           type: "bid",
           bidId: bidId,
           senderId: bidderId,
@@ -30,6 +46,8 @@ Parse.Cloud.afterSave("Bid", function(request) {
           console.log("Error sending bid push notification to " + seller.id);
         }
       });
+
+
     },
     error: function(error) {
       console.error("Got an error " + error.code + " : " + error.message);
