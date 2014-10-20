@@ -1,0 +1,46 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.gabiq.youbid.fragment.Page1Fragment">
+
+
+
+    <EditText
+        android:id="@+id/etCaption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left|center_vertical"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/edit_text_box"
+        android:hint="Caption"
+        android:maxLines="1"
+        android:inputType="textMultiLine"/>
+
+        <com.parse.ParseImageView
+            android:id="@+id/ivImage1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="center"
+            android:layout_margin="10dp"
+            android:background="@drawable/button_white"
+            android:src="@drawable/compose_camera_btn"/>
+        <!--<ImageView-->
+            <!--android:id="@+id/ivImage2"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:src="@drawable/compose_camera_btn"/>-->
+        <!--<ImageView-->
+            <!--android:id="@+id/ivImage3"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:src="@drawable/compose_camera_btn"/>-->
+        <!--<ImageView-->
+            <!--android:id="@+id/ivImage4"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:src="@drawable/compose_camera_btn"/>-->
+</LinearLayout>

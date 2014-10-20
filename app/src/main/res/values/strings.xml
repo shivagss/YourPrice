@@ -82,5 +82,6 @@
     <string name="saving">saving...</string>
     <string name="error_enter_name">Please enter valid name</string>
     <string name="title_activity_profile">User Profile</string>
+    <string name="title_activity_create_item">Post Item</string>
 
 </resources>

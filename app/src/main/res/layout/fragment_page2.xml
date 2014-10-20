@@ -1,0 +1,77 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DETAILS (Optional)"
+        android:layout_margin="10dp"
+        android:textStyle="bold"
+        android:textSize="14sp"/>
+
+    <EditText
+        android:id="@+id/etDescription"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:gravity="left"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/edit_text_box"
+        android:hint="Tell us something about this item"
+        android:maxLines="3"
+        android:layout_marginBottom="10dp"
+        android:inputType="textMultiLine"/>
+
+    <EditText
+        android:id="@+id/etMinPrice"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/edit_text_box"
+        android:hint="Minimum price"
+        android:maxLines="1"
+        android:layout_marginBottom="10dp"
+        android:inputType="numberDecimal"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="42dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/edit_text_box"
+            android:id="@+id/btnAddTag"
+            android:layout_margin="10dp"
+            android:text="Add"/>
+    <EditText
+        android:id="@+id/etTags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="left|center_vertical"
+        android:layout_toLeftOf="@id/btnAddTag"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/edit_text_box"
+        android:hint="Tags"
+        android:maxLines="1"
+        android:inputType="textMultiLine"/>
+
+    </RelativeLayout>
+    <GridView
+        android:id="@+id/gvTags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:numColumns="3">
+
+        </GridView>
+
+</LinearLayout>

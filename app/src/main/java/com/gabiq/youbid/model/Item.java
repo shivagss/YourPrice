@@ -31,6 +31,14 @@ public class Item extends ParseObject{
         put("caption", caption);
     }
 
+    public String getDescription() {
+        return getString("description");
+    }
+
+    public void setDescription(String caption) {
+        put("description", caption);
+    }
+
     public ParseFile getPhotoFile() {
         return getParseFile("photo");
     }
