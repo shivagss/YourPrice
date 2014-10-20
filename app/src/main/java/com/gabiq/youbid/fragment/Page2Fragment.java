@@ -9,6 +9,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import com.gabiq.youbid.R;
 import com.gabiq.youbid.adapter.ItemTagsAdapter;
 import com.gabiq.youbid.listener.OnNewItemFragmentInteractionListener;
 import com.gabiq.youbid.model.Item;
+import com.gabiq.youbid.model.Keyword;
 import com.parse.ParseImageView;
 
 import java.util.ArrayList;
@@ -42,8 +44,8 @@ public class Page2Fragment extends Fragment {
     private EditText etItemDescription;
     private EditText etItemTags;
     private GridView gvTags;
-    private ArrayList<String> mTagsList;
-    private ArrayAdapter<String> mTagsAdapter;
+    private ArrayList<Keyword> mTagsList;
+    private ArrayAdapter<Keyword> mTagsAdapter;
     private Button btnAddTag;
 
 
@@ -91,6 +93,8 @@ public class Page2Fragment extends Fragment {
         if(item != null){
             etItemMinPrice.setText(Double.toString(item.getMinPrice()));
             etItemDescription.setText(item.getDescription());
+            mTagsAdapter.clear();
+            mTagsAdapter.addAll(item.getKeywords());
         }
     }
 
@@ -106,15 +110,26 @@ public class Page2Fragment extends Fragment {
             public void onClick(View view) {
                 String tag = etItemTags.getText().toString();
                 if(!TextUtils.isEmpty(tag)){
-                    mTagsAdapter.add(tag);
+                    Keyword keyword = new Keyword();
+                    keyword.setKeyword(tag);
+                    mTagsAdapter.add(keyword);
                     etItemTags.setText("");
                 }
             }
         });
 
-        mTagsList = new ArrayList<String>();
+        mTagsList = new ArrayList<Keyword>();
         mTagsAdapter = new ItemTagsAdapter(getActivity(), mTagsList);
         gvTags.setAdapter(mTagsAdapter);
+
+        gvTags.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                mTagsList.remove(i);
+                mTagsAdapter.notifyDataSetChanged();
+                return true;
+            }
+        });
     }
 
     @Override
@@ -144,6 +159,7 @@ public class Page2Fragment extends Fragment {
         try {
             item.setMinPrice(Double.parseDouble(etItemMinPrice.getText().toString()));
             item.setDescription(etItemDescription.getText().toString());
+            item.setKeywords(mTagsList);
         }catch (NumberFormatException e){
             //Do nothing
         }
