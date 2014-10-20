@@ -17,8 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gabiq.youbid.R;
-import com.gabiq.youbid.activity.BidListActivity;
-import com.gabiq.youbid.activity.DetailsActivity;
 import com.gabiq.youbid.activity.NewItemActivity;
 import com.gabiq.youbid.activity.ProfileActivity;
 import com.gabiq.youbid.model.Item;
@@ -26,6 +24,7 @@ import com.gabiq.youbid.utils.Utils;
 import com.parse.DeleteCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseFile;
 import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -195,10 +194,12 @@ public class DetailsFragment extends Fragment {
         if (isSeller) {
             deleteMenu.setVisible(true);
             editIMenu.setVisible(true);
+            btnBids.setVisibility(View.VISIBLE);
         }
         else{
             deleteMenu.setVisible(false);
             editIMenu.setVisible(false);
+            btnBids.setVisibility(View.GONE);
         }
 
         tvTimePosted = (TextView) rootView.findViewById(R.id.tvTimePosted);
@@ -212,10 +213,12 @@ public class DetailsFragment extends Fragment {
         item.setViewCount(viewCount);
         item.saveInBackground();
         tvViewCount.setText(viewCount + " views");
-
-        ivProfile.setParseFile(item.getUser().getProfilePhoto());
-        ivProfile.loadInBackground();
-    }
+        ParseFile photoFile = item.getUser().getParseUser().getParseFile("photo");
+        if (photoFile != null) {
+            ivProfile.setParseFile(photoFile);
+            ivProfile.loadInBackground();
+        }
+  }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -319,9 +322,10 @@ public class DetailsFragment extends Fragment {
     private void resetButtons()
     {
         btnBids.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
-        btnComments.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
-//        btnMessages.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
-        btnDetails.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
+        btnComments.setBackgroundColor(getResources().getColor(android.R.color.holo_orange_light));
+  //      btnMessages.setBackgroundColor(getResources().getColor(android.R.color.holo_purple));
+        btnDetails.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
+
     }
 
 
