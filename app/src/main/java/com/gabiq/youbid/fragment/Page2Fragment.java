@@ -3,9 +3,11 @@ package com.gabiq.youbid.fragment;
 
 
 import android.app.Activity;
+import android.nfc.Tag;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +22,13 @@ import com.gabiq.youbid.adapter.ItemTagsAdapter;
 import com.gabiq.youbid.listener.OnNewItemFragmentInteractionListener;
 import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.model.Keyword;
+import com.parse.DeleteCallback;
+import com.parse.ParseException;
 import com.parse.ParseImageView;
+import com.parse.ParseObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -31,14 +37,7 @@ import java.util.ArrayList;
  *
  */
 public class Page2Fragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
     private OnNewItemFragmentInteractionListener mListener;
     private EditText etItemMinPrice;
     private EditText etItemDescription;
@@ -48,21 +47,9 @@ public class Page2Fragment extends Fragment {
     private ArrayAdapter<Keyword> mTagsAdapter;
     private Button btnAddTag;
 
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Page2Fragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static Page2Fragment newInstance(String param1, String param2) {
         Page2Fragment fragment = new Page2Fragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -74,8 +61,6 @@ public class Page2Fragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
@@ -91,7 +76,11 @@ public class Page2Fragment extends Fragment {
 
     public void updateUI(Item item){
         if(item != null){
-            etItemMinPrice.setText(Double.toString(item.getMinPrice()));
+            if(item.getMinPrice() > 0) {
+                etItemMinPrice.setText(Double.toString(item.getMinPrice()));
+            }else{
+                etItemMinPrice.setText("");
+            }
             etItemDescription.setText(item.getDescription());
             mTagsAdapter.clear();
             mTagsAdapter.addAll(item.getKeywords());
@@ -157,11 +146,29 @@ public class Page2Fragment extends Fragment {
     public void saveOptionalFields(Item item) {
 
         try {
+
+//            List<Keyword> removeList = new ArrayList<Keyword>();
+//            for(Keyword remove : item.getKeywords()){
+//                if(!mTagsList.contains(remove)){
+//                    removeList.add(remove);
+//                }
+//            }
+
+//            ParseObject.deleteAllInBackground(removeList, new DeleteCallback() {
+//                @Override
+//                public void done(ParseException e) {
+//                    if(e != null){
+//                        e.printStackTrace();
+//                    }
+//                }
+//            });
+
             item.setMinPrice(Double.parseDouble(etItemMinPrice.getText().toString()));
             item.setDescription(etItemDescription.getText().toString());
             item.setKeywords(mTagsList);
         }catch (NumberFormatException e){
             //Do nothing
+            item.setMinPrice(0);
         }
     }
 }

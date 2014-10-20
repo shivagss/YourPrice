@@ -5,6 +5,7 @@ import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseObject;
+import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -105,6 +106,16 @@ public class Item extends ParseObject{
         return list;
     }
     public void setKeywords(List<Keyword> list){
+
+//        ParseRelation<ParseObject> relation = getRelation("keywords");
+//        List<Keyword> removeList = new ArrayList<Keyword>();
+//        for(Keyword keyword : getKeywords()){
+//            if(!list.contains(keyword)){
+//                removeList.add(keyword);
+//                relation.remove(keyword);
+//            }
+//        }
+
         addAllUnique("keywords", list);
     }
 

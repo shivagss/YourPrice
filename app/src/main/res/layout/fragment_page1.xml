@@ -16,8 +16,8 @@
         android:layout_margin="10dp"
         android:background="@drawable/edit_text_box"
         android:hint="Caption"
-        android:maxLines="1"
-        android:inputType="textMultiLine"/>
+        android:singleLine="true"
+        android:maxLines="1"/>
 
         <com.parse.ParseImageView
             android:id="@+id/ivImage1"

@@ -61,13 +61,6 @@ public class Page1Fragment extends Fragment {
 
     private static final int TAKE_PHOTO_CODE = 1;
     private static final int AVIARY_PHOTO_CODE = 2;
-
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
     private OnNewItemFragmentInteractionListener mListener;
     private Bitmap photoBitmap;
     private EditText etItemCaption;
@@ -85,8 +78,6 @@ public class Page1Fragment extends Fragment {
     public static Page1Fragment newInstance(String param1, String param2) {
         Page1Fragment fragment = new Page1Fragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -98,8 +89,6 @@ public class Page1Fragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
 
