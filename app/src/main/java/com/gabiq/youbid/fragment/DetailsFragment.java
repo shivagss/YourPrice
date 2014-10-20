@@ -175,18 +175,6 @@ public class DetailsFragment extends Fragment {
         if(item == null) return;
 
         isSeller = item.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
-/*
-        if (isSeller) {
-            btnBid.setText(R.string.btn_bid_list);
-        } else {
-            etBidAmount.setVisibility(View.VISIBLE);
-            btnBid.setVisibility(View.VISIBLE);
-            btnBidList.setText("MY BIDS");
-        }
-
-        btnBidList.setVisibility(View.VISIBLE);
-        btnBid.setVisibility(View.VISIBLE);
-*/
 
         //Hide the delete & edit option if the user is not the owner
         MenuItem deleteMenu = detailsMenu.findItem(R.id.action_delete);
@@ -195,12 +183,12 @@ public class DetailsFragment extends Fragment {
         if (isSeller) {
             deleteMenu.setVisible(true);
             editIMenu.setVisible(true);
-            btnBids.setVisibility(View.VISIBLE);
+            btnBids.setText("Bids");
         }
         else{
             deleteMenu.setVisible(false);
             editIMenu.setVisible(false);
-            btnBids.setVisibility(View.GONE);
+            btnBids.setText("My Bids");
         }
 
         tvTimePosted = (TextView) rootView.findViewById(R.id.tvTimePosted);
@@ -310,11 +298,6 @@ public class DetailsFragment extends Fragment {
                 ft.commit();
                 btnBids.setBackgroundColor(getResources().getColor(android.R.color.background_light));
                 break;
-//            case Messages:
-//                //TODO: Copy the similar code from above section
-//                btnMessages.setBackgroundColor(getResources().getColor(android.R.color.background_light));
-//                break;
-
         }
 
 
@@ -324,7 +307,6 @@ public class DetailsFragment extends Fragment {
     {
         btnBids.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
         btnComments.setBackgroundColor(getResources().getColor(android.R.color.holo_orange_light));
-  //      btnMessages.setBackgroundColor(getResources().getColor(android.R.color.holo_purple));
         btnDetails.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
 
     }

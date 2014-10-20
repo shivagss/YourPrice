@@ -85,7 +85,6 @@
             android:text="Bids"
             android:textSize="14dp"
             android:id="@+id/btnBids"
-            android:visibility="gone"
             android:layout_height="40dp"/>
         </LinearLayout>
 
