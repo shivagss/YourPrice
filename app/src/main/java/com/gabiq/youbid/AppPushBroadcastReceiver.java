@@ -101,6 +101,11 @@ public class AppPushBroadcastReceiver extends ParsePushBroadcastReceiver {
                         notification.setItemId(itemId);
                     }
 
+                    if (json.has("type")) {
+                        String type = json.getString("type");
+                        notification.setType(type);
+                    }
+
                     Date createdTime = new Date();
                     notification.setCreatedAt(createdTime);
 
