@@ -92,6 +92,7 @@ public class SubmitOfferFragment extends Fragment {
                 try {
                     double bidAmount = Double.parseDouble(etBidAmount.getText().toString());
                     submitBid(bidAmount);
+                    etBidAmount.clearFocus();
                 }
                 catch(Exception e)
                 {
@@ -169,6 +170,9 @@ public class SubmitOfferFragment extends Fragment {
 
         tvCaption = (TextView)view.findViewById(R.id.tvCaption);
         tvCaption.setText(item.getCaption());
+
+        TextView tvDesc = (TextView)view.findViewById(R.id.tvDescription);
+        tvDesc.setText(item.getDescription());
     }
 
 
