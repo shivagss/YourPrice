@@ -4,25 +4,25 @@ YourPrice mobile app is a local marketplace for used goods in which items do not
 
 Demo of core functionality of the YourPrice app:
 
-* Login/Logout:
+## Login/Logout
 
 ![Login and Logout](Videos/yourprice-login.gif)
 
-* Walkthrough
+## Walkthrough
 
 Includes browsing items for sale, searching, favoriting items, editing posts, checking, checking notifications.
 
 ![Walkthrough](Videos/yourprice-walkthrough.gif)
 
-* Post Item for Sale
+## Post Item for Sale
 
 ![Post Item for Sale](Videos/yourprice-post-item.gif)
 
-* Registration
+## Registration
 
 ![Registration](Videos/yourprice-registration.gif)
 
-* Purchase
+## Purchase
 
 Includes interaction in real-time between buyer and seller with push notifications.
 
