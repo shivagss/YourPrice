@@ -3,14 +3,15 @@ package com.gabiq.youbid.adapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.model.Comment;
 import com.gabiq.youbid.utils.Utils;
 import com.parse.ParseFile;
-import com.parse.ParseImageView;
 import com.parse.ParseQueryAdapter;
+import com.squareup.picasso.Picasso;
 
 public class CommentsAdapter extends ParseQueryAdapter<Comment> {
 
@@ -33,11 +34,13 @@ public class CommentsAdapter extends ParseQueryAdapter<Comment> {
         TextView tvTime = (TextView)convertView.findViewById(R.id.tvTime);
         tvTime.setText(Utils.getRelativeTimeAgo(comment.getUpdatedAt()));
 
-        ParseImageView ivProfileImg = (ParseImageView)convertView.findViewById(R.id.ivProfileImg);
+        ImageView ivProfileImg = (ImageView)convertView.findViewById(R.id.ivProfileImg);
         ParseFile photoFile = comment.getUser().getParseUser().getParseFile("photo");
+
         if (photoFile != null) {
-            ivProfileImg.setParseFile(photoFile);
-            ivProfileImg.loadInBackground();
+            Picasso.with(getContext())
+                    .load(photoFile.getUrl())
+                    .into(ivProfileImg);
         }
 
         return convertView;

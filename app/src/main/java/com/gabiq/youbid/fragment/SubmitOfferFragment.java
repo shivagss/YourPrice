@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -16,11 +17,11 @@ import com.gabiq.youbid.R;
 import com.gabiq.youbid.model.Bid;
 import com.gabiq.youbid.model.Item;
 import com.parse.GetCallback;
-import com.parse.GetDataCallback;
 import com.parse.ParseException;
-import com.parse.ParseImageView;
+import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.squareup.picasso.Picasso;
 
 
 /**
@@ -39,7 +40,7 @@ public class SubmitOfferFragment extends Fragment {
     private Button btnBid;
     private TextView tvBidStatus;
     private Item item;
-    private ParseImageView ivItemPic;
+    private ImageView ivItemPic;
     private TextView tvCaption;
     private ProgressBar progressBar;
     private View view;
@@ -102,6 +103,8 @@ public class SubmitOfferFragment extends Fragment {
 
         bidSection = (RelativeLayout)view.findViewById(R.id.bidSection);
         retrieveItem(itemId);
+
+        progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
 
         retrievePreviousBid(itemId);
 
@@ -170,6 +173,7 @@ public class SubmitOfferFragment extends Fragment {
                 if(e == null){
                     item = i;
                     updateUI();
+                    progressBar.setVisibility(View.INVISIBLE);
                 } else {
                     e.printStackTrace();
                 }
@@ -179,17 +183,16 @@ public class SubmitOfferFragment extends Fragment {
 
     private void updateUI()
     {
-        ivItemPic = (ParseImageView) view.findViewById(R.id.ivItemPic);
+        ivItemPic = (ImageView) view.findViewById(R.id.ivItemPic);
         ivItemPic.setImageResource(0);
 
-        ivItemPic.setParseFile(item.getParseFile("photo"));
-        ivItemPic.loadInBackground(new GetDataCallback() {
-            @Override
-            public void done(byte[] data, ParseException e) {
-                progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
-                progressBar.setVisibility(View.INVISIBLE);
-            }
-        });
+        ParseFile photoFile =  item.getParseFile("photo");
+
+        if (photoFile != null) {
+            Picasso.with(getActivity())
+                    .load(photoFile.getUrl())
+                    .into(ivItemPic);
+        }
 
         tvCaption = (TextView)view.findViewById(R.id.tvCaption);
         tvCaption.setText(item.getCaption());

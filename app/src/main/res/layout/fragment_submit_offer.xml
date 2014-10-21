@@ -10,7 +10,7 @@ xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-    <com.parse.ParseImageView
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="300dp"
         android:id="@+id/ivItemPic"
@@ -37,7 +37,8 @@ xmlns:tools="http://schemas.android.com/tools"
         android:layout_alignRight="@+id/ivItemPic"
         android:layout_alignEnd="@+id/ivItemPic"
         android:layout_margin="20dp"
-        android:src="@drawable/favorite_normal" />
+        android:src="@drawable/favorite_normal"
+        android:visibility="invisible" />
 
     <TextView
         android:layout_width="match_parent"

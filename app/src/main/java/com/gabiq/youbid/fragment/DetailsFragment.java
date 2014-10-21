@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,9 +26,9 @@ import com.parse.DeleteCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.squareup.picasso.Picasso;
 
 /**
  * Created by sreejumon on 10/14/14.
@@ -40,10 +41,11 @@ public class DetailsFragment extends Fragment {
     private TextView tvTimePosted;
     private TextView tvUserName;
     private TextView tvViewCount;
+    private TextView tvLocation;
 
     private CommentsFragment commentFragment;
     private Menu detailsMenu;
-    private ParseImageView ivProfile;
+    private ImageView ivProfile;
 
     private Button btnDetails ;
     private Button btnComments ;
@@ -86,7 +88,7 @@ public class DetailsFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_details, container, false);
 
 
-        ivProfile = (ParseImageView) rootView.findViewById(R.id.ivProfile);
+        ivProfile = (ImageView) rootView.findViewById(R.id.ivProfile);
         ivProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -197,9 +199,13 @@ public class DetailsFragment extends Fragment {
         tvViewCount.setText(viewCount + " views");
         ParseFile photoFile = item.getUser().getParseUser().getParseFile("photo");
         if (photoFile != null) {
-            ivProfile.setParseFile(photoFile);
-            ivProfile.loadInBackground();
+            Picasso.with(getActivity())
+                    .load(photoFile.getUrl())
+                    .into(ivProfile);
         }
+
+        tvLocation = (TextView)rootView.findViewById(R.id.tvItemLocation);
+        tvLocation.setText(item.getUser().getLocationText());
   }
 
     @Override

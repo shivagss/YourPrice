@@ -63,6 +63,12 @@ public class User {
         user.put("location", location);
     }
 
+    public String getLocationText()
+    {
+        //TODO: Hardcoding now. It should be based on the Location attribute reverse geo
+        return "Sunnyvale, CA";
+    }
+
     // Favorites accessors
     public void addToFavorites(Item item) {
         ParseRelation<ParseObject> relation = user.getRelation("favorite");
