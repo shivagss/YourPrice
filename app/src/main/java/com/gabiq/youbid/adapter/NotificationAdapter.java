@@ -68,9 +68,9 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
         query.getInBackground(senderId, new GetCallback<ParseUser>() {
             public void done(ParseUser parseUser, ParseException e) {
                 // check if request is outdated
-                if (!senderId.equals(vh.notificationId)) return;
 
                 if (e == null && parseUser != null) {
+                    if (!parseUser.getObjectId().equals(vh.notificationId)) return;
                     User user = new User(parseUser);
                     vh.tvUserName.setText(user.getName());
                     // load image
@@ -81,6 +81,9 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
                             @Override
                             public void done(byte[] data, ParseException e) {
                                 // nothing to do
+                            if (e != null) {
+                                Log.e("ERROR", "Error loading image "+e);
+                            }
                             }
                         });
                     } else {
@@ -89,7 +92,7 @@ public class NotificationAdapter extends ArrayAdapter<Notification> {
 
                 } else {
                     // something went wrong
-                    Log.e("ERROR", "Error reading user in NotificationAdapter");
+                    Log.e("ERROR", "Error reading user in NotificationAdapter "+e);
                 }
             }
         });

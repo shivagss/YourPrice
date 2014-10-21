@@ -31,7 +31,6 @@ public class GridFragment extends Fragment {
     private TextView mEmptyLabel;
     private SwipeRefreshLayout swipeContainer;
 
-
     private OnFragmentInteractionListener mListener;
 
     public static GridFragment newInstance() {
@@ -56,6 +55,7 @@ public class GridFragment extends Fragment {
             public ParseQuery<Item> create() {
                 ParseQuery query = new ParseQuery("Item");
                 query.orderByDescending("createdAt");
+                query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
                 return query;
             }
         };
@@ -113,14 +113,13 @@ public class GridFragment extends Fragment {
 
     private void setupGrid(View view) {
         mGvItemGrid.setAdapter(mItemAdapter);
-//        mGvItemGrid.setOnScrollListener(new EndlessScrollListener() {
-//            @Override
-//            public void onLoadMore(int page, int totalItemsCount) {
-//                // this may not be needed
-//                Log.d("INFO", "************************ new page " + String.valueOf(page) + " totalItemsCount " + String.valueOf(totalItemsCount));
-//                mItemAdapter.loadNextPage();
-//            }
-//        });
+        mGvItemGrid.setOnScrollListener(new EndlessScrollListener() {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                // this may not be needed
+                mItemAdapter.loadNextPage();
+            }
+        });
 
     }
 
@@ -131,6 +130,8 @@ public class GridFragment extends Fragment {
 
         mItemAdapter = new ItemAdapter(activity, getParseQuery());
         mItemAdapter.setAutoload(false);
+//        mItemAdapter.setPaginationEnabled(false);
+//        mItemAdapter.setObjectsPerPage(10);
 
         try {
             mListener = (OnFragmentInteractionListener) activity;
@@ -155,7 +156,7 @@ public class GridFragment extends Fragment {
         super.onResume();
         if(mItemAdapter != null){
             swipeContainer.setRefreshing(true);
-            mItemAdapter.loadObjects();
+            reloadItems();
             swipeContainer.setRefreshing(false);
         }
     }

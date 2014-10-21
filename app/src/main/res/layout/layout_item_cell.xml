@@ -14,7 +14,7 @@
         android:orientation="vertical"
         android:padding="5dp">
 
-        <com.parse.ParseImageView
+        <ImageView
             android:id="@+id/ivItemCellImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

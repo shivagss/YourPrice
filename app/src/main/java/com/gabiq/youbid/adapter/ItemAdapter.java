@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.gabiq.youbid.R;
@@ -19,6 +20,7 @@ import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
+import com.squareup.picasso.Picasso;
 
 import java.math.BigInteger;
 import java.util.Random;
@@ -29,6 +31,10 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
         super(context, parseQuery);
     }
 
+//    @Override
+//    protected void setPageOnQuery(int page, ParseQuery<Item> query) {
+//        super.setPageOnQuery(page, query);
+//    }
 
     @Override
     public View getItemView(final Item item, View convertView, ViewGroup parent) {
@@ -39,7 +45,7 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
 
             viewHolder = new ViewHolder();
             viewHolder.tvItemCellCaption = (TextView) convertView.findViewById(R.id.tvItemCellCaption);
-            viewHolder.ivItemCellImage = (ParseImageView) convertView.findViewById(R.id.ivItemCellImage);
+            viewHolder.ivItemCellImage = (ImageView) convertView.findViewById(R.id.ivItemCellImage);
             viewHolder.btnItemCellFavorite = (Button) convertView.findViewById(R.id.btnItemCellFavorite);
 
             viewHolder.btnItemCellFavorite.setOnTouchListener(new View.OnTouchListener() {
@@ -62,54 +68,49 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
 
         super.getItemView(item, convertView, parent);
 
-//        Random r = new Random();
-        // convert to big integer
         BigInteger bigInt = new BigInteger(item.getObjectId().getBytes());
 
+        int imageResource = 0;
         switch (bigInt.intValue() % 5) {
             case 0:
-                viewHolder.ivItemCellImage.setPlaceholder(getContext().getResources().getDrawable(R.color.placeholder1));
+                imageResource = R.color.placeholder1;
                 break;
             case 1:
-                viewHolder.ivItemCellImage.setPlaceholder(getContext().getResources().getDrawable(R.color.placeholder2));
+                imageResource = R.color.placeholder2;
                 break;
             case 2:
-                viewHolder.ivItemCellImage.setPlaceholder(getContext().getResources().getDrawable(R.color.placeholder3));
+                imageResource = R.color.placeholder3;
                 break;
             case 3:
-                viewHolder.ivItemCellImage.setPlaceholder(getContext().getResources().getDrawable(R.color.placeholder4));
+                imageResource = R.color.placeholder4;
                 break;
             case 4:
-                viewHolder.ivItemCellImage.setPlaceholder(getContext().getResources().getDrawable(R.color.placeholder5));
+                imageResource = R.color.placeholder5;
                 break;
         }
 
-        int i = 6; // r.nextInt(10);
-
+        viewHolder.itemId = item.getObjectId();
         viewHolder.tvItemCellCaption.setText(item.getString("caption"));
+        viewHolder.ivItemCellImage.setImageResource(imageResource);
+
         ParseFile photoFile = item.getParseFile("thumbnail");
         if (photoFile != null) {
-            viewHolder.ivItemCellImage.setParseFile(photoFile);
-//            imageView.setMinimumHeight(200+i*25);
-//            imageView.setMaxHeight(200+i*25);
-            viewHolder.ivItemCellImage.loadInBackground(new GetDataCallback() {
-                @Override
-                public void done(byte[] data, ParseException e) {
-                    // nothing to do
-                }
-            });
-        } else {
-            viewHolder.ivItemCellImage.setParseFile(null);
+            Picasso.with(getContext())
+                    .load(photoFile.getUrl())
+                    .placeholder(getContext().getResources().getDrawable(imageResource))
+                    .into(viewHolder.ivItemCellImage);
         }
 
         // set favorite
         viewHolder.btnItemCellFavorite.setPressed(false);
         ParseQuery<Favorite> query = ParseQuery.getQuery("Favorite");
         query.whereEqualTo("user", ParseUser.getCurrentUser());
-        query.whereEqualTo("itemId", item.getObjectId());
+        final String itemId = item.getObjectId();
+        query.whereEqualTo("itemId", itemId);
         final ViewHolder vh = viewHolder;
         query.getFirstInBackground(new GetCallback<Favorite>() {
             public void done(Favorite favorite, ParseException e) {
+                if (!vh.itemId.equals(itemId)) return;
                 boolean isFavorite = (favorite != null);
                 item.setFavorite(isFavorite);
                 vh.btnItemCellFavorite.setPressed(isFavorite);
@@ -120,8 +121,9 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
     }
 
     private static class ViewHolder {
+        String itemId;
+        ImageView ivItemCellImage;
         TextView tvItemCellCaption;
-        ParseImageView ivItemCellImage;
         Button btnItemCellFavorite;
     }
 
