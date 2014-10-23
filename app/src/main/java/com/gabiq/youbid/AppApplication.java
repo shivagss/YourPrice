@@ -5,6 +5,7 @@ import android.app.Application;
 import com.gabiq.youbid.model.Bid;
 import com.gabiq.youbid.model.Comment;
 import com.gabiq.youbid.model.Favorite;
+import com.gabiq.youbid.model.Followers;
 import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.model.Keyword;
 import com.gabiq.youbid.model.Message;
@@ -30,6 +31,7 @@ public class AppApplication extends com.activeandroid.app.Application {
         ParseObject.registerSubclass(Bid.class);
         ParseObject.registerSubclass(Favorite.class);
         ParseObject.registerSubclass(Message.class);
+        ParseObject.registerSubclass(Followers.class);
         Parse.initialize(this, getString(R.string.parse_app_id),
                 getString(R.string.parse_client_key));
 

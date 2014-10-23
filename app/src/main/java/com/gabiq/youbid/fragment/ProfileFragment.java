@@ -16,10 +16,10 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +27,13 @@ import com.aviary.android.feather.library.Constants;
 import com.aviary.android.feather.sdk.FeatherActivity;
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.activity.EditProfileActivity;
+import com.gabiq.youbid.activity.UserListActivity;
+import com.gabiq.youbid.model.Followers;
+import com.gabiq.youbid.model.Item;
+import com.parse.CountCallback;
+import com.parse.DeleteCallback;
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -71,7 +77,13 @@ public class ProfileFragment extends Fragment {
     private Button btnUnFollow;
     private Bitmap photoBitmap;
     private ProgressDialog mProgressDialog;
-
+    private Followers mFollower;
+    private int mItemsCount;
+    private int mFollowingCount;
+    private int mFollowersCount;
+    private Button btnFollowingCount;
+    private Button btnFollowersCount;
+    private Button btnItems;
 
     /**
      * Use this factory method to create a new instance of
@@ -126,41 +138,44 @@ public class ProfileFragment extends Fragment {
     }
 
     private void updateUI() {
+        btnFollow.setVisibility(View.GONE);
+        btnUnFollow.setVisibility(View.GONE);
+
         ParseQuery<ParseUser> query = ParseUser.getQuery();
-        query.whereEqualTo("objectId", userId);
-        query.findInBackground(new FindCallback<ParseUser>() {
-            public void done(List<ParseUser> objects, ParseException e) {
-                if (e == null) {
-                    mUser = (ParseUser) objects.get(0);
-                    if(mUser.getObjectId().equalsIgnoreCase(ParseUser.getCurrentUser().getObjectId())){
-                        btnEditProfile.setVisibility(View.VISIBLE);
-                        btnFollow.setVisibility(View.GONE);
-                    }else{
-                        btnEditProfile.setVisibility(View.GONE);
-                        btnFollow.setVisibility(View.VISIBLE);
-                    }
-                    tvUserName.setText(mUser.getString("name"));
-                    tvScreenName.setText(mUser.getString("username"));
-//                    tvUserName.setText(mUser.getString("location"));
-                    tvWebsite.setText(mUser.getString("website"));
-                    tvDescription.setText(mUser.getString("about"));
-                    ParseFile photoFile = mUser.getParseFile("photo");
-                    if (photoFile != null) {
-                        ivProfilePic.setParseFile(photoFile);
-                        ivProfilePic.loadInBackground(new GetDataCallback() {
-                            @Override
-                            public void done(byte[] data, ParseException e) {
-                                // nothing to do
-                            }
-                        });
-                    }
-                } else {
-                    // Something went wrong.
+    query.whereEqualTo("objectId", userId);
+    query.findInBackground(new FindCallback<ParseUser>() {
+        public void done(List<ParseUser> objects, ParseException e) {
+            if (e == null) {
+                mUser = (ParseUser) objects.get(0);
+                if(mUser.getObjectId().equalsIgnoreCase(ParseUser.getCurrentUser().getObjectId())){
+                    btnEditProfile.setVisibility(View.VISIBLE);
+                }else{
+                    btnEditProfile.setVisibility(View.GONE);
                 }
-                dismissProgress();
+                queryUserData();
+
+                tvUserName.setText(mUser.getString("name"));
+                tvScreenName.setText(mUser.getString("username"));
+//                    tvUserName.setText(mUser.getString("location"));
+                tvWebsite.setText(mUser.getString("website"));
+                tvDescription.setText(mUser.getString("about"));
+                ParseFile photoFile = mUser.getParseFile("photo");
+                if (photoFile != null) {
+                    ivProfilePic.setParseFile(photoFile);
+                    ivProfilePic.loadInBackground(new GetDataCallback() {
+                        @Override
+                        public void done(byte[] data, ParseException e) {
+                            // nothing to do
+                        }
+                    });
+                }
+            } else {
+                // Something went wrong.
             }
-        });
-    }
+            dismissProgress();
+        }
+    });
+}
 
     private void setupViews(View v) {
         ivBackgroundPic = (ParseImageView) v.findViewById(R.id.ivBackgroundPic);
@@ -180,7 +195,52 @@ public class ProfileFragment extends Fragment {
         tvDescription = (TextView) v.findViewById(R.id.tvUserDescription);
         btnEditProfile = (Button) v.findViewById(R.id.btnEditProfile);
         btnFollow = (Button) v.findViewById(R.id.btnFollowIcon);
+        btnFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ParseUser follower = ParseUser.getCurrentUser();
+                ParseUser following = mUser;
+                Followers followers = new Followers(follower, following);
+                followers.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e != null){
+                            Toast.makeText(getActivity(), "Error following user. Please try again later.", Toast.LENGTH_LONG).show();
+                            btnFollow.setVisibility(View.VISIBLE);
+                            btnUnFollow.setVisibility(View.GONE);
+                        }else{
+                            btnFollow.setVisibility(View.GONE);
+                            btnUnFollow.setVisibility(View.VISIBLE);
+                            queryUserData();
+                        }
+                    }
+                });
+            }
+        });
         btnUnFollow = (Button) v.findViewById(R.id.btnFollowingIcon);
+        btnUnFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(mFollower == null){
+                    Toast.makeText(getActivity(), "Error while unfollowing user. Please try again later.", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                mFollower.deleteInBackground(new DeleteCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if(e != null){
+                            Toast.makeText(getActivity(), "Error following user. Please try again later.", Toast.LENGTH_LONG).show();
+                            btnFollow.setVisibility(View.GONE);
+                            btnUnFollow.setVisibility(View.VISIBLE);
+                        }else{
+                            btnFollow.setVisibility(View.VISIBLE);
+                            btnUnFollow.setVisibility(View.GONE);
+                            queryUserData();
+                        }
+                    }
+                });
+            }
+        });
 
         btnEditProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,8 +250,95 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        btnItems = (Button) v.findViewById(R.id.btnItems);
+        btnFollowersCount = (Button) v.findViewById(R.id.btnFollowers);
+        btnFollowingCount = (Button) v.findViewById(R.id.btnFollowing);
+        btnFollowingCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), UserListActivity.class);
+                intent.putExtra("type", "following");
+                intent.putExtra("userId", mUser.getObjectId());
+                startActivity(intent);
+            }
+        });
+
+        btnFollowersCount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), UserListActivity.class);
+                intent.putExtra("type", "followers");
+                intent.putExtra("userId", mUser.getObjectId());
+                startActivity(intent);
+            }
+        });
+
     }
 
+    private void queryUserData(){
+        if(!mUser.getObjectId().equalsIgnoreCase(ParseUser.getCurrentUser().getObjectId())) {
+            ParseQuery<Followers> isFollowingParseQuery = ParseQuery.getQuery(Followers.class);
+            isFollowingParseQuery.whereEqualTo("follower", ParseUser.getCurrentUser());
+            isFollowingParseQuery.whereEqualTo("following", mUser);
+            isFollowingParseQuery.getFirstInBackground(new GetCallback<Followers>() {
+                @Override
+                public void done(Followers followers, ParseException e) {
+                    if (e == null) {
+                        mFollower = followers;
+                        if (mFollower != null) {
+                            btnUnFollow.setVisibility(View.VISIBLE);
+                            btnFollow.setVisibility(View.GONE);
+                        }
+                    } else {
+                        btnFollow.setVisibility(View.VISIBLE);
+                        btnUnFollow.setVisibility(View.GONE);
+                    }
+                }
+            });
+        }
+
+        ParseQuery<Item> itemParseQuery = ParseQuery.getQuery(Item.class);
+        itemParseQuery.whereEqualTo("createdBy", mUser);
+        itemParseQuery.countInBackground(new CountCallback() {
+            @Override
+            public void done(int i, ParseException e) {
+                if(e != null){
+                    Toast.makeText(getActivity(), "Error getting user items. Please try again later.", Toast.LENGTH_LONG).show();
+                }else{
+                    mItemsCount = i;
+                    btnItems.setText(i+"\nITEMS");
+                }
+            }
+        });
+
+        ParseQuery<Followers> followersParseQuery = ParseQuery.getQuery(Followers.class);
+        followersParseQuery.whereEqualTo("following", mUser);
+        followersParseQuery.countInBackground(new CountCallback() {
+            @Override
+            public void done(int i, ParseException e) {
+                if(e != null){
+                    Toast.makeText(getActivity(), "Error getting user items. Please try again later.", Toast.LENGTH_LONG).show();
+                }else{
+                    mFollowersCount = i;
+                    btnFollowersCount.setText(i+"\nFOLLOWERS");
+                }
+            }
+        });
+
+        ParseQuery<Followers> followingParseQuery = ParseQuery.getQuery(Followers.class);
+        followingParseQuery.whereEqualTo("follower", mUser);
+        followingParseQuery.countInBackground(new CountCallback() {
+            @Override
+            public void done(int i, ParseException e) {
+                if(e != null){
+                    Toast.makeText(getActivity(), "Error getting user items. Please try again later.", Toast.LENGTH_LONG).show();
+                }else{
+                    mFollowingCount = i;
+                    btnFollowingCount.setText(i+"\nFOLLOWING");
+                }
+            }
+        });
+    }
 
     private static File getOutputMediaFile() {
         File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
