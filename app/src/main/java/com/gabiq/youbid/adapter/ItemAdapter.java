@@ -108,20 +108,20 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
         }
 
         // set favorite
-        viewHolder.btnItemCellFavorite.setPressed(false);
-        ParseQuery<Favorite> query = ParseQuery.getQuery("Favorite");
-        query.whereEqualTo("user", ParseUser.getCurrentUser());
-        final String itemId = item.getObjectId();
-        query.whereEqualTo("itemId", itemId);
-        final ViewHolder vh = viewHolder;
-        query.getFirstInBackground(new GetCallback<Favorite>() {
-            public void done(Favorite favorite, ParseException e) {
-                if (!vh.itemId.equals(itemId)) return;
-                boolean isFavorite = (favorite != null);
-                item.setFavorite(isFavorite);
-                vh.btnItemCellFavorite.setPressed(isFavorite);
-            }
-        });
+//        viewHolder.btnItemCellFavorite.setPressed(false);
+//        ParseQuery<Favorite> query = ParseQuery.getQuery("Favorite");
+//        query.whereEqualTo("user", ParseUser.getCurrentUser());
+//        final String itemId = item.getObjectId();
+//        query.whereEqualTo("itemId", itemId);
+//        final ViewHolder vh = viewHolder;
+//        query.getFirstInBackground(new GetCallback<Favorite>() {
+//            public void done(Favorite favorite, ParseException e) {
+//                if (!vh.itemId.equals(itemId)) return;
+//                boolean isFavorite = (favorite != null);
+//                item.setFavorite(isFavorite);
+//                vh.btnItemCellFavorite.setPressed(isFavorite);
+//            }
+//        });
 
         return convertView;
     }
