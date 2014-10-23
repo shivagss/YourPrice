@@ -29,7 +29,21 @@
             android:ellipsize="end"
             android:maxLines="3"
             android:text="@string/item_cell_item_caption" />
+
+
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/ivItemCellSold"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:adjustViewBounds="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:scaleType="fitXY"
+        android:visibility="visible"
+        android:src="@drawable/ic_sold" />
 
     <Button
         android:id="@+id/btnItemCellFavorite"

@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -42,6 +44,7 @@ public class SubmitOfferFragment extends Fragment {
     private Item item;
     private ImageView ivItemPic;
     private TextView tvCaption;
+    private CheckBox cbItemSold;
     private ProgressBar progressBar;
     private View view;
     private RelativeLayout bidSection;
@@ -82,7 +85,7 @@ public class SubmitOfferFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_submit_offer, container, false);
 
 
-        etBidAmount = (EditText)view.findViewById(R.id.etBidAmount);
+        etBidAmount = (EditText) view.findViewById(R.id.etBidAmount);
 
         btnBid = (Button)view.findViewById(R.id.btnBid);
         tvBidStatus = (TextView)view.findViewById(R.id.tvBidStatus);
@@ -103,6 +106,17 @@ public class SubmitOfferFragment extends Fragment {
 
         bidSection = (RelativeLayout)view.findViewById(R.id.bidSection);
         retrieveItem(itemId);
+
+        cbItemSold = (CheckBox) view.findViewById(R.id.cbItemSold);
+        cbItemSold.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (item != null) {
+                    item.setHasSold(b);
+                    item.saveInBackground();
+                }
+            }
+        });
 
         progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
 
@@ -200,10 +214,14 @@ public class SubmitOfferFragment extends Fragment {
         TextView tvDesc = (TextView)view.findViewById(R.id.tvDescription);
         tvDesc.setText(item.getDescription());
 
-        if(item.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId()))
+        if(item.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
             bidSection.setVisibility(View.GONE);
-        else
+            cbItemSold.setVisibility(View.VISIBLE);
+            cbItemSold.setChecked(item.getHasSold());
+        } else {
             bidSection.setVisibility(View.VISIBLE);
+            cbItemSold.setVisibility(View.GONE);
+        }
 
     }
 

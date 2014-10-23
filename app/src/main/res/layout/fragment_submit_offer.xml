@@ -115,7 +115,19 @@ xmlns:tools="http://schemas.android.com/tools"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
              />
-    </RelativeLayout>
+
+            <CheckBox
+                android:id="@+id/cbItemSold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvDescription"
+                android:layout_margin="10dp"
+                android:layout_centerHorizontal="true"
+                android:visibility="gone"
+                android:text="@string/item_sold" />
+        </RelativeLayout>
+
+
     </ScrollView>
 
 

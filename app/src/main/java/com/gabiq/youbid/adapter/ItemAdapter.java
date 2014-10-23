@@ -47,6 +47,7 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
             viewHolder.tvItemCellCaption = (TextView) convertView.findViewById(R.id.tvItemCellCaption);
             viewHolder.ivItemCellImage = (ImageView) convertView.findViewById(R.id.ivItemCellImage);
             viewHolder.btnItemCellFavorite = (Button) convertView.findViewById(R.id.btnItemCellFavorite);
+            viewHolder.ivItemCellSold = (ImageView) convertView.findViewById(R.id.ivItemCellSold);
 
             viewHolder.btnItemCellFavorite.setOnTouchListener(new View.OnTouchListener() {
 
@@ -92,6 +93,11 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
         viewHolder.itemId = item.getObjectId();
         viewHolder.tvItemCellCaption.setText(item.getString("caption"));
         viewHolder.ivItemCellImage.setImageResource(imageResource);
+        if (item.getHasSold()) {
+            viewHolder.ivItemCellSold.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.ivItemCellSold.setVisibility(View.GONE);
+        }
 
         ParseFile photoFile = item.getParseFile("thumbnail");
         if (photoFile != null) {
@@ -123,6 +129,7 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
     private static class ViewHolder {
         String itemId;
         ImageView ivItemCellImage;
+        ImageView ivItemCellSold;
         TextView tvItemCellCaption;
         Button btnItemCellFavorite;
     }
