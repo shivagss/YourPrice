@@ -42,7 +42,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:scaleType="fitXY"
-        android:visibility="visible"
+        android:visibility="gone"
         android:src="@drawable/ic_sold" />
 
     <Button

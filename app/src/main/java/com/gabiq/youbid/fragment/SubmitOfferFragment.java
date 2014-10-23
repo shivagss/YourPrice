@@ -23,6 +23,7 @@ import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 
 
@@ -45,6 +46,7 @@ public class SubmitOfferFragment extends Fragment {
     private ImageView ivItemPic;
     private TextView tvCaption;
     private CheckBox cbItemSold;
+    private ImageView ivItemSold;
     private ProgressBar progressBar;
     private View view;
     private RelativeLayout bidSection;
@@ -110,13 +112,24 @@ public class SubmitOfferFragment extends Fragment {
         cbItemSold = (CheckBox) view.findViewById(R.id.cbItemSold);
         cbItemSold.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+            public void onCheckedChanged(CompoundButton compoundButton, final boolean b) {
                 if (item != null) {
                     item.setHasSold(b);
-                    item.saveInBackground();
+                    item.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+                            if (b) {
+                                ivItemSold.setVisibility(View.VISIBLE);
+                            } else {
+                                ivItemSold.setVisibility(View.GONE);
+                            }
+                        }
+                    });
                 }
             }
         });
+
+        ivItemSold = (ImageView) view.findViewById(R.id.ivItemSold);
 
         progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
 
@@ -214,13 +227,21 @@ public class SubmitOfferFragment extends Fragment {
         TextView tvDesc = (TextView)view.findViewById(R.id.tvDescription);
         tvDesc.setText(item.getDescription());
 
-        if(item.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId())) {
+        boolean isSeller = item.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
+        if (isSeller) {
             bidSection.setVisibility(View.GONE);
             cbItemSold.setVisibility(View.VISIBLE);
             cbItemSold.setChecked(item.getHasSold());
         } else {
             bidSection.setVisibility(View.VISIBLE);
             cbItemSold.setVisibility(View.GONE);
+        }
+
+        if (item.getHasSold()) {
+            ivItemSold.setVisibility(View.VISIBLE);
+            bidSection.setVisibility(View.GONE);
+        } else {
+            ivItemSold.setVisibility(View.GONE);
         }
 
     }
