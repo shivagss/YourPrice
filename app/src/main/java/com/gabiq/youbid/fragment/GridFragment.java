@@ -11,6 +11,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.etsy.android.grid.StaggeredGridView;
@@ -22,13 +24,17 @@ import com.gabiq.youbid.utils.EndlessScrollListener;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
+import java.util.List;
+
 public class GridFragment extends Fragment {
     public static final String INTENT_EXTRA_ITEM = "item";
 
     private StaggeredGridView mGvItemGrid;
     private ItemAdapter mItemAdapter;
-    private ImageView mEmptyImage;
-    private TextView mEmptyLabel;
+//    private ImageView mEmptyImage;
+//    private TextView mEmptyLabel;
+    private ProgressBar progressBar;
+    private RelativeLayout emptySection;
     private SwipeRefreshLayout swipeContainer;
 
     private OnFragmentInteractionListener mListener;
@@ -74,9 +80,10 @@ public class GridFragment extends Fragment {
 
     private void setupViews(View view) {
         mGvItemGrid = (StaggeredGridView) view.findViewById(R.id.gvItemGrid);
-        mGvItemGrid.setEmptyView(view.findViewById(android.R.id.empty));
-        mEmptyLabel = (TextView) view.findViewById(R.id.empty_label);
-        mEmptyImage = (ImageView) view.findViewById(R.id.empty_image);
+        emptySection = (RelativeLayout) view.findViewById(R.id.emptySection);
+        mGvItemGrid.setEmptyView(emptySection);
+//        mEmptyLabel = (TextView) view.findViewById(R.id.empty_label);
+//        mEmptyImage = (ImageView) view.findViewById(R.id.empty_image);
 
         mGvItemGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -89,6 +96,8 @@ public class GridFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
     }
 
@@ -132,6 +141,19 @@ public class GridFragment extends Fragment {
         mItemAdapter.setAutoload(false);
 //        mItemAdapter.setPaginationEnabled(false);
 //        mItemAdapter.setObjectsPerPage(10);
+
+        mItemAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Item>() {
+            @Override
+            public void onLoading() {
+                progressBar.setVisibility(View.VISIBLE);
+                emptySection.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onLoaded(List<Item> items, Exception e) {
+                progressBar.setVisibility(View.GONE);
+            }
+        });
 
         try {
             mListener = (OnFragmentInteractionListener) activity;
