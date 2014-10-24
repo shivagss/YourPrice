@@ -61,12 +61,17 @@ public class User {
 
     public void setLocation(ParseGeoPoint location) {
         user.put("location", location);
+        //TODO: Update the locationText as well by reverse geo lookup
     }
 
     public String getLocationText()
     {
-        //TODO: Hardcoding now. It should be based on the Location attribute reverse geo
-        return "Sunnyvale, CA";
+       return "Sunnyvale, CA";
+       //return user.getString("locationText");
+    }
+
+    public void setLocationText(String locationText){
+        user.put("locationText",locationText);
     }
 
     // Favorites accessors

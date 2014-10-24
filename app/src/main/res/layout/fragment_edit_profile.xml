@@ -201,5 +201,31 @@
                 android:padding="10dp" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/lyMapSelection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="@string/label_location"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnNewLocation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:background="@drawable/edit_text_box"
+                android:gravity="right|center_vertical"
+                android:hint="@string/hint_tap_to_select"
+                android:padding="10dp" />
+        </LinearLayout>
+
     </LinearLayout>
 </ScrollView>

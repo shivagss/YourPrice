@@ -90,4 +90,5 @@
     <string name="btn_bid_reject">REJECT</string>
     <string name="bid_status_label">Offer Status:</string>
     <string name="item_sold">Item Sold</string>
+    <string name="hint_tap_to_select">Tap to select</string>
 </resources>

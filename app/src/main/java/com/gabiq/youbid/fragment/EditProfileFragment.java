@@ -2,6 +2,7 @@ package com.gabiq.youbid.fragment;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -22,14 +23,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.aviary.android.feather.library.Constants;
 import com.aviary.android.feather.sdk.FeatherActivity;
 import com.gabiq.youbid.R;
-import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.utils.Utils;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
@@ -63,6 +63,7 @@ public class EditProfileFragment extends Fragment {
     private EditText etWebsite;
     private boolean mPhotoChanged;
     private ParseUser mUser;
+    private Button mLocation;
 
     public EditProfileFragment() {
     }
@@ -150,6 +151,20 @@ public class EditProfileFragment extends Fragment {
 //        etLocation.setText((TextUtils.isEmpty(location)?"":location));
         etWebsite = (EditText) v.findViewById(R.id.etWebsite);
         etDescription = (EditText) v.findViewById(R.id.etDescription);
+
+        mLocation = (Button)v.findViewById(R.id.btnNewLocation);
+        mLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showMapDialog();
+            }
+        });
+    }
+
+    private void showMapDialog() {
+        FragmentManager fm = getFragmentManager();
+        LocationFragment locationDialog = LocationFragment.newInstance("Some Title","");
+        locationDialog.show(fm, "fragment_location");
     }
 
     private void updateUI(ParseUser user) {
@@ -157,7 +172,7 @@ public class EditProfileFragment extends Fragment {
         String name = user.getString("name");
         String username = user.getString("username");
         String email = user.getString("email");
-        String location = user.getString("location");
+        String location = user.getString("locationText");
         String website = user.getString("website");
         String about = user.getString("about");
 
@@ -168,6 +183,8 @@ public class EditProfileFragment extends Fragment {
 //        etLocation.setText((TextUtils.isEmpty(location)?"":location));
         etWebsite.setText((TextUtils.isEmpty(website)?"":website));
         etDescription.setText((TextUtils.isEmpty(about)?"":about));
+        mLocation.setText(TextUtils.isEmpty(location)?
+               getResources().getString(R.string.hint_tap_to_select): location);
 
         ParseFile photoFile = user.getParseFile("photo");
         if (photoFile != null) {
