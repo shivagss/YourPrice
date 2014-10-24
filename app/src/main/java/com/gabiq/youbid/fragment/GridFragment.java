@@ -125,7 +125,6 @@ public class GridFragment extends Fragment {
         mGvItemGrid.setOnScrollListener(new EndlessScrollListener() {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                // this may not be needed
                 mItemAdapter.loadNextPage();
             }
         });
@@ -145,7 +144,7 @@ public class GridFragment extends Fragment {
         mItemAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Item>() {
             @Override
             public void onLoading() {
-                progressBar.setVisibility(View.VISIBLE);
+//                progressBar.setVisibility(View.VISIBLE);
                 emptySection.setVisibility(View.GONE);
             }
 

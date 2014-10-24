@@ -11,6 +11,7 @@ import android.widget.ListView;
 
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.fragment.DetailsFragment;
+import com.gabiq.youbid.fragment.FollowingItemsFragment;
 import com.gabiq.youbid.fragment.RecentActivityFragment;
 import com.gabiq.youbid.fragment.FavoriteItemsFragment;
 import com.gabiq.youbid.fragment.FragmentNavigationDrawer;
@@ -97,6 +98,7 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
         // Add nav items
         dlDrawer.addNavItem("Items for Sale", R.drawable.ic_action_new, "Items for Sale", SearchItemFragment.class);
         dlDrawer.addNavItem("My Profile", R.drawable.ic_icon_profile, "My Profile", ProfileFragment.class);
+        dlDrawer.addNavItem("Following", R.drawable.ic_action_new, "Following", FollowingItemsFragment.class);
         dlDrawer.addNavItem("My Favorites", R.drawable.ic_action_new, "My Favorites", FavoriteItemsFragment.class);
         dlDrawer.addNavItem("My Offers", R.drawable.ic_action_photo, "My Offers", MyBidsFragment.class);
         dlDrawer.addNavItem("Notifications", R.drawable.ic_action_photo, "Notifications", RecentActivityFragment.class);

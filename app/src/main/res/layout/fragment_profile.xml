@@ -175,7 +175,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btnTweets"
+                android:id="@+id/btnItems"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_margin="2dp"
@@ -183,7 +183,7 @@
                 android:background="@android:color/white"
                 android:gravity="left|center_vertical"
                 android:paddingLeft="10dp"
-                android:text="32\nPOSTS"
+                android:text="POSTS"
                 android:textColor="@color/secondary_text_color"
                 android:textSize="12sp" />
 
@@ -202,7 +202,7 @@
                 android:background="@android:color/white"
                 android:gravity="left|center_vertical"
                 android:paddingLeft="10dp"
-                android:text="12\nFOLLOWERS"
+                android:text="FOLLOWERS"
                 android:textColor="@color/secondary_text_color"
                 android:textSize="12sp" />
 
@@ -222,7 +222,7 @@
                 android:background="@android:color/white"
                 android:gravity="left|center_vertical"
                 android:paddingLeft="10dp"
-                android:text="7\nFOLLOWING"
+                android:text="FOLLOWING"
                 android:textColor="@color/secondary_text_color"
                 android:textSize="12sp" />
         </LinearLayout>

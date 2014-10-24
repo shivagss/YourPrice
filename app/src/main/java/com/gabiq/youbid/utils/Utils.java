@@ -4,6 +4,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.text.format.DateUtils;
 
 import java.util.Date;
@@ -108,5 +111,18 @@ public class Utils {
 
         return result.toString();
     }
+
+    // Play a ring tone when a notification is displayed
+    public static void tryPlayRingtone(Context context) {
+        try {
+            Uri notification = RingtoneManager
+                    .getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Ringtone r = RingtoneManager.getRingtone(
+                    context.getApplicationContext(), notification);
+            r.play();
+        } catch (Exception e) {
+        }
+    }
+
 
 }

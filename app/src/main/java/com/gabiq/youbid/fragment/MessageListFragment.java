@@ -2,8 +2,11 @@ package com.gabiq.youbid.fragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -28,6 +31,7 @@ import com.gabiq.youbid.model.Bid;
 import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.model.Message;
 import com.gabiq.youbid.utils.EndlessScrollListener;
+import com.gabiq.youbid.utils.Utils;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -35,6 +39,9 @@ import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MessageListFragment extends Fragment {
     private static final String ARG_ITEM_ID = "itemId";
@@ -57,6 +64,35 @@ public class MessageListFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private BroadcastReceiver mNotificationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent.hasExtra("ordered")) {
+                abortBroadcast();
+
+                String jsonString = intent.getStringExtra("com.parse.Data");
+                if (jsonString != null) {
+                    try {
+                        JSONObject json = new JSONObject(jsonString);
+                        if (json != null) {
+                            if (json.has("type")) {
+                                String type = json.getString("type");
+                                if (type.equals("message")) {
+                                    if (messageListAdapter != null) {
+                                        messageListAdapter.loadObjects();
+                                        Utils.tryPlayRingtone(getActivity());
+                                    }
+                                }
+                            }
+                        }
+                    } catch (JSONException e) {
+                        Log.e("Error", "Error parsing json in push notification in MessageListFragment" + e.toString());
+                    }
+                }
+            }
+        }
+    };
 
     public static MessageListFragment newInstance(String bidId, String itemId, boolean isSeller) {
         MessageListFragment fragment = new MessageListFragment();
@@ -85,6 +121,23 @@ public class MessageListFragment extends Fragment {
             isSeller = getArguments().getBoolean(ARG_ISSELLER_ID);
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        IntentFilter filter = new IntentFilter("com.parse.push.intent.RECEIVE");
+        filter.setPriority(1);
+
+        getActivity().registerReceiver(mNotificationReceiver, filter);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(mNotificationReceiver);
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

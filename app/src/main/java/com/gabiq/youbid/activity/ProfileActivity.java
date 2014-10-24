@@ -2,6 +2,8 @@ package com.gabiq.youbid.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.fragment.GridFragment;
@@ -15,6 +17,7 @@ public class ProfileActivity extends FragmentActivity implements GridFragment.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         String userId = getIntent().getStringExtra("userId");
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         if (savedInstanceState == null) {
 
             ProfileFragment fragment = ProfileFragment.newInstance(userId);
@@ -32,5 +35,20 @@ public class ProfileActivity extends FragmentActivity implements GridFragment.On
     @Override
     public void onFragmentMessage() {
 
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem menuItem) {
+        int id = menuItem.getItemId();
+        if (id == android.R.id.home) {
+            finish();
+        }
+        return super.onOptionsItemSelected(menuItem);
     }
 }

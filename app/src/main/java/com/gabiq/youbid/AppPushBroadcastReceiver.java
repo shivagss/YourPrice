@@ -64,12 +64,20 @@ public class AppPushBroadcastReceiver extends ParsePushBroadcastReceiver {
 
     @Override
     protected void onPushReceive(Context context, Intent intent) {
-        super.onPushReceive(context, intent);
-        Log.d("INFO", "****** received push notification");
 
         Bundle extras = intent.getExtras();
-        if (extras != null) {
-            createNotification(extras);
+        if (intent.hasExtra("ordered")) {
+            super.onPushReceive(context, intent);
+
+            if (extras != null) {
+                createNotification(extras);
+            }
+
+        } else {
+            Intent newIntent = new Intent("com.parse.push.intent.RECEIVE");
+            newIntent.putExtras(intent.getExtras());
+            newIntent.putExtra("ordered", true);
+            context.sendOrderedBroadcast(newIntent, null, null, null, Activity.RESULT_OK, null, null);
         }
     }
 
