@@ -226,6 +226,9 @@ public class DetailsFragment extends Fragment {
             startActivity(intent);
             return true;
         }
+        if(id == R.id.action_share){
+            onShareItem(item);
+        }
         if (id == R.id.action_delete) {
             if(item != null){
                 showProgress("Deleting item...");
@@ -245,6 +248,20 @@ public class DetailsFragment extends Fragment {
             return true;
         }
         return super.onOptionsItemSelected(menuItem);
+    }
+
+    // Can be triggered by a view event such as a button press
+    public void onShareItem(Item item) {
+        showProgress("Loading...");
+        if(item!=null) {
+            String text = "Check out this " + item.getCaption() +": http://yourprice.com/viewitem?item_id=" +item.getObjectId() +"";
+            Intent sendIntent = new Intent();
+            sendIntent.setAction(Intent.ACTION_SEND);
+            sendIntent.putExtra(Intent.EXTRA_TEXT, text);
+            sendIntent.setType("text/plain");
+            startActivity(Intent.createChooser(sendIntent, "Share via"));
+        }
+        dismissProgress();
     }
 
     private ProgressDialog mProgressDialog;

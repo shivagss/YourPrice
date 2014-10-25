@@ -63,6 +63,12 @@
             android:name=".activity.DetailsActivity"
             android:label="@string/title_activity_details"
             android:screenOrientation="portrait" >
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="http" android:host="yourprice.com"/>
+            </intent-filter>
         </activity>
         <activity
             android:name=".activity.LoginActivity"
