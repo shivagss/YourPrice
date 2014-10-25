@@ -1,7 +1,9 @@
 package com.gabiq.youbid.activity;
 
+import android.animation.Animator;
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -13,8 +15,16 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.AnticipateOvershootInterpolator;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.GridView;
+import android.widget.Scroller;
 import android.widget.Toast;
 
 import com.gabiq.youbid.R;
@@ -35,6 +45,7 @@ import com.parse.SaveCallback;
 import com.viewpagerindicator.CirclePageIndicator;
 
 import java.io.ByteArrayOutputStream;
+import java.lang.reflect.Field;
 import java.util.List;
 
 public class CreateItemActivity extends FragmentActivity implements OnNewItemFragmentInteractionListener {
@@ -44,6 +55,17 @@ public class CreateItemActivity extends FragmentActivity implements OnNewItemFra
     private CreateItemFragmentAdapter mAdapter;
     private Item mItem;
     private ProgressDialog mProgressDialog;
+    private static Interpolator sAnimator = new OvershootInterpolator();
+
+    private static final Interpolator sInterpolator = new Interpolator() {
+        public float getInterpolation(float t) {
+            t -= 1.0f;
+            return t * t * t * t * t + 1.0f;
+        }
+    };
+
+    private Field mScroller;
+    private FixedSpeedScroller scroller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,34 +87,22 @@ public class CreateItemActivity extends FragmentActivity implements OnNewItemFra
         mPager.setAdapter(mAdapter);
         mPager.setPageTransformer(true, new ParallaxPageTransformer());
 
+        try {
+            mScroller = ViewPager.class.getDeclaredField("mScroller");
+            mScroller.setAccessible(true);
+            scroller = new FixedSpeedScroller(mPager.getContext(), sAnimator);
+            scroller.setDuration(1500);
+            mScroller.set(mPager, scroller);
+        } catch (NoSuchFieldException e) {
+        } catch (IllegalArgumentException e) {
+        } catch (IllegalAccessException e1) {
+        }
+
         mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
         mIndicator.setViewPager(mPager);
-        ((CirclePageIndicator) mIndicator).setSnap(true);
-        ((CirclePageIndicator) mIndicator).setFillColor(getResources().getColor(R.color.com_facebook_blue));
-        ((CirclePageIndicator) mIndicator).setStrokeColor(getResources().getColor(R.color.primary_color));
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.item, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_save) {
-            saveItem();
-            return true;
-        }
-        if (id == android.R.id.home) {
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
+        mIndicator.setSnap(true);
+        mIndicator.setFillColor(getResources().getColor(R.color.com_facebook_blue));
+        mIndicator.setStrokeColor(getResources().getColor(R.color.primary_color));
     }
 
     @Override
@@ -149,6 +159,10 @@ public class CreateItemActivity extends FragmentActivity implements OnNewItemFra
             }
 
         });
+    }
+
+    public void nextPage(int position){
+        mPager.setCurrentItem(position, true);
     }
 
     private void retrieveItem(String itemId) {
@@ -240,5 +254,41 @@ public class CreateItemActivity extends FragmentActivity implements OnNewItemFra
 
         }
     }
+
+
+    public class FixedSpeedScroller extends Scroller {
+
+        private int mDuration = 1000;
+
+        public FixedSpeedScroller(Context context) {
+            super(context);
+        }
+
+        public FixedSpeedScroller(Context context, Interpolator interpolator) {
+            super(context, interpolator);
+        }
+
+        public FixedSpeedScroller(Context context, Interpolator interpolator, boolean flywheel) {
+            super(context, interpolator, flywheel);
+        }
+
+
+        public void setDuration(int mDuration) {
+            this.mDuration = mDuration;
+        }
+
+        @Override
+        public void startScroll(int startX, int startY, int dx, int dy, int duration) {
+            // Ignore received duration, use fixed one instead
+            super.startScroll(startX, startY, dx, dy, mDuration);
+        }
+
+        @Override
+        public void startScroll(int startX, int startY, int dx, int dy) {
+            // Ignore received duration, use fixed one instead
+            super.startScroll(startX, startY, dx, dy, mDuration);
+        }
+    }
+
 
 }
