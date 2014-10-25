@@ -4,8 +4,8 @@ package com.gabiq.youbid.model;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
-import com.parse.ParseRelation;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -74,6 +74,9 @@ public class Item extends ParseObject{
     public void setHasSold(Boolean hasSold) {
         put("hasSold", hasSold);
     }
+
+    public ParseGeoPoint getLocation(){ return getParseGeoPoint("location");}
+    public void setLocation (ParseGeoPoint location){ put("location", location);}
 
     public User getUser() {
         User user = null;

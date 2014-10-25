@@ -75,7 +75,7 @@
                     android:drawablePadding="5dp"
                     android:gravity="center"
                     android:paddingTop="2dp"
-                    android:text="Sunnyvale, CA "
+                    android:text=""
                     android:textColor="@color/primary_color"
                     android:textSize="12sp" />
 

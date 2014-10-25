@@ -1,8 +1,6 @@
 package com.gabiq.youbid.fragment;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
@@ -11,11 +9,14 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -30,11 +31,13 @@ import android.widget.Toast;
 import com.aviary.android.feather.library.Constants;
 import com.aviary.android.feather.sdk.FeatherActivity;
 import com.gabiq.youbid.R;
+import com.gabiq.youbid.activity.LocationActivity;
 import com.gabiq.youbid.utils.Utils;
 import com.parse.FindCallback;
 import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
+import com.parse.ParseGeoPoint;
 import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
@@ -42,6 +45,7 @@ import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -52,6 +56,7 @@ public class EditProfileFragment extends Fragment {
 
     private static final int TAKE_PHOTO_CODE = 1;
     private static final int AVIARY_PHOTO_CODE = 2;
+    private final int REQUEST_MAP_CODE = 20;
     private ProgressDialog mProgressDialog;
     private Bitmap photoBitmap;
     private ParseImageView ivProfilePic;
@@ -64,6 +69,8 @@ public class EditProfileFragment extends Fragment {
     private boolean mPhotoChanged;
     private ParseUser mUser;
     private Button mLocation;
+    private ParseGeoPoint userLocation;
+
 
     public EditProfileFragment() {
     }
@@ -162,9 +169,8 @@ public class EditProfileFragment extends Fragment {
     }
 
     private void showMapDialog() {
-        FragmentManager fm = getFragmentManager();
-        LocationFragment locationDialog = LocationFragment.newInstance("Some Title","");
-        locationDialog.show(fm, "fragment_location");
+        Intent i = new Intent(getActivity(), LocationActivity.class);
+        startActivityForResult(i, REQUEST_MAP_CODE);
     }
 
     private void updateUI(ParseUser user) {
@@ -253,6 +259,31 @@ public class EditProfileFragment extends Fragment {
                             "Error saving: " + e.getMessage(),
                             Toast.LENGTH_SHORT).show();
                 }
+            }
+            else if (requestCode == REQUEST_MAP_CODE)
+            {
+                double[] location = data.getDoubleArrayExtra("location");
+                Geocoder gcd = new Geocoder(getActivity(), Locale.getDefault());
+                List<Address> addresses = null;
+                try {
+                    addresses = gcd.getFromLocation(location[0], location[1], 1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (addresses.size() > 0)
+                {
+                    StringBuilder sbLoc = new StringBuilder();
+                    if(addresses.get(0).getLocality() != null)
+                        sbLoc.append(addresses.get(0).getLocality());
+                    if(addresses.get(0).getAdminArea() != null)
+                        sbLoc.append(",").append(addresses.get(0).getAdminArea());
+                    mLocation.setText(sbLoc.toString());
+
+                    userLocation = new ParseGeoPoint();
+                    userLocation.setLatitude(location[0]);
+                    userLocation.setLongitude(location[1]);
+                }
+
             }
         }
     }
@@ -392,6 +423,7 @@ public class EditProfileFragment extends Fragment {
         user.put("website", website);
         user.put("about", about);
 
+
         if(mPhotoChanged && photoBitmap != null) {
             ParseFile photoThumbnailFile = new ParseFile("profile_photo_thumbnail.jpg", getThumbnailScaledPhoto(photoBitmap));
             photoThumbnailFile.saveInBackground(new SaveCallback() {
@@ -407,6 +439,12 @@ public class EditProfileFragment extends Fragment {
             user.put("photo", photoThumbnailFile);
         }
 
+        if(userLocation != null)
+        {
+            user.put("location",userLocation);
+            user.put("locationText", mLocation.getText());
+        }
+
         user.saveInBackground(new SaveCallback() {
             @Override
             public void done(ParseException e) {
@@ -416,6 +454,8 @@ public class EditProfileFragment extends Fragment {
                 dismissProgress();
             }
         });
+
+
 
     }
 
