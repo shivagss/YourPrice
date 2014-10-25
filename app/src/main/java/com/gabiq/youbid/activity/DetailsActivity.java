@@ -1,5 +1,7 @@
 package com.gabiq.youbid.activity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
@@ -24,6 +26,12 @@ public class DetailsActivity extends FragmentActivity {
         }
      */
         String itemId = getIntent().getStringExtra("item_id");
+
+        Intent intent = getIntent();
+        if (Intent.ACTION_VIEW.equals(intent.getAction())) {
+            Uri uri = intent.getData();
+            itemId = uri.getQueryParameter("item_id");
+        }
 
         DetailsFragment.ViewType viewType = DetailsFragment.ViewType.Details;
         if (getIntent().hasExtra("viewType")) {
