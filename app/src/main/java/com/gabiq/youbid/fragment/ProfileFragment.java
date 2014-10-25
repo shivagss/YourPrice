@@ -16,7 +16,6 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -156,7 +155,7 @@ public class ProfileFragment extends Fragment {
 
                 tvUserName.setText(mUser.getString("name"));
                 tvScreenName.setText(mUser.getString("username"));
-//                    tvUserName.setText(mUser.getString("location"));
+                tvLocation.setText(mUser.getString("locationText"));
                 tvWebsite.setText(mUser.getString("website"));
                 tvDescription.setText(mUser.getString("about"));
                 ParseFile photoFile = mUser.getParseFile("photo");
