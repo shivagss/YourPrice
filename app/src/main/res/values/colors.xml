@@ -165,4 +165,17 @@
     <color name="placeholder3">#52B14F</color>
     <color name="placeholder4">#F7A645</color>
     <color name="placeholder5">#CE1919</color>
+
+    <color name="backgroundFragment">#F2F2F2</color>
+    <color name="backgroundHeader">#E9E9E9</color>
+    <color name="foregroundIcon">#CECECE</color>
+    <color name="backgroundGridCell">#ffffff</color>
+    <color name="textGridCell">#5A5A5A</color>
+    <color name="textGridFooter">#D8D8D8</color>
+    <color name="shadowGridCell">#E6E6E6</color>
+    <color name="backgroundTabSelected">#EEEEEE</color>
+    <color name="backgroundTabUnselected">#DADADA</color>
+    <color name="textTabSelected">#CB4348</color>
+    <color name="textTabUnselected">#939393</color>
+
 </resources>
