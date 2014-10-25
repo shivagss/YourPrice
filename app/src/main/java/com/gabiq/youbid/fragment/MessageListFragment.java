@@ -156,7 +156,7 @@ public class MessageListFragment extends Fragment {
 
         btnBidAccept = (Button) view.findViewById(R.id.btnBidAccept);
         btnBidAccept.setVisibility(View.GONE);
-        btnBidReject = (Button) view.findViewById(R.id.btnBidReject);
+        btnBidReject = (Button) view.findViewById(R.id.btnBidAccept);
         btnBidReject.setVisibility(View.GONE);
         etPostMessage = (EditText) view.findViewById(R.id.etPostMessage);
         ivPostMessage = (ImageView) view.findViewById(R.id.ivPostMessage);

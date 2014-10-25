@@ -5,14 +5,11 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -33,10 +30,8 @@ import com.gabiq.youbid.fragment.Page2Fragment;
 import com.gabiq.youbid.listener.OnNewItemFragmentInteractionListener;
 import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.model.Keyword;
-import com.gabiq.youbid.utils.Utils;
 import com.parse.GetCallback;
 import com.parse.ParseException;
-import com.parse.ParseFile;
 import com.parse.ParseImageView;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -133,6 +128,8 @@ public class CreateItemActivity extends FragmentActivity implements OnNewItemFra
         // Associate the mItem with the current user
         item.setUser(ParseUser.getCurrentUser());
         item.setHasSold(false);
+
+        item.setLocation(ParseUser.getCurrentUser().getParseGeoPoint("location"));
 
         // Save the mItem and return
         final Item finalItem = item;

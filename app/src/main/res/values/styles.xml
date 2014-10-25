@@ -2,7 +2,57 @@
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
-        <item name="android:windowBackground">@color/Ivory</item>
+        <item name="android:windowBackground">@color/backgroundFragment</item>
+        <item  name="android:buttonStyle">@style/Button</item>
     </style>
+
+    <style name="Fragment">
+        <item name="android:background">@color/backgroundFragment</item>
+        <item name="android:paddingLeft">@dimen/fragment_horizontal_padding</item>
+        <item name="android:paddingRight">@dimen/fragment_horizontal_padding</item>
+    </style>
+
+    <style name="Fragment.Grid">
+    </style>
+
+    <style name="GridCell">
+        <item name="android:background">@color/backgroundGridCell</item>
+    </style>
+
+    <style name="GridCell.Image">
+        <item name="android:padding">@dimen/grid_cell_image_padding</item>
+    </style>
+
+    <style name="GridCell.Description">
+        <item name="android:padding">@dimen/grid_cell_description_padding</item>
+        <item name="android:textColor">@color/textGridCell</item>
+        <item name="android:textSize">@dimen/grid_cell_description_textSize</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="GridCell.Footer">
+        <item name="android:textColor">@color/textGridFooter</item>
+        <item name="android:textSize">@dimen/grid_cell_footer_textSize</item>
+    </style>
+
+    <style name="Button">
+        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@color/LightSkyBlue</item>
+        <item name="android:textSize">@dimen/grid_cell_footer_textSize</item>
+        <item name="android:paddingLeft">@dimen/button_horizontal_padding</item>
+        <item name="android:paddingRight">@dimen/button_horizontal_padding</item>
+        <item name="android:paddingTop">@dimen/button_vertical_padding</item>
+        <item name="android:paddingBottom">@dimen/button_vertical_padding</item>
+    </style>
+
+    <style name="Button.Accept">
+        <item name="android:background">@color/LightGreen</item>
+    </style>
+
+    <style name="Button.Reject">
+        <item name="android:background">@color/LightPink</item>
+    </style>
+
+
 
 </resources>

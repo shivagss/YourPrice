@@ -10,4 +10,7 @@ include ':Aviary-SDK'
 // ViewPager Indicator
 include ':ViewPagerIndicator'
 
+// Android-Bootstrap
+include ':AndroidBootstrap'
+
 include ':app'
