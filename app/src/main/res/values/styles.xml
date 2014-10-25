@@ -4,7 +4,24 @@
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <item name="android:windowBackground">@color/backgroundFragment</item>
         <item  name="android:buttonStyle">@style/Button</item>
+
+        <item name="android:actionBarStyle">@style/ActionBar</item>
+        <item name="android:actionMenuTextColor">@color/textActionBar</item>
     </style>
+
+
+    <style name="ActionBar"
+        parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+        <item name="android:titleTextStyle">@style/ActionBarTitleText</item>
+        <item name="android:background">@color/backgroundActionBar</item>
+    </style>
+
+    <style name="ActionBarTitleText"
+        parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/textActionBar</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 
     <style name="Fragment">
         <item name="android:background">@color/backgroundFragment</item>

@@ -166,6 +166,9 @@
     <color name="placeholder4">#F7A645</color>
     <color name="placeholder5">#CE1919</color>
 
+    <color name="backgroundActionBar">#E6E6E6</color>
+    <color name="textActionBar">#4B4B4B</color>
+
     <color name="backgroundFragment">#F2F2F2</color>
     <color name="backgroundHeader">#E9E9E9</color>
     <color name="foregroundIcon">#CECECE</color>
