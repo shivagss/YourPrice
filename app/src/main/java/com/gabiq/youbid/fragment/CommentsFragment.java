@@ -103,6 +103,7 @@ public class CommentsFragment extends Fragment {
                 ParseQuery query = new ParseQuery("Comment");
                 query.orderByAscending("updatedAt");
                 query.whereEqualTo("itemId",itemId);
+                query.include("createdBy");
                 return query;
             }
         };
