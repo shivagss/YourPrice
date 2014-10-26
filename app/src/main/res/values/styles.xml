@@ -62,12 +62,22 @@
         <item name="android:paddingBottom">@dimen/button_vertical_padding</item>
     </style>
 
-    <style name="Button.Accept">
+    <style name="CommentCell">
+        <item name="android:background">@color/backgroundListCell</item>
+    </style>
+
+    <style name="Button.Green">
         <item name="android:background">@color/LightGreen</item>
     </style>
 
-    <style name="Button.Reject">
+    <style name="Button.Red" >
         <item name="android:background">@color/LightPink</item>
+    </style>
+
+    <style name="Button.Accept" parent="Button.Green">
+    </style>
+
+    <style name="Button.Reject" parent="Button.Red">
     </style>
 
 
