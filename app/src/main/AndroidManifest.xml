@@ -45,7 +45,7 @@
             android:value="RestClient.db" />
         <meta-data
             android:name="AA_DB_VERSION"
-            android:value="2" />
+            android:value="3" />
 
         <activity
             android:name=".activity.HomeActivity"
@@ -242,15 +242,18 @@
         </activity>
         <activity
             android:name=".activity.BidListActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_bid_list" >
         </activity>
         <activity
             android:name=".activity.MessageListActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_message_list" >
         </activity>
 
         <activity
             android:name=".activity.LocationActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_location" >
         </activity>
 

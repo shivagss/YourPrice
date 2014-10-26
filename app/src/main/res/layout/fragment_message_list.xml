@@ -10,54 +10,38 @@
 
     <RelativeLayout
         android:id="@+id/rlHeader"
+        android:background="@color/backgroundHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true">
 
-        <!--<com.beardedhen.androidbootstrap.BootstrapButton-->
-            <!--android:id="@+id/btnBidAccept"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_margin="10dp"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--android:text="ACCEPT"-->
-            <!--bootstrapbutton:bb_icon_right="fa-android"-->
-            <!--bootstrapbutton:bb_type="success" />-->
-
-        <!--<com.beardedhen.androidbootstrap.BootstrapButton-->
-            <!--android:id="@+id/btnBidReject"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_margin="10dp"-->
-            <!--android:layout_alignParentTop="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:text="REJECT"-->
-            <!--bootstrapbutton:bb_icon_right="fa-android"-->
-            <!--bootstrapbutton:bb_type="danger" />-->
-
-
         <Button
             style="@style/Button.Accept"
             android:id="@+id/btnBidAccept"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
             android:layout_marginTop="20dp"
             android:layout_marginLeft="30dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
+            android:textAlignment="gravity"
+            android:gravity="center"
+            android:textSize="20sp"
             android:text="@string/btn_bid_accept"
             />
 
         <Button
             style="@style/Button.Reject"
             android:id="@+id/btnBidReject"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="40dp"
             android:layout_marginRight="30dp"
-            android:layout_alignBaseline="@+id/btnBidAccept"
+            android:layout_marginTop="20dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
+            android:textAlignment="gravity"
+            android:gravity="center"
+            android:textSize="20sp"
             android:text="@string/btn_bid_reject"
             />
 
@@ -100,8 +84,10 @@
             android:id="@+id/lvMessageList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="#f0f0f0"
-            app:item_margin="5dp" />
+            android:background="@color/backgroundList"
+            android:divider="@color/backgroundList"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <RelativeLayout

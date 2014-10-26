@@ -160,11 +160,11 @@
     <color name="primary_color">#000000</color>
     
     <!--image placeholder palete HEAVY -->
-    <color name="placeholder1">#0084c3</color>
-    <color name="placeholder2">#9CDFFF</color>
-    <color name="placeholder3">#52B14F</color>
-    <color name="placeholder4">#F7A645</color>
-    <color name="placeholder5">#CE1919</color>
+    <color name="placeholder1">#f00084c3</color>
+    <color name="placeholder2">#f09CDFFF</color>
+    <color name="placeholder3">#f052B14F</color>
+    <color name="placeholder4">#f0F7A645</color>
+    <color name="placeholder5">#f0CE1919</color>
 
     <color name="backgroundActionBar">#E6E6E6</color>
     <color name="textActionBar">#4B4B4B</color>
@@ -186,5 +186,10 @@
     <color name="backgroundTabUnselected">#DADADA</color>
     <color name="textTabSelected">#CB4348</color>
     <color name="textTabUnselected">#939393</color>
+
+    <color name="buttonGreen">#52B14F</color>
+    <color name="buttonRed">#CE1919</color>
+    <color name="buttonDefault">#0084c3</color>
+
 
 </resources>

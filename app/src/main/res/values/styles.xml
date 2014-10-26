@@ -79,13 +79,13 @@
     </style>
 
     <style name="Button.Green">
-        <item name="android:background">@color/LightGreen</item>
+        <item name="android:background">@color/buttonGreen</item>
     </style>
     <style name="Button.DarkGreen">
         <item name="android:background">@color/green</item>
     </style>
     <style name="Button.Red" >
-        <item name="android:background">@color/LightPink</item>
+        <item name="android:background">@color/buttonRed</item>
     </style>
 
     <style name="Button.Accept" parent="Button.Green">

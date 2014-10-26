@@ -1,10 +1,18 @@
 package com.gabiq.youbid.model;
 
 
+import android.util.Log;
+
 import com.activeandroid.Model;
 import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
+import com.parse.GetCallback;
+import com.parse.GetDataCallback;
+import com.parse.ParseException;
+import com.parse.ParseFile;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.Date;
 import java.util.List;
@@ -28,6 +36,13 @@ public class Notification extends Model {
 
     @Column(name = "itemId")
     private String itemId;
+
+    @Column(name = "senderName")
+    private String senderName;
+
+    @Column(name = "senderPhotoUrl")
+    private String senderPhotoUrl;
+
 
     public String getType() {
         return type;
@@ -77,12 +92,54 @@ public class Notification extends Model {
         this.itemId = itemId;
     }
 
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
+
+    public String getSenderPhotoUrl() {
+        return senderPhotoUrl;
+    }
+
+    public void setSenderPhotoUrl(String senderPhotoUrl) {
+        this.senderPhotoUrl = senderPhotoUrl;
+    }
+
     public static List<Notification> getAll() {
         return new Select()
                 .from(Notification.class)
                 .orderBy("createdAt DESC")
                 .limit(30)
                 .execute();
+    }
+
+    public void loadUserInfo() {
+        ParseQuery<ParseUser> query = ParseUser.getQuery();
+        final String senderId = getSenderId();
+        query.getInBackground(senderId, new GetCallback<ParseUser>() {
+            public void done(ParseUser parseUser, ParseException e) {
+                // check if request is outdated
+
+                if (e == null && parseUser != null) {
+                    User user = new User(parseUser);
+                    setSenderName(parseUser.getString("name"));
+                    ParseFile parseFile = parseUser.getParseFile("photo");
+                    if (parseFile != null) {
+                        setSenderPhotoUrl(parseFile.getUrl());
+                    }
+
+                    save();
+
+                } else {
+                    // something went wrong
+                    Log.e("ERROR", "Error reading user in notification"+e);
+                }
+            }
+        });
+
     }
 
 }
