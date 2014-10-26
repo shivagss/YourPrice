@@ -3,7 +3,10 @@ package com.gabiq.youbid.fragment;
 import android.app.Activity;
 import android.os.Bundle;
 import android.app.ListFragment;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.gabiq.youbid.adapter.UsersListAdapter;
 import com.gabiq.youbid.model.Followers;
@@ -43,9 +46,17 @@ public class ParseUsersListFragment extends ListFragment {
 
         getActivity().getActionBar().setTitle(getTitle());
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v =super.onCreateView(inflater, container, savedInstanceState);
+        return v;
     }
 
     public void updateUI(){
+        getListView().setDivider(getActivity().getResources().getDrawable(android.R.color.transparent));
         ParseQuery<Followers> query = getFollowUsersParseQuery(mListener.getUser());
         query.include("follower");
         query.include("following");
