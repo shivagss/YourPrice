@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:background="@color/backgroundList"
             android:divider="@color/backgroundList"
-            app:item_margin="5dp" />
+            app:item_margin="0dp" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <RelativeLayout

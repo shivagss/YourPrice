@@ -203,12 +203,14 @@ public class BidListFragment extends Fragment {
                     ParseQuery query = new ParseQuery("Bid");
                     query.whereEqualTo("itemId", itemId);
                     query.orderByDescending("createdAt");
+                    query.include("createdBy");
                     return query;
                 } else {
                     ParseQuery query = new ParseQuery("Bid");
                     query.whereEqualTo("itemId", itemId);
                     query.whereEqualTo("createdBy", ParseUser.getCurrentUser());
                     query.orderByDescending("createdAt");
+                    query.include("createdBy");
                     return query;
                 }
 

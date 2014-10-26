@@ -322,6 +322,7 @@ public class MessageListFragment extends Fragment {
                 Bid bid = ParseObject.createWithoutData(Bid.class, bidId);
                 query.whereEqualTo("bid", bid);
                 query.orderByDescending("createdAt");
+                query.include("sender");
                 return query;
             }
         };

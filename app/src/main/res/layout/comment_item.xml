@@ -3,12 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
-    android:paddingTop="4dp"
+    android:paddingTop="0dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     >
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         style="@style/CommentCell"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
