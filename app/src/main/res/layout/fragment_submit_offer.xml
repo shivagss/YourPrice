@@ -63,6 +63,7 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentStart="true"
                 android:layout_below="@id/ivItemPic"
+                android:textStyle="bold"
                 android:gravity="center"
                 android:lines="2" />
 
