@@ -9,76 +9,76 @@
 
 
     <RelativeLayout
+        android:id="@+id/detailsHeader"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/detailsHeader">
+        android:layout_height="wrap_content">
 
-    <ImageView
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:id="@+id/ivProfile"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:src="@drawable/ic_icon_profile" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvUserName"
-        android:layout_toRightOf="@+id/ivProfile"
-        android:layout_toEndOf="@+id/ivProfile"
-        android:layout_alignTop="@+id/ivProfile"
-        android:layout_marginLeft="5dp"
-        android:textStyle="bold"
-        android:layout_marginTop="10dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvItemLocation"
-        android:layout_marginTop="5dp"
-        android:layout_below="@+id/tvUserName"
-        android:layout_alignLeft="@+id/tvUserName"
-        android:layout_alignStart="@+id/tvUserName" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvTimePosted"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:text=""
-        android:layout_alignParentRight="true"/>
-
-        <com.beardedhen.androidbootstrap.FontAwesomeText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/timePostedPic"
-            fontawesometext:fa_icon="fa-clock-o"
-            android:layout_alignTop="@+id/tvTimePosted"
-            android:layout_toLeftOf="@+id/tvTimePosted"
-            android:textColor="@color/Gray"
-            android:layout_toStartOf="@+id/tvTimePosted"/>
+        <ImageView
+            android:id="@+id/ivProfile"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:src="@drawable/ic_icon_profile" />
 
         <TextView
+            android:id="@+id/tvUserName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/tvViewsCount"
-            android:layout_marginTop="5dp"
-            android:layout_marginRight="10dp"
+            android:layout_alignTop="@+id/ivProfile"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="10dp"
+            android:layout_toEndOf="@+id/ivProfile"
+            android:layout_toRightOf="@+id/ivProfile"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvItemLocation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tvUserName"
+            android:layout_alignStart="@+id/tvUserName"
+            android:layout_below="@+id/tvUserName"
+            android:layout_marginTop="5dp" />
+
+        <TextView
+            android:id="@+id/tvTimePosted"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/tvTimePosted"
-            android:text=""
-            />
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:text="" />
 
         <com.beardedhen.androidbootstrap.FontAwesomeText
+            android:id="@+id/timePostedPic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tvTimePosted"
+            android:layout_toLeftOf="@+id/tvTimePosted"
+            android:layout_toStartOf="@+id/tvTimePosted"
+            android:textColor="@color/Gray"
+            fontawesometext:fa_icon="fa-clock-o" />
+
+        <TextView
+            android:id="@+id/tvViewsCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/tvTimePosted"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
+            android:text="" />
+
+        <com.beardedhen.androidbootstrap.FontAwesomeText
             android:id="@+id/viewsCountPic"
-            fontawesometext:fa_icon="fa-eye"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignTop="@+id/tvViewsCount"
             android:layout_toLeftOf="@+id/tvViewsCount"
+            android:layout_toStartOf="@+id/tvViewsCount"
             android:textColor="@color/Gray"
-            android:layout_toStartOf="@+id/tvViewsCount" />
+            fontawesometext:fa_icon="fa-eye" />
 
 
     </RelativeLayout>
@@ -86,65 +86,65 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <com.beardedhen.androidbootstrap.BootstrapButton
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Details"
-            android:id="@+id/btnDetails"
-            bootstrap:bb_icon_left="fa-chevron-right"
-            bootstrap:bb_type="primary"
-            android:layout_alignParentLeft="true"
-            android:textSize="14dp"/>
 
         <com.beardedhen.androidbootstrap.BootstrapButton
-            android:layout_width="130dp"
+            android:id="@+id/btnDetails"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_weight="1"
+            android:text="Details"
+            android:textSize="14dp"
+            bootstrap:bb_icon_left="fa-chevron-right"
+            bootstrap:bb_type="primary" />
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:id="@+id/btnComments"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/btnDetails"
+            android:layout_toRightOf="@+id/btnDetails"
             android:text="Comments"
             android:textSize="14dp"
             bootstrap:bb_icon_left="fa-chevron-right"
-            bootstrap:bb_type="info"
-            android:id="@+id/btnComments"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/btnDetails"
-            android:layout_toEndOf="@+id/btnDetails" />
+            bootstrap:bb_type="info" />
 
         <com.beardedhen.androidbootstrap.BootstrapButton
-            android:layout_width="0dp"
-            android:text="Offers"
-            android:layout_weight="1"
-            android:textSize="14dp"
             android:id="@+id/btnBids"
-            bootstrap:bb_icon_left="fa-chevron-right"
-            bootstrap:bb_type="warning"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/btnComments"
             android:layout_toRightOf="@+id/btnComments"
-            android:layout_toEndOf="@+id/btnComments" />
+            android:layout_weight="1"
+            android:text="Offers"
+            android:textSize="14dp"
+            bootstrap:bb_icon_left="fa-chevron-right"
+            bootstrap:bb_type="warning" />
 
 
     </LinearLayout>
 
-    <FrameLayout android:id="@+id/flCommentsContainer"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/pager"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <FrameLayout
+        android:id="@+id/flCommentsContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true">
 
 
-
-
-
     </FrameLayout>
-
-
-
-
-
-
-
 
 
 </LinearLayout>
