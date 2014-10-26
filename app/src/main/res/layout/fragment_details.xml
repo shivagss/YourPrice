@@ -94,7 +94,7 @@
             android:layout_alignParentLeft="true"
             android:layout_weight="1"
             android:text="Details"
-            android:textSize="14dp"
+            android:textSize="12sp"
             bootstrap:bb_icon_left="fa-chevron-right"
             bootstrap:bb_type="primary" />
 
@@ -107,7 +107,7 @@
             android:layout_toEndOf="@+id/btnDetails"
             android:layout_toRightOf="@+id/btnDetails"
             android:text="Comments"
-            android:textSize="14dp"
+            android:textSize="12sp"
             bootstrap:bb_icon_left="fa-chevron-right"
             bootstrap:bb_type="info" />
 
@@ -122,7 +122,7 @@
             android:layout_toRightOf="@+id/btnComments"
             android:layout_weight="1"
             android:text="Offers"
-            android:textSize="14dp"
+            android:textSize="12sp"
             bootstrap:bb_icon_left="fa-chevron-right"
             bootstrap:bb_type="warning" />
 
