@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@android:color/white"
-              android:padding="5dp"
-              android:descendantFocusability="blocksDescendants"
-              android:orientation="horizontal">
+    style="@style/CommentCell.WithPadding"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="horizontal"
+    android:padding="5dp">
 
     <RelativeLayout
         android:layout_width="48dp"
@@ -17,7 +17,7 @@
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_alignParentRight="true"
-            android:src="@drawable/ic_launcher"/>
+            android:src="@drawable/ic_launcher" />
 
     </RelativeLayout>
 
@@ -33,24 +33,24 @@
             android:layout_alignParentTop="true"
             android:text="Matthew Berry"
             android:textSize="14sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvBodyText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvUserName"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <ImageView
+            android:id="@+id/ivFollowing"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/tvUserName"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/ic_action_follow"
-            android:layout_alignBottom="@id/tvUserName"
             android:paddingRight="5dp"
-            android:id="@+id/ivFollowing"/>
+            android:src="@drawable/ic_action_follow" />
 
     </RelativeLayout>
 
