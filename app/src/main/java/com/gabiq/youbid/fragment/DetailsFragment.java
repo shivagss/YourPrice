@@ -12,6 +12,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Interpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +25,7 @@ import com.gabiq.youbid.activity.CreateItemActivity;
 import com.gabiq.youbid.adapter.DetailsFragmentAdapter;
 import com.gabiq.youbid.activity.ProfileActivity;
 import com.gabiq.youbid.model.Item;
+import com.gabiq.youbid.utils.FixedSpeedScroller;
 import com.gabiq.youbid.utils.Utils;
 import com.parse.DeleteCallback;
 import com.parse.GetCallback;
@@ -30,6 +34,8 @@ import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
+
+import java.lang.reflect.Field;
 
 /**
  * Created by sreejumon on 10/14/14.
@@ -53,6 +59,9 @@ public class DetailsFragment extends Fragment {
     private ViewType defaultTab = ViewType.Details;
     private DetailsFragmentAdapter mAdapter;
     private ViewPager mPager;
+    private Field mScroller;
+    private FixedSpeedScroller scroller;
+    private static Interpolator sAnimator = new AccelerateDecelerateInterpolator();
 
 
     public enum ViewType {
@@ -141,6 +150,18 @@ public class DetailsFragment extends Fragment {
 
         mPager = (ViewPager) rootView.findViewById(R.id.pager);
         mPager.setOffscreenPageLimit(2);
+
+//        try {
+//            mScroller = ViewPager.class.getDeclaredField("mScroller");
+//            mScroller.setAccessible(true);
+//            scroller = new FixedSpeedScroller(mPager.getContext(), sAnimator);
+//            scroller.setDuration(500);
+//            mScroller.set(mPager, scroller);
+//        } catch (NoSuchFieldException e) {
+//        } catch (IllegalArgumentException e) {
+//        } catch (IllegalAccessException e1) {
+//        }
+
         mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
             @Override
             public void onPageSelected(int position) {
@@ -206,6 +227,8 @@ public class DetailsFragment extends Fragment {
         mAdapter = new DetailsFragmentAdapter(itemId, isSeller, getActivity().getSupportFragmentManager());
         mPager.setAdapter(mAdapter);
         mPager.setCurrentItem(0);
+        resetButtons();
+        btnDetails.setLeftIcon("fa-chevron-down");
         mAdapter.notifyDataSetChanged();
 
         //Hide the delete & edit option if the user is not the owner

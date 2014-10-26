@@ -23,6 +23,7 @@ import com.gabiq.youbid.fragment.Page2Fragment;
 import com.gabiq.youbid.listener.OnNewItemFragmentInteractionListener;
 import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.model.Keyword;
+import com.gabiq.youbid.utils.FixedSpeedScroller;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseImageView;
@@ -243,41 +244,5 @@ public class CreateItemActivity extends FragmentActivity implements OnNewItemFra
 
         }
     }
-
-
-    public class FixedSpeedScroller extends Scroller {
-
-        private int mDuration = 1000;
-
-        public FixedSpeedScroller(Context context) {
-            super(context);
-        }
-
-        public FixedSpeedScroller(Context context, Interpolator interpolator) {
-            super(context, interpolator);
-        }
-
-        public FixedSpeedScroller(Context context, Interpolator interpolator, boolean flywheel) {
-            super(context, interpolator, flywheel);
-        }
-
-
-        public void setDuration(int mDuration) {
-            this.mDuration = mDuration;
-        }
-
-        @Override
-        public void startScroll(int startX, int startY, int dx, int dy, int duration) {
-            // Ignore received duration, use fixed one instead
-            super.startScroll(startX, startY, dx, dy, mDuration);
-        }
-
-        @Override
-        public void startScroll(int startX, int startY, int dx, int dy) {
-            // Ignore received duration, use fixed one instead
-            super.startScroll(startX, startY, dx, dy, mDuration);
-        }
-    }
-
 
 }
