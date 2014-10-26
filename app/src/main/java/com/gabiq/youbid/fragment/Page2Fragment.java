@@ -1,7 +1,6 @@
 package com.gabiq.youbid.fragment;
 
 
-
 import android.app.Activity;
 import android.nfc.Tag;
 import android.os.Bundle;
@@ -37,7 +36,6 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  * Use the {@link Page2Fragment#newInstance} factory method to
  * create an instance of this fragment.
- *
  */
 public class Page2Fragment extends Fragment {
 
@@ -56,6 +54,7 @@ public class Page2Fragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
     public Page2Fragment() {
         // Required empty public constructor
     }
@@ -107,16 +106,22 @@ public class Page2Fragment extends Fragment {
         return super.onOptionsItemSelected(item);
     }
 
-    public void updateUI(Item item){
-        if(item != null){
-            if(item.getMinPrice() > 0) {
+    public void updateUI(Item item) {
+        if (item != null) {
+            if (item.getMinPrice() > 0) {
                 etItemMinPrice.setText(Double.toString(item.getMinPrice()));
-            }else{
+            } else {
                 etItemMinPrice.setText("");
             }
             etItemDescription.setText(item.getDescription());
             mTagsAdapter.clear();
             mTagsAdapter.addAll(item.getKeywords());
+
+            if (mTagsList.size() == 0) {
+                gvTags.setVisibility(View.GONE);
+            } else {
+                gvTags.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -131,10 +136,12 @@ public class Page2Fragment extends Fragment {
             @Override
             public void onClick(View view) {
                 String tag = etItemTags.getText().toString();
-                if(!TextUtils.isEmpty(tag)){
+                if (!TextUtils.isEmpty(tag)) {
                     Keyword keyword = new Keyword();
                     keyword.setKeyword(tag);
                     mTagsAdapter.add(keyword);
+                    gvTags.setVisibility(View.VISIBLE);
+
                     etItemTags.setText("");
                 }
             }
@@ -143,13 +150,36 @@ public class Page2Fragment extends Fragment {
         mTagsList = new ArrayList<Keyword>();
         mTagsAdapter = new ItemTagsAdapter(getActivity(), mTagsList);
         gvTags.setAdapter(mTagsAdapter);
+        if (mTagsList.size() == 0) {
+            gvTags.setVisibility(View.GONE);
+        } else {
+            gvTags.setVisibility(View.VISIBLE);
+        }
 
         gvTags.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 mTagsList.remove(i);
+                if (mTagsList.size() == 0) {
+                    gvTags.setVisibility(View.GONE);
+                } else {
+                    gvTags.setVisibility(View.VISIBLE);
+                }
                 mTagsAdapter.notifyDataSetChanged();
                 return true;
+            }
+        });
+
+        gvTags.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                mTagsList.remove(i);
+                if (mTagsList.size() == 0) {
+                    gvTags.setVisibility(View.GONE);
+                } else {
+                    gvTags.setVisibility(View.VISIBLE);
+                }
+                mTagsAdapter.notifyDataSetChanged();
             }
         });
     }
@@ -199,7 +229,7 @@ public class Page2Fragment extends Fragment {
             item.setMinPrice(Double.parseDouble(etItemMinPrice.getText().toString()));
             item.setDescription(etItemDescription.getText().toString());
             item.setKeywords(mTagsList);
-        }catch (NumberFormatException e){
+        } catch (NumberFormatException e) {
             //Do nothing
             item.setMinPrice(0);
         }
