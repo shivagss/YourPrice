@@ -21,6 +21,7 @@ import com.gabiq.youbid.activity.DetailsActivity;
 import com.gabiq.youbid.adapter.ItemAdapter;
 import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.utils.EndlessScrollListener;
+import com.gabiq.youbid.utils.GridScrollingHelper;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 
@@ -36,6 +37,7 @@ public class GridFragment extends Fragment {
     private ProgressBar progressBar;
     private RelativeLayout emptySection;
     private SwipeRefreshLayout swipeContainer;
+    private GridScrollingHelper mGridHelper;
 
     private OnFragmentInteractionListener mListener;
 
@@ -85,6 +87,8 @@ public class GridFragment extends Fragment {
 //        mEmptyLabel = (TextView) view.findViewById(R.id.empty_label);
 //        mEmptyImage = (ImageView) view.findViewById(R.id.empty_image);
 
+
+
         mGvItemGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -122,13 +126,17 @@ public class GridFragment extends Fragment {
 
     private void setupGrid(View view) {
         mGvItemGrid.setAdapter(mItemAdapter);
-        mGvItemGrid.setOnScrollListener(new EndlessScrollListener() {
+
+
+        mGridHelper = new GridScrollingHelper(getActivity(), null);
+        mGridHelper.setOnScrollListener(new EndlessScrollListener() {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
                 mItemAdapter.loadNextPage();
             }
         });
 
+        mGvItemGrid.setOnScrollListener(mGridHelper);
     }
 
 
