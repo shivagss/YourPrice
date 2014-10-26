@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/transparent"
-    android:paddingTop="10dp"
+    android:paddingTop="4dp"
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     >
@@ -12,8 +12,7 @@
         style="@style/CommentCell"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/backgroundListCell"
-        android:padding="10dp">
+        android:padding="15dp">
 
         <com.parse.ParseImageView
             android:id="@+id/ivProfileImg"
@@ -41,14 +40,15 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/tvUserName"
             android:autoLink=""
-            android:text="TextView" />
+            android:text="" />
 
         <TextView
+            style="@style/CommentCellTime"
             android:id="@+id/tvTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
+            android:layout_alignBaseline="@+id/tvUserName"
             android:text="" />
 
     </RelativeLayout>
