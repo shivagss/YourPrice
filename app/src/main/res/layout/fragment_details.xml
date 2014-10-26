@@ -45,17 +45,39 @@
         android:id="@+id/tvTimePosted"
         android:layout_marginTop="10dp"
         android:layout_marginRight="10dp"
+        android:text=""
         android:layout_alignParentRight="true"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvViewsCount"
-        android:layout_marginTop="5dp"
-        android:layout_marginRight="10dp"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/tvTimePosted"
-         />
+        <com.beardedhen.androidbootstrap.FontAwesomeText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/timePostedPic"
+            fontawesometext:fa_icon="fa-clock-o"
+            android:layout_alignTop="@+id/tvTimePosted"
+            android:layout_toLeftOf="@+id/tvTimePosted"
+            android:textColor="@color/green"
+            android:layout_toStartOf="@+id/tvTimePosted"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvViewsCount"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/tvTimePosted"
+            android:text=""
+            />
+
+        <com.beardedhen.androidbootstrap.FontAwesomeText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/viewsCountPic"
+            fontawesometext:fa_icon="fa-eye"
+            android:layout_alignTop="@+id/tvViewsCount"
+            android:layout_toLeftOf="@+id/tvViewsCount"
+            android:textColor="@color/green"
+            android:layout_toStartOf="@+id/tvViewsCount" />
 
 
     </RelativeLayout>
