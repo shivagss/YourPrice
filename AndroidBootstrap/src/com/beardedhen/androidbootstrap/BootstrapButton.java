@@ -170,7 +170,6 @@ public class BootstrapButton extends FrameLayout {
 		if( (layoutWidth == LayoutParams.MATCH_PARENT)) {
 			fillparent = true;
 		}
-		
 		if(a.getString(R.styleable.BootstrapButton_android_textSize) != null) {
             float scaledDensity = getContext().getResources().getDisplayMetrics().scaledDensity;
             float rawSize = a.getDimension(R.styleable.BootstrapButton_android_textSize, 14.0f * scaledDensity);
