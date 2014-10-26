@@ -63,8 +63,14 @@
     </style>
 
     <style name="CommentCell">
-        <item name="android:background">@color/backgroundListCell</item>
+        <item name="android:background">@drawable/container_drop_shadow</item>
     </style>
+
+    <style name="CommentCellTime">
+        <item name="android:textColor">@color/textCommentTime</item>
+        <item name="android:textSize">@dimen/comment_cell_time_textSize</item>
+    </style>
+
 
     <style name="Button.Green">
         <item name="android:background">@color/LightGreen</item>

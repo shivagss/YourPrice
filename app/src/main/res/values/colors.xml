@@ -177,9 +177,10 @@
     <color name="textGridFooter">#D8D8D8</color>
     <color name="shadowGridCell">#E6E6E6</color>
 
+
     <color name="backgroundList">#F2F2F2</color>
     <color name="backgroundListCell">#ffffff</color>
-
+    <color name="textCommentTime">#D8D8D8</color>
 
     <color name="backgroundTabSelected">#EEEEEE</color>
     <color name="backgroundTabUnselected">#DADADA</color>
