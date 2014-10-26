@@ -1,6 +1,5 @@
 package com.gabiq.youbid.activity;
 
-import android.animation.Animator;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -9,15 +8,8 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AnticipateOvershootInterpolator;
-import android.view.animation.BounceInterpolator;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.Interpolator;
-import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -25,6 +17,7 @@ import android.widget.Scroller;
 import android.widget.Toast;
 
 import com.gabiq.youbid.R;
+import com.gabiq.youbid.adapter.CreateItemFragmentAdapter;
 import com.gabiq.youbid.fragment.Page1Fragment;
 import com.gabiq.youbid.fragment.Page2Fragment;
 import com.gabiq.youbid.listener.OnNewItemFragmentInteractionListener;
@@ -39,7 +32,6 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.viewpagerindicator.CirclePageIndicator;
 
-import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Field;
 import java.util.List;
 

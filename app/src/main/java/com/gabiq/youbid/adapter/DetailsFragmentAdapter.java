@@ -1,4 +1,4 @@
-package com.gabiq.youbid.activity;
+package com.gabiq.youbid.adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
