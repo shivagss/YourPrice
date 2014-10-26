@@ -55,6 +55,7 @@ public class BidListAdapter extends ParseQueryAdapter<Bid> {
         viewHolder.tvEntryBidState.setText(bid.getState());
         viewHolder.tvEntryBidTime.setText(Utils.getRelativeTimeAgo(bid.getCreatedAt()));
         ParseUser bidder = (ParseUser) bid.get("createdBy");
+        viewHolder.tvEntryBidName.setText(bidder.getString("name"));
         ParseFile photoFile = bidder.getParseFile("photo");
 
         if (photoFile != null) {

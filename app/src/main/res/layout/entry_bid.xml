@@ -22,6 +22,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:paddingRight="10dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/ic_launcher" />
 
         <TextView
@@ -58,8 +59,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/tvEntryBidTime"
-            android:autoLink=""
+            android:layout_alignBaseline="@+id/tvEntryBidBody"
+            android:textStyle="bold"
             android:text="pending" />
 
 

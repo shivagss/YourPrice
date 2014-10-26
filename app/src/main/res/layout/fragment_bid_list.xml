@@ -18,6 +18,8 @@
             app:item_margin="5dp"
             android:background="@color/backgroundList"
             android:divider="@color/backgroundList"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             />
     </android.support.v4.widget.SwipeRefreshLayout>
 
