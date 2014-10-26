@@ -99,8 +99,37 @@ public class Page1Fragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_page1, container, false);
 
         setupViews(v);
+        setHasOptionsMenu(true);
 
         return v;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getActivity().getMenuInflater().inflate(R.menu.item, menu);
+
+        menu.findItem(R.id.action_save).setVisible(false);
+        menu.findItem(R.id.action_next).setVisible(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_save) {
+            return true;
+        }
+        if (id == R.id.action_next) {
+            mListener.nextPage(1);
+            return true;
+        }
+        if (id == android.R.id.home) {
+            getActivity().finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void updateUI(Item item){

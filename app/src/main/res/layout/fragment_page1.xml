@@ -19,15 +19,19 @@
         android:singleLine="true"
         android:maxLines="1"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="@drawable/button_white">
         <com.parse.ParseImageView
             android:id="@+id/ivImage1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:scaleType="center"
-            android:layout_margin="10dp"
-            android:background="@drawable/button_white"
             android:src="@drawable/compose_camera_btn"/>
+    </LinearLayout>
         <!--<ImageView-->
             <!--android:id="@+id/ivImage2"-->
             <!--android:layout_width="match_parent"-->
