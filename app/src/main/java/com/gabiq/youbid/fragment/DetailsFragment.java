@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -61,7 +62,7 @@ public class DetailsFragment extends Fragment {
     private ViewPager mPager;
     private Field mScroller;
     private FixedSpeedScroller scroller;
-    private static Interpolator sAnimator = new AccelerateDecelerateInterpolator();
+    private static Interpolator sAnimator = new LinearInterpolator();
 
 
     public enum ViewType {
@@ -151,16 +152,16 @@ public class DetailsFragment extends Fragment {
         mPager = (ViewPager) rootView.findViewById(R.id.pager);
         mPager.setOffscreenPageLimit(2);
 
-//        try {
-//            mScroller = ViewPager.class.getDeclaredField("mScroller");
-//            mScroller.setAccessible(true);
-//            scroller = new FixedSpeedScroller(mPager.getContext(), sAnimator);
-//            scroller.setDuration(500);
-//            mScroller.set(mPager, scroller);
-//        } catch (NoSuchFieldException e) {
-//        } catch (IllegalArgumentException e) {
-//        } catch (IllegalAccessException e1) {
-//        }
+        try {
+            mScroller = ViewPager.class.getDeclaredField("mScroller");
+            mScroller.setAccessible(true);
+            scroller = new FixedSpeedScroller(mPager.getContext(), sAnimator);
+            scroller.setDuration(500);
+            mScroller.set(mPager, scroller);
+        } catch (NoSuchFieldException e) {
+        } catch (IllegalArgumentException e) {
+        } catch (IllegalAccessException e1) {
+        }
 
         mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
             @Override
