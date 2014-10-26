@@ -12,11 +12,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.activity.CreateItemActivity;
 import com.gabiq.youbid.activity.ProfileActivity;
@@ -47,9 +47,9 @@ public class DetailsFragment extends Fragment {
     private Menu detailsMenu;
     private ImageView ivProfile;
 
-    private Button btnDetails ;
-    private Button btnComments ;
-    private Button btnBids ;
+    private BootstrapButton btnDetails ;
+    private BootstrapButton btnComments ;
+    private BootstrapButton btnBids ;
     private ViewType defaultTab = ViewType.Details;
 
 
@@ -96,7 +96,7 @@ public class DetailsFragment extends Fragment {
             }
         });
 
-        btnDetails = (Button)rootView.findViewById(R.id.btnDetails);
+        btnDetails = (BootstrapButton)rootView.findViewById(R.id.btnDetails);
         btnDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,7 +104,7 @@ public class DetailsFragment extends Fragment {
             }
         });
 
-        btnComments = (Button)rootView.findViewById(R.id.btnComments);
+        btnComments = (BootstrapButton)rootView.findViewById(R.id.btnComments);
         btnComments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,7 +112,7 @@ public class DetailsFragment extends Fragment {
             }
         });
 
-        btnBids = (Button)rootView.findViewById(R.id.btnBids);
+        btnBids = (BootstrapButton)rootView.findViewById(R.id.btnBids);
         btnBids.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -324,21 +324,21 @@ public class DetailsFragment extends Fragment {
                 SubmitOfferFragment submitOfferFragment = SubmitOfferFragment.newInstance(itemId);
                 ft.replace(R.id.flCommentsContainer, submitOfferFragment);
                 ft.commit();
-                btnDetails.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                btnDetails.setLeftIcon("fa-chevron-down");
                 break;
             case Comments:
                 ft = getFragmentManager().beginTransaction();
                 commentFragment = CommentsFragment.newInstance(itemId);
                 ft.replace(R.id.flCommentsContainer, commentFragment);
                 ft.commit();
-                btnComments.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                btnComments.setLeftIcon("fa-chevron-down");
                 break;
             case Bids:
                 ft = getFragmentManager().beginTransaction();
                 BidListFragment bidListFragment = BidListFragment.newInstance(itemId, isSeller);
                 ft.replace(R.id.flCommentsContainer, bidListFragment);
                 ft.commit();
-                btnBids.setBackgroundColor(getResources().getColor(android.R.color.background_light));
+                btnBids.setLeftIcon("fa-chevron-down");
                 break;
         }
 
@@ -347,10 +347,9 @@ public class DetailsFragment extends Fragment {
 
     private void resetButtons()
     {
-        btnBids.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
-        btnComments.setBackgroundColor(getResources().getColor(android.R.color.holo_orange_light));
-        btnDetails.setBackgroundColor(getResources().getColor(android.R.color.holo_green_light));
-
+        btnBids.setLeftIcon(null);
+        btnComments.setLeftIcon(null);
+        btnDetails.setLeftIcon(null);
     }
 
 

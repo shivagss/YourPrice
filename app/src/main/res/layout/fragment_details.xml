@@ -28,6 +28,7 @@
         android:layout_toEndOf="@+id/ivProfile"
         android:layout_alignTop="@+id/ivProfile"
         android:layout_marginLeft="5dp"
+        android:textStyle="bold"
         android:layout_marginTop="10dp" />
 
     <TextView
@@ -82,34 +83,46 @@
 
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" android:background="#F5E7E4">
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
+        android:layout_height="wrap_content">
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Details"
             android:id="@+id/btnDetails"
+            bootstrap:bb_icon_left="fa-chevron-right"
+            bootstrap:bb_type="primary"
+            android:layout_alignParentLeft="true"
+            android:textSize="14dp"/>
 
-            android:textSize="14dp"
-  />
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="1"
-            android:text="Comments"
-            android:textSize="14dp"
-            android:id="@+id/btnComments"/>
-        <Button
-            android:layout_width="0dp"
-            android:layout_weight="1"
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:layout_width="wrap_content"
             android:text="Offers"
             android:textSize="14dp"
             android:id="@+id/btnBids"
-            android:layout_height="40dp"/>
-        </LinearLayout>
+            bootstrap:bb_icon_left="fa-chevron-right"
+            bootstrap:bb_type="warning"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="49dp"
+            android:layout_toRightOf="@+id/btnComments"
+            android:layout_toEndOf="@+id/btnComments" />
+
+        <com.beardedhen.androidbootstrap.BootstrapButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Comments"
+            android:textSize="14dp"
+            bootstrap:bb_icon_left="fa-chevron-right"
+            bootstrap:bb_type="info"
+            android:id="@+id/btnComments"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/btnDetails"
+            android:layout_toEndOf="@+id/btnDetails" />
+    </RelativeLayout>
 
     <FrameLayout android:id="@+id/flCommentsContainer"
         android:layout_width="match_parent"

@@ -336,12 +336,12 @@ public class BootstrapButton extends FrameLayout {
 	 * @param leftIcon- String value for the icon as per http://fortawesome.github.io/Font-Awesome/cheatsheet/
 	 */
 	public void setLeftIcon(String leftIcon) {
-		
+
 		String icon = faMap.get(leftIcon);
-		
 		if (icon == null)
 		{
-			icon = faMap.get(FA_ICON_QUESTION);
+			//icon = faMap.get(FA_ICON_QUESTION);
+            lblLeft.setText("");
 		}
 		
 		lblLeft.setText(icon);
