@@ -98,18 +98,18 @@
                     android:inputType="numberDecimal"
                     android:maxLines="1"
                     android:textSize="20sp"
-                    android:layout_marginLeft="50dp"
+                    android:layout_marginLeft="30dp"
                     bootstrapbutton:be_state="success" />
 
                 <Button
                     android:id="@+id/btnBid"
-                    android:layout_width="150dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="20sp"
                     android:gravity="center"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
-                    style="@style/Button.Accept"
+                    style="@style/Button.Green"
                     android:text="Submit Offer" />
                 </LinearLayout>
 
