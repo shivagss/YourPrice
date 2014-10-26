@@ -9,6 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        style="@style/CommentCell.WithPadding"
         android:layout_gravity="bottom"
         android:layout_marginBottom="10dp"
         android:orientation="horizontal">
@@ -40,6 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/lyCaptionForm"
         android:id="@+id/lyPriceForm"
+        style="@style/CommentCell.WithPadding"
         android:layout_marginBottom="20dp"
         android:orientation="horizontal">
 

@@ -5,46 +5,53 @@
     android:orientation="vertical"
     tools:context="com.gabiq.youbid.fragment.Page1Fragment">
 
-
-
-    <EditText
-        android:id="@+id/etCaption"
+    <LinearLayout
+        style="@style/CommentCell.WithPadding"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="left|center_vertical"
-        android:padding="10dp"
-        android:layout_margin="10dp"
-        android:background="@drawable/edit_text_box"
-        android:hint="Caption"
-        android:singleLine="true"
-        android:maxLines="1"/>
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/etCaption"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/edit_text_box"
+            android:gravity="left|center_vertical"
+            android:hint="Caption"
+            android:maxLines="1"
+            android:padding="10dp"
+            android:singleLine="true" />
+
+    </LinearLayout>
 
     <LinearLayout
+        style="@style/CommentCell.WithPadding"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="10dp"
         android:background="@drawable/button_white">
+
         <com.parse.ParseImageView
             android:id="@+id/ivImage1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:scaleType="center"
-            android:src="@drawable/compose_camera_btn"/>
+            android:src="@drawable/compose_camera_btn" />
     </LinearLayout>
-        <!--<ImageView-->
-            <!--android:id="@+id/ivImage2"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:src="@drawable/compose_camera_btn"/>-->
-        <!--<ImageView-->
-            <!--android:id="@+id/ivImage3"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:src="@drawable/compose_camera_btn"/>-->
-        <!--<ImageView-->
-            <!--android:id="@+id/ivImage4"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:src="@drawable/compose_camera_btn"/>-->
+    <!--<ImageView-->
+    <!--android:id="@+id/ivImage2"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:src="@drawable/compose_camera_btn"/>-->
+    <!--<ImageView-->
+    <!--android:id="@+id/ivImage3"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:src="@drawable/compose_camera_btn"/>-->
+    <!--<ImageView-->
+    <!--android:id="@+id/ivImage4"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:src="@drawable/compose_camera_btn"/>-->
 </LinearLayout>
