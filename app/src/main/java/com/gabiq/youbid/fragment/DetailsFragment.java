@@ -203,10 +203,36 @@ public class DetailsFragment extends Fragment {
                     .load(photoFile.getUrl())
                     .into(ivProfile);
         }
-
         tvLocation = (TextView)rootView.findViewById(R.id.tvItemLocation);
         tvLocation.setText(item.getUser().getLocationText());
   }
+
+/*
+    private Target target = new Target() {
+        @Override
+        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+            ivProfile.setImage(bitmap);
+        }
+
+        @Override
+        public void onBitmapFailed(Drawable drawable) {
+
+        }
+
+        @Override
+        public void onPrepareLoad(Drawable drawable) {
+
+        }
+    };
+
+
+
+    @Override
+    public void onDestroy() {  // could be in onPause or onStop
+        Picasso.with(getActivity()).cancelRequest(target);
+        super.onDestroy();
+    }
+    */
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

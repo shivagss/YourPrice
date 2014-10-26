@@ -75,7 +75,9 @@
     <style name="Button.Green">
         <item name="android:background">@color/LightGreen</item>
     </style>
-
+    <style name="Button.DarkGreen">
+        <item name="android:background">@color/green</item>
+    </style>
     <style name="Button.Red" >
         <item name="android:background">@color/LightPink</item>
     </style>
