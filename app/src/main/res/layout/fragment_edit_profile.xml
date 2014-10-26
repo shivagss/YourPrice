@@ -51,6 +51,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:paddingBottom="10dp"
             style="@style/CommentCell.WithPadding"
             android:orientation="vertical">
 
@@ -80,6 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             style="@style/CommentCell.WithPadding"
+            android:paddingBottom="10dp"
             android:orientation="vertical">
 
             <TextView
@@ -106,6 +108,7 @@
             android:id="@+id/lyEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
             android:layout_marginBottom="10dp"
             style="@style/CommentCell.WithPadding"
             android:orientation="vertical">
@@ -135,6 +138,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:paddingBottom="10dp"
             style="@style/CommentCell.WithPadding"
             android:orientation="vertical">
 
@@ -192,6 +196,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:paddingBottom="10dp"
             style="@style/CommentCell.WithPadding"
             android:orientation="vertical">
 
@@ -220,6 +225,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:paddingBottom="10dp"
             style="@style/CommentCell.WithPadding"
             android:orientation="vertical">
 

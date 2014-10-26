@@ -15,7 +15,6 @@
             android:id="@+id/lvBidList"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:item_margin="5dp"
             android:background="@color/backgroundList"
             android:divider="@color/backgroundList"
             android:paddingTop="5dp"

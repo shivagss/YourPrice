@@ -119,6 +119,7 @@ public class AppPushBroadcastReceiver extends ParsePushBroadcastReceiver {
 
 
                     notification.save();
+                    notification.loadUserInfo();
                 }
             } catch (JSONException e) {
                 Log.e("Error", "Error parsing json in push notification " + e.toString());

@@ -156,7 +156,7 @@ public class MessageListFragment extends Fragment {
 
         btnBidAccept = (Button) view.findViewById(R.id.btnBidAccept);
         btnBidAccept.setVisibility(View.GONE);
-        btnBidReject = (Button) view.findViewById(R.id.btnBidAccept);
+        btnBidReject = (Button) view.findViewById(R.id.btnBidReject);
         btnBidReject.setVisibility(View.GONE);
         etPostMessage = (EditText) view.findViewById(R.id.etPostMessage);
         ivPostMessage = (ImageView) view.findViewById(R.id.ivPostMessage);
@@ -179,6 +179,9 @@ public class MessageListFragment extends Fragment {
                         if (bid.getState().equals("pending")) {
                             btnBidAccept.setVisibility(View.VISIBLE);
                             btnBidReject.setVisibility(View.VISIBLE);
+                        } else {
+                            btnBidAccept.setVisibility(View.GONE);
+                            btnBidReject.setVisibility(View.GONE);
                         }
 
                     } else {

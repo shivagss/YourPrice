@@ -16,6 +16,7 @@ import com.gabiq.youbid.adapter.NotificationAdapter;
 import com.gabiq.youbid.model.Notification;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RecentActivityFragment extends Fragment {
     ArrayList<Notification> notificationList;
@@ -101,7 +102,9 @@ public class RecentActivityFragment extends Fragment {
 
     void loadNotifications() {
         notificationAdapter.clear();
-        notificationAdapter.addAll(Notification.getAll());
+        List<Notification> notificationList = Notification.getAll();
+
+        notificationAdapter.addAll(notificationList);
 
         if (notificationAdapter.getCount() == 0) {
             // display empty message

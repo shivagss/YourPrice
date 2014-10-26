@@ -32,6 +32,7 @@
             style="?attr/aviaryBottomBarLogoContainerStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             android:layout_weight="0" >
 
             <ImageView
@@ -39,7 +40,7 @@
                 style="?attr/aviaryBottomBarLogoImageStyle"
                 android:contentDescription="@string/feather_powered_by_aviary"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </LinearLayout>
 

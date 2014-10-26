@@ -2,9 +2,12 @@ package com.gabiq.youbid.adapter;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gabiq.youbid.R;
@@ -34,12 +37,15 @@ public class MessageListAdapter extends ParseQueryAdapter<Message> {
         final ViewHolder viewHolder;
 
         if (convertView == null) {
-            convertView = View.inflate(getContext(), R.layout.comment_item, null);
+            convertView = View.inflate(getContext(), R.layout.entry_message, null);
 
             viewHolder = new ViewHolder();
 
-            viewHolder.ivProfileImg = (ImageView) convertView
-                    .findViewById(R.id.ivProfileImg);
+            viewHolder.rlBubble = (RelativeLayout) convertView.findViewById(R.id.rlBubble);
+            viewHolder.ivProfileImgMe = (ImageView) convertView
+                    .findViewById(R.id.ivProfileImgMe);
+            viewHolder.ivProfileImgOther = (ImageView) convertView
+                    .findViewById(R.id.ivProfileImgOther);
             viewHolder.tvUserName = (TextView) convertView.findViewById(R.id.tvUserName);
             viewHolder.tvBody = (TextView) convertView.findViewById(R.id.tvBody);
             viewHolder.tvTime = (TextView) convertView.findViewById(R.id.tvTime);
@@ -58,21 +64,33 @@ public class MessageListAdapter extends ParseQueryAdapter<Message> {
         viewHolder.tvUserName.setText(sender.getString("name"));
         ParseFile photoFile = sender.getParseFile("photo");
 
+        boolean isMe = sender.getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
+        if (isMe) {
+            viewHolder.ivProfileImgMe.setVisibility(View.VISIBLE);
+            viewHolder.ivProfileImgOther.setVisibility(View.GONE);
+        } else {
+            viewHolder.ivProfileImgOther.setVisibility(View.VISIBLE);
+            viewHolder.ivProfileImgMe.setVisibility(View.GONE);
+        }
+        final ImageView profileView = isMe ? viewHolder.ivProfileImgMe : viewHolder.ivProfileImgOther;
+
         if (photoFile != null) {
             Picasso.with(getContext())
                     .load(photoFile.getUrl())
                     .placeholder(getContext().getResources().getDrawable(R.drawable.ic_icon_profile))
                     .transform(new RoundTransform())
-                    .into(viewHolder.ivProfileImg);
+                    .into(profileView);
         } else {
-            viewHolder.ivProfileImg.setImageResource(R.drawable.ic_icon_profile);
+            profileView.setImageResource(R.drawable.ic_icon_profile);
         }
 
         return convertView;
     }
 
     private static class ViewHolder {
-        ImageView ivProfileImg;
+        RelativeLayout rlBubble;
+        ImageView ivProfileImgMe;
+        ImageView ivProfileImgOther;
         TextView tvUserName;
         TextView tvBody;
         TextView tvTime;
