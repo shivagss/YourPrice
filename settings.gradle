@@ -13,4 +13,10 @@ include ':ViewPagerIndicator'
 // Android-Bootstrap
 include ':AndroidBootstrap'
 
+// Paralloid
+include ':paralloid'
+
+// ParalloidViews
+include ':paralloidViews'
+
 include ':app'

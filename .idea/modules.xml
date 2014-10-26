@@ -8,6 +8,8 @@
       <module fileurl="file://$PROJECT_DIR$/ViewPagerIndicator/ViewPagerIndicator.iml" filepath="$PROJECT_DIR$/ViewPagerIndicator/ViewPagerIndicator.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://$PROJECT_DIR$/facebook-sdk/facebook/facebook.iml" filepath="$PROJECT_DIR$/facebook-sdk/facebook/facebook.iml" />
+      <module fileurl="file://$PROJECT_DIR$/paralloid/paralloid.iml" filepath="$PROJECT_DIR$/paralloid/paralloid.iml" />
+      <module fileurl="file://$PROJECT_DIR$/paralloidviews/paralloidViews.iml" filepath="$PROJECT_DIR$/paralloidviews/paralloidViews.iml" />
       <module fileurl="file://$PROJECT_DIR$/youbid.iml" filepath="$PROJECT_DIR$/youbid.iml" />
     </modules>
   </component>
