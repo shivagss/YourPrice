@@ -36,6 +36,10 @@
         <item name="android:background">@color/backgroundGridCell</item>
     </style>
 
+    <style name="GridCell.Box">
+        <item name="android:background">@drawable/container_drop_shadow</item>
+    </style>
+
     <style name="GridCell.Image">
         <item name="android:padding">@dimen/grid_cell_image_padding</item>
     </style>
