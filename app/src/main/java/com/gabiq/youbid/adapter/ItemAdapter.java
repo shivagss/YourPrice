@@ -79,12 +79,12 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
                         } else if (position == 1) {
                             // comment
                             Intent intent = new Intent(getContext(), DetailsActivity.class);
-                            intent.putExtra("item_id",item.getObjectId());
+                            intent.putExtra("item_id", viewHolder.item.getObjectId());
                             intent.putExtra("type", "comment");
                             getContext().startActivity(intent);
                         } else if (position == 2) {
                             // share
-                            String text = "Check out this " + item.getCaption() + ": http://yourprice.com/viewitem?item_id=" + item.getObjectId() + "";
+                            String text = "Check out this " + viewHolder.item.getCaption() + ": http://yourprice.com/viewitem?item_id=" + viewHolder.item.getObjectId() + "";
                             Intent sendIntent = new Intent();
                             sendIntent.setAction(Intent.ACTION_SEND);
                             sendIntent.putExtra(Intent.EXTRA_TEXT, text);
@@ -109,7 +109,7 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getContext(), DetailsActivity.class);
-                    intent.putExtra("item_id",item.getObjectId());
+                    intent.putExtra("item_id", viewHolder.item.getObjectId());
                     getContext().startActivity(intent);
                 }
             });
@@ -158,7 +158,7 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
                 break;
         }
 
-        viewHolder.itemId = item.getObjectId();
+        viewHolder.item = item;
         viewHolder.tvItemCellCaption.setText(item.getString("caption"));
         viewHolder.ivItemCellImage.setImageResource(imageResource);
         if (item.getHasSold()) {
@@ -221,7 +221,7 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
     }
 
     private static class ViewHolder {
-        String itemId;
+        Item item;
         ImageView ivItemCellImage;
         ImageView ivItemCellSold;
         TextView tvItemCellCaption;
