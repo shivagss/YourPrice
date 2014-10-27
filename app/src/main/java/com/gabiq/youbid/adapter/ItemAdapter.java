@@ -76,6 +76,35 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
 
                         if (position == 0) {
                             // like
+                            // check if we already liked this item
+                            ParseQuery<Favorite> query = ParseQuery.getQuery("Favorite");
+                            query.whereEqualTo("user", ParseUser.getCurrentUser());
+                            query.whereEqualTo("itemId", viewHolder.item.getObjectId());
+                            query.getFirstInBackground(new GetCallback<Favorite>() {
+                                public void done(Favorite favorite, ParseException e) {
+                                    if (favorite != null) {
+                                        // unfavorite
+                                        favorite.deleteInBackground();
+
+                                        viewHolder.item.increment("likeCount", -1);
+                                        viewHolder.item.saveInBackground();
+                                    } else {
+                                        // favorite
+                                        Favorite newFavorite = new Favorite();
+                                        newFavorite.setItem(viewHolder.item);
+                                        newFavorite.setUser(ParseUser.getCurrentUser());
+                                        newFavorite.saveInBackground();
+
+                                        viewHolder.item.increment("likeCount");
+                                        viewHolder.item.saveInBackground();
+                                    }
+
+                                    int likeCount = item.getLikeCount();
+                                    viewHolder.tvLikesCount.setText(String.valueOf(likeCount));
+                                }
+                            });
+
+
                         } else if (position == 1) {
                             // comment
                             Intent intent = new Intent(getContext(), DetailsActivity.class);
