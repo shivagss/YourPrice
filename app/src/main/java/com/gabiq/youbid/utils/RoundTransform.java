@@ -34,7 +34,11 @@ public class RoundTransform implements Transformation
 
         Bitmap output = Bitmap.createBitmap(source.getWidth(), source.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(output);
-        canvas.drawCircle(margin + source.getWidth()/2, margin + source.getHeight()/2, source.getWidth()/2, paint);
+        int dimension = source.getWidth();
+        if (source.getHeight() < dimension) {
+            dimension = source.getHeight();
+        }
+        canvas.drawCircle(margin + source.getWidth()/2, margin + source.getHeight()/2, dimension/2, paint);
 //        canvas.drawRoundRect(new RectF(margin, margin, source.getWidth() - margin, source.getHeight() - margin), radius, radius, paint);
 
         if (source != output) {
