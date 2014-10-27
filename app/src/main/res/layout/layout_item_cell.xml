@@ -44,6 +44,7 @@
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
                 android:layout_centerVertical="true"
+                android:alpha="0.5"
                 android:src="@drawable/ic_views" />
 
             <TextView
@@ -64,6 +65,7 @@
                 android:scaleType="centerCrop"
                 android:layout_toRightOf="@+id/tvViewsCount"
                 android:layout_centerVertical="true"
+                android:alpha="0.5"
                 android:src="@drawable/ic_likes" />
 
             <TextView
