@@ -11,6 +11,7 @@
     <RelativeLayout
         android:id="@+id/detailsHeader"
         android:layout_width="match_parent"
+        style="@style/CommentCell.WithPadding"
         android:layout_height="wrap_content">
 
         <ImageView
@@ -19,6 +20,8 @@
             android:layout_height="60dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
+            android:padding="2dp"
+            android:scaleType="centerCrop"
             android:src="@drawable/ic_icon_profile" />
 
         <TextView
@@ -46,8 +49,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            style = "@style/CommentCellTime"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="8dp"
             android:text="" />
 
         <com.beardedhen.androidbootstrap.FontAwesomeText
@@ -57,7 +61,7 @@
             android:layout_alignTop="@+id/tvTimePosted"
             android:layout_toLeftOf="@+id/tvTimePosted"
             android:layout_toStartOf="@+id/tvTimePosted"
-            android:textColor="@color/Gray"
+            android:textColor="@color/textCommentTime"
             fontawesometext:fa_icon="fa-clock-o" />
 
         <TextView
@@ -66,8 +70,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_below="@id/tvTimePosted"
+            style = "@style/CommentCellTime"
             android:layout_marginRight="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="8dp"
             android:text="" />
 
         <com.beardedhen.androidbootstrap.FontAwesomeText
@@ -77,7 +82,8 @@
             android:layout_alignTop="@+id/tvViewsCount"
             android:layout_toLeftOf="@+id/tvViewsCount"
             android:layout_toStartOf="@+id/tvViewsCount"
-            android:textColor="@color/Gray"
+            android:textColor="@color/textCommentTime"
+            android:layout_marginTop="-2dp"
             fontawesometext:fa_icon="fa-eye" />
 
 
