@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gabiq.youbid.R;
@@ -48,6 +49,11 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
             viewHolder.ivItemCellImage = (ImageView) convertView.findViewById(R.id.ivItemCellImage);
             viewHolder.btnItemCellFavorite = (Button) convertView.findViewById(R.id.btnItemCellFavorite);
             viewHolder.ivItemCellSold = (ImageView) convertView.findViewById(R.id.ivItemCellSold);
+            viewHolder.tvViewsCount = (TextView) convertView.findViewById(R.id.tvViewsCount);
+            viewHolder.tvLikesCount = (TextView) convertView.findViewById(R.id.tvLikesCount);
+            viewHolder.ivViewsIcon = (ImageView) convertView.findViewById(R.id.ivViewsIcon);
+            viewHolder.ivLikesIcon = (ImageView) convertView.findViewById(R.id.ivLikesIcon);
+            viewHolder.rlItemCellStatus = (RelativeLayout) convertView.findViewById(R.id.rlItemCellStatus);
 
             viewHolder.btnItemCellFavorite.setOnTouchListener(new View.OnTouchListener() {
 
@@ -99,6 +105,32 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
             viewHolder.ivItemCellSold.setVisibility(View.GONE);
         }
 
+        int viewCount = item.getViewCount();
+        viewHolder.tvViewsCount.setText(String.valueOf(viewCount));
+
+        int likeCount = item.getLikeCount();
+        viewHolder.tvLikesCount.setText(String.valueOf(likeCount));
+
+        if (viewCount == 0 && likeCount == 0) {
+            viewHolder.rlItemCellStatus.setVisibility(View.GONE);
+        } else {
+            viewHolder.rlItemCellStatus.setVisibility(View.VISIBLE);
+            if (viewCount == 0) {
+                viewHolder.ivViewsIcon.setVisibility(View.GONE);
+                viewHolder.tvViewsCount.setVisibility(View.GONE);
+            } else {
+                viewHolder.ivViewsIcon.setVisibility(View.VISIBLE);
+                viewHolder.tvViewsCount.setVisibility(View.VISIBLE);
+            }
+            if (false && likeCount == 0) {
+                viewHolder.ivLikesIcon.setVisibility(View.GONE);
+                viewHolder.tvLikesCount.setVisibility(View.GONE);
+            } else {
+                viewHolder.ivLikesIcon.setVisibility(View.VISIBLE);
+                viewHolder.tvLikesCount.setVisibility(View.VISIBLE);
+            }
+        }
+
         ParseFile photoFile = item.getParseFile("thumbnail");
         if (photoFile != null) {
             Picasso.with(getContext())
@@ -132,6 +164,11 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
         ImageView ivItemCellSold;
         TextView tvItemCellCaption;
         Button btnItemCellFavorite;
+        TextView tvViewsCount;
+        TextView tvLikesCount;
+        ImageView ivViewsIcon;
+        ImageView ivLikesIcon;
+        RelativeLayout rlItemCellStatus;
     }
 
 }

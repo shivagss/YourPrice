@@ -122,4 +122,12 @@ public class Item extends ParseObject{
         addAllUnique("keywords", list);
     }
 
+    public int getLikeCount() {
+        return getInt("likeCount");
+    }
+    public void setLikeCount(int likeCount) {
+        put("likeCount", likeCount);
+    }
+
+
 }
