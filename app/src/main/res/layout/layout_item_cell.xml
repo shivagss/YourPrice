@@ -33,9 +33,48 @@
 
         <RelativeLayout
             style="@style/GridCell.Description"
+            android:id="@+id/rlItemCellStatus"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <ImageView
+                android:id="@+id/ivViewsIcon"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_views" />
+
+            <TextView
+                style="@style/GridCell.Footer"
+                android:id="@+id/tvViewsCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_toRightOf="@+id/ivViewsIcon"
+                android:text="0" />
+
+            <ImageView
+                android:id="@+id/ivLikesIcon"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:layout_toRightOf="@+id/tvViewsCount"
+                android:layout_centerVertical="true"
+                android:src="@drawable/ic_likes" />
+
+            <TextView
+                style="@style/GridCell.Footer"
+                android:id="@+id/tvLikesCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_toRightOf="@+id/ivLikesIcon"
+                android:text="0" />
         </RelativeLayout>
 
 
