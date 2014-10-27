@@ -9,7 +9,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.EditText;
 import android.widget.GridView;
@@ -43,7 +45,7 @@ public class CreateItemActivity extends FragmentActivity implements OnNewItemFra
     private CreateItemFragmentAdapter mAdapter;
     private Item mItem;
     private ProgressDialog mProgressDialog;
-    private static Interpolator sAnimator = new OvershootInterpolator();
+    private static Interpolator sAnimator = new AccelerateDecelerateInterpolator();
 
     private static final Interpolator sInterpolator = new Interpolator() {
         public float getInterpolation(float t) {
@@ -79,7 +81,7 @@ public class CreateItemActivity extends FragmentActivity implements OnNewItemFra
             mScroller = ViewPager.class.getDeclaredField("mScroller");
             mScroller.setAccessible(true);
             scroller = new FixedSpeedScroller(mPager.getContext(), sAnimator);
-            scroller.setDuration(1500);
+            scroller.setDuration(1000);
             mScroller.set(mPager, scroller);
         } catch (NoSuchFieldException e) {
         } catch (IllegalArgumentException e) {
