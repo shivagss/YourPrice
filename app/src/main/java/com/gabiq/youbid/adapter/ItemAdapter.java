@@ -1,34 +1,34 @@
 package com.gabiq.youbid.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
-import android.view.MotionEvent;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.capricorn.ArcMenu;
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.activity.DetailsActivity;
+import com.gabiq.youbid.fragment.CommentsFragment;
+import com.gabiq.youbid.fragment.DialogCommentsFragment;
 import com.gabiq.youbid.model.Favorite;
 import com.gabiq.youbid.model.Item;
 import com.parse.GetCallback;
-import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 
 import java.math.BigInteger;
-import java.util.Random;
 
 public class ItemAdapter extends ParseQueryAdapter<Item> {
     private static final int[] ITEM_DRAWABLES = { R.drawable.composer_like, R.drawable.composer_comment, R.drawable.composer_share };
@@ -107,10 +107,15 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
 
                         } else if (position == 1) {
                             // comment
-                            Intent intent = new Intent(getContext(), DetailsActivity.class);
-                            intent.putExtra("item_id", viewHolder.item.getObjectId());
-                            intent.putExtra("type", "comment");
-                            getContext().startActivity(intent);
+                            FragmentActivity activity = (FragmentActivity)getContext();
+                            FragmentManager fm = activity.getSupportFragmentManager();
+                            DialogCommentsFragment commentFragment = DialogCommentsFragment.newInstance(viewHolder.item.getObjectId());
+                            commentFragment.show(fm, "dialog_comments_fragment");
+
+//                            Intent intent = new Intent(getContext(), DetailsActivity.class);
+//                            intent.putExtra("item_id", viewHolder.item.getObjectId());
+//                            intent.putExtra("type", "comment");
+//                            getContext().startActivity(intent);
                         } else if (position == 2) {
                             // share
                             String text = "Check out this " + viewHolder.item.getCaption() + ": http://yourprice.com/viewitem?item_id=" + viewHolder.item.getObjectId() + "";
