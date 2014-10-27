@@ -14,7 +14,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.capricorn.ArcMenu;
 import com.etsy.android.grid.StaggeredGridView;
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.activity.DetailsActivity;
@@ -81,6 +83,8 @@ public class GridFragment extends Fragment {
     }
 
     private void setupViews(View view) {
+
+
         mGvItemGrid = (StaggeredGridView) view.findViewById(R.id.gvItemGrid);
         emptySection = (RelativeLayout) view.findViewById(R.id.emptySection);
         mGvItemGrid.setEmptyView(emptySection);
@@ -88,18 +92,18 @@ public class GridFragment extends Fragment {
 //        mEmptyImage = (ImageView) view.findViewById(R.id.empty_image);
 
 
+//        mGvItemGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                if (position >= mItemAdapter.getCount()) return;
+//                Item item = mItemAdapter.getItem(position);
+//
+//                Intent intent = new Intent(getActivity(), DetailsActivity.class);
+//                intent.putExtra("item_id",item.getObjectId());
+//                startActivity(intent);
+//            }
+//        });
 
-        mGvItemGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                if (position >= mItemAdapter.getCount()) return;
-                Item item = mItemAdapter.getItem(position);
-
-                Intent intent = new Intent(getActivity(), DetailsActivity.class);
-                intent.putExtra("item_id",item.getObjectId());
-                startActivity(intent);
-            }
-        });
 
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 

@@ -1,9 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
+     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="5dp"
-    android:background="#f0f0f0">
+    android:padding="5dp">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeContainer"
@@ -21,6 +20,7 @@
             app:column_count_portrait="2"
             app:column_count_landscape="3"/>
     </android.support.v4.widget.SwipeRefreshLayout>
+
 
     <RelativeLayout
         android:id="@+id/emptySection"
