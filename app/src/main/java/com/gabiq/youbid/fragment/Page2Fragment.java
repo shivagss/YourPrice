@@ -226,9 +226,9 @@ public class Page2Fragment extends Fragment {
 //                }
 //            });
 
-            item.setMinPrice(Double.parseDouble(etItemMinPrice.getText().toString()));
             item.setDescription(etItemDescription.getText().toString());
             item.setKeywords(mTagsList);
+            item.setMinPrice(Double.parseDouble(etItemMinPrice.getText().toString()));
         } catch (NumberFormatException e) {
             //Do nothing
             item.setMinPrice(0);
