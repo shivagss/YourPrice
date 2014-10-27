@@ -50,6 +50,7 @@ public class SubmitOfferFragment extends Fragment {
     private ProgressBar progressBar;
     private View view;
     private RelativeLayout bidSection;
+    private RelativeLayout sellerSection;
 
 
     /**
@@ -108,6 +109,8 @@ public class SubmitOfferFragment extends Fragment {
 
         bidSection = (RelativeLayout)view.findViewById(R.id.bidSection);
         retrieveItem(itemId);
+
+        sellerSection = (RelativeLayout)view.findViewById(R.id.layoutSeller);
 
         cbItemSold = (CheckBox) view.findViewById(R.id.cbItemSold);
         cbItemSold.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -225,16 +228,19 @@ public class SubmitOfferFragment extends Fragment {
         tvCaption.setText(item.getCaption());
 
         TextView tvDesc = (TextView)view.findViewById(R.id.tvDescription);
-        tvDesc.setText(item.getDescription());
+        if(item.getDescription() != null) {
+            tvDesc.setText(item.getDescription());
+            tvDesc.setVisibility(View.VISIBLE);
+        }
 
         boolean isSeller = item.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
         if (isSeller) {
             bidSection.setVisibility(View.GONE);
-            cbItemSold.setVisibility(View.VISIBLE);
+            sellerSection.setVisibility(View.VISIBLE);
             cbItemSold.setChecked(item.getHasSold());
         } else {
             bidSection.setVisibility(View.VISIBLE);
-            cbItemSold.setVisibility(View.GONE);
+            sellerSection.setVisibility(View.GONE);
         }
 
         if (item.getHasSold()) {

@@ -65,6 +65,7 @@ public class Page1Fragment extends Fragment {
     private Bitmap photoBitmap;
     private EditText etItemCaption;
     private ParseImageView btnPhoto;
+    private String item_id;
 
 
     /**
@@ -145,7 +146,7 @@ public class Page1Fragment extends Fragment {
                 Bitmap image = BitmapFactory.decodeByteArray(file, 0, file.length);
                 photoBitmap = image;
                 btnPhoto.setParseFile(itemCoverPhoto);
-                btnPhoto.setScaleType(ImageView.ScaleType.FIT_XY);
+                btnPhoto.setScaleType(ImageView.ScaleType.CENTER_CROP);
             } catch (ParseException e) {
                 btnPhoto.setImageResource(android.R.drawable.ic_dialog_alert);
                 btnPhoto.setScaleType(ImageView.ScaleType.CENTER);
@@ -232,8 +233,9 @@ public class Page1Fragment extends Fragment {
 
     private byte[] getScaledPhoto(Bitmap bmImage) {
 
+        float ratio = (bmImage.getHeight()*1.0f)/(bmImage.getWidth()*1.0f);
         int height = 300;
-        int width = 300;
+        int width = (int)(300 / ratio);
 
         if (bmImage.getHeight() > 300) {
             height = bmImage.getHeight();
@@ -244,7 +246,7 @@ public class Page1Fragment extends Fragment {
         if (bmImage.getWidth() > 300) {
             width = bmImage.getWidth();
             if (width > 600) {
-                width = 600;
+                width = (int)(600 / ratio);
             }
         }
 
@@ -272,6 +274,10 @@ public class Page1Fragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        item_id = getActivity().getIntent().getStringExtra("item_id");
+        if(TextUtils.isEmpty(item_id)){
+            openImageIntent();
+        }
     }
 
     @Override
@@ -335,7 +341,7 @@ public class Page1Fragment extends Fragment {
 
                 try {
                     photoBitmap = BitmapFactory.decodeFile(mImageUri.getPath());
-                    btnPhoto.setScaleType(ImageView.ScaleType.FIT_XY);
+                    btnPhoto.setScaleType(ImageView.ScaleType.CENTER_CROP);
                     btnPhoto.setImageBitmap(photoBitmap);
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -345,6 +351,14 @@ public class Page1Fragment extends Fragment {
                             Toast.LENGTH_SHORT).show();
                 }
 
+            }
+        }else{
+            if(photoBitmap == null) {
+                if(requestCode == AVIARY_PHOTO_CODE){
+                    openImageIntent();
+                }else {
+                    getActivity().finish();
+                }
             }
         }
     }

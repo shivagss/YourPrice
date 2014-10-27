@@ -12,10 +12,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 import android.view.animation.LinearInterpolator;
-import android.view.animation.OvershootInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,10 +21,11 @@ import android.widget.Toast;
 import com.beardedhen.androidbootstrap.BootstrapButton;
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.activity.CreateItemActivity;
-import com.gabiq.youbid.adapter.DetailsFragmentAdapter;
 import com.gabiq.youbid.activity.ProfileActivity;
+import com.gabiq.youbid.adapter.DetailsFragmentAdapter;
 import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.utils.FixedSpeedScroller;
+import com.gabiq.youbid.utils.RoundTransform;
 import com.gabiq.youbid.utils.Utils;
 import com.parse.DeleteCallback;
 import com.parse.GetCallback;
@@ -257,6 +256,7 @@ public class DetailsFragment extends Fragment {
         if (photoFile != null) {
             Picasso.with(getActivity())
                     .load(photoFile.getUrl())
+                    .transform(new RoundTransform())
                     .into(ivProfile);
         }
         tvLocation.setText(item.getUser().getLocationText());
