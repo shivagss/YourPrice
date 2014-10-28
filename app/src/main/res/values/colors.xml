@@ -200,4 +200,8 @@
     <color name="refreshColor1">#CE1919</color>
     <color name="dialogTitleColor">#CE1919</color>
 
+    <color name="editTextBoxColor">#70CE1919</color>
+
+    <color name="secondaryTextColor">#D8D8D8</color>
+
 </resources>

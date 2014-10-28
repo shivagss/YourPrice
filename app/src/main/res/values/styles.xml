@@ -77,7 +77,7 @@
 
     <style name="Button">
         <item name="android:textColor">@color/white</item>
-        <item name="android:background">@color/LightSkyBlue</item>
+        <item name="android:background">@color/buttonDefault</item>
         <item name="android:textSize">@dimen/grid_cell_footer_textSize</item>
         <item name="android:paddingLeft">@dimen/button_horizontal_padding</item>
         <item name="android:paddingRight">@dimen/button_horizontal_padding</item>
