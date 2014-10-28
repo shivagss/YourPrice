@@ -5,15 +5,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.WindowManager;
 
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.fragment.DetailsFragment;
+import com.gabiq.youbid.fragment.OfferConfirmation;
 
-public class DetailsActivity extends FragmentActivity {
+public class DetailsActivity extends FragmentActivity implements OfferConfirmation.AlertDialogListener {
 
+    private DetailsFragment detailsFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,12 +39,17 @@ public class DetailsActivity extends FragmentActivity {
         }
         if (savedInstanceState == null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            DetailsFragment detailsFragment = DetailsFragment.newInstance(itemId, viewType);
+            detailsFragment = DetailsFragment.newInstance(itemId, viewType);
             ft.replace(R.id.container, detailsFragment);
             ft.commit();
         }
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
     }
 
+    @Override
+    public void onDialogPositiveClick(double amount, String itemId) {
+        detailsFragment.submitOffer(amount, itemId);
+    }
 }
