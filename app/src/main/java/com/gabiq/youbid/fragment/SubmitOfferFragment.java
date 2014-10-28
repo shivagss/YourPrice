@@ -1,6 +1,7 @@
 package com.gabiq.youbid.fragment;
 
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -51,6 +52,7 @@ public class SubmitOfferFragment extends Fragment {
     private View view;
     private RelativeLayout bidSection;
     private RelativeLayout sellerSection;
+    AlertDialog dialog;
 
 
     /**
@@ -96,8 +98,9 @@ public class SubmitOfferFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 try {
-                    double bidAmount = Double.parseDouble(etBidAmount.getText().toString());
-                    submitBid(bidAmount);
+                    //double bidAmount = Double.parseDouble(etBidAmount.getText().toString());
+                    //submitBid(bidAmount);
+                    showAlert();
                     etBidAmount.clearFocus();
                 }
                 catch(Exception e)
@@ -136,7 +139,7 @@ public class SubmitOfferFragment extends Fragment {
 
         progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
 
-        retrievePreviousBid(itemId);
+        //retrievePreviousBid(itemId);
 
         return view;
     }
@@ -150,6 +153,7 @@ public class SubmitOfferFragment extends Fragment {
                 if(e == null){
                     if(bid != null)
                     {
+                        tvBidStatus = (TextView)view.findViewById(R.id.tvBidStatus);
                         tvBidStatus.setText(getResources().getString(R.string.bid_amount_last) + " " + String.valueOf(bid.getPrice()));
                         tvBidStatus.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
                     }
@@ -160,6 +164,27 @@ public class SubmitOfferFragment extends Fragment {
         });
     }
 
+    private void showAlert()
+    {
+        OfferConfirmation dialog = new OfferConfirmation();
+        dialog.setAmount(Double.parseDouble(etBidAmount.getText().toString()));
+        dialog.setItemId(itemId);
+        dialog.show(getFragmentManager(), "OfferConfirmation");
+        etBidAmount.getText().clear();
+    }
+
+
+    public void submitOffer(double amount, String itemId) {
+        Bid bid = new Bid();
+        bid.setItemId(itemId);
+        bid.setBuyer(ParseUser.getCurrentUser());
+        bid.setPrice(amount);
+        bid.setState("pending"); //Pending, accepted, rejected states
+        bid.saveInBackground();
+        //retrievePreviousBid(itemId);
+    }
+
+/*
     private void submitBid(double amount) {
         int validity = validBid(amount);
         if( validity == 0) {
@@ -184,7 +209,9 @@ public class SubmitOfferFragment extends Fragment {
         }
         tvBidStatus.setVisibility(View.VISIBLE);
 
+
     }
+
 
     private int validBid(double amount) {
         //Simple rule of basic validation
@@ -194,7 +221,7 @@ public class SubmitOfferFragment extends Fragment {
         //    return 1;
         return 0;
     }
-
+  */
     private void retrieveItem(String itemId){
         ParseQuery<Item> query = ParseQuery.getQuery("Item");
         query.whereEqualTo("objectId", itemId);

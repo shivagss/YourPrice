@@ -64,6 +64,8 @@ public class DetailsFragment extends Fragment {
     private static Interpolator sAnimator = new LinearInterpolator();
 
 
+
+
     public enum ViewType {
         Details,
         Comments,
@@ -406,5 +408,10 @@ public class DetailsFragment extends Fragment {
         btnDetails.setLeftIcon("fa-chevron-right");
     }
 
+    public void submitOffer(double amount, String itemId) {
+        SubmitOfferFragment offerFragment = (SubmitOfferFragment) mAdapter.getItem(0);
+        if(offerFragment != null)
+            offerFragment.submitOffer(amount, itemId);
+    }
 
 }

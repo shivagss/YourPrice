@@ -98,6 +98,10 @@
     <style name="Button.Reject" parent="Button.Red">
     </style>
 
-
+    <style name="Animations" />
+    <style name="Animations.SlideWindow">
+        <item name="@android:windowEnterAnimation">@anim/slide_in_left</item>
+        <item name="@android:windowExitAnimation">@anim/slide_out_right</item>
+    </style>
 
 </resources>

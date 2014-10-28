@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/detailsPicSection"
     android:layout_width="match_parent"
+    android:tag="submitOfferFragment"
     android:layout_height="wrap_content">
 
     <ScrollView
