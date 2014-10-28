@@ -132,4 +132,11 @@ public class Item extends ParseObject{
         put("likeCount", likeCount);
     }
 
+    public int getCommentCount() {
+        return getInt("commentCount");
+    }
+    public void setCommentCount(int commentCount) {
+        put("commentCount", commentCount);
+    }
+
 }
