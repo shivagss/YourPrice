@@ -216,21 +216,21 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
             viewHolder.rlItemCellStatus.setVisibility(View.GONE);
         } else {
             viewHolder.rlItemCellStatus.setVisibility(View.VISIBLE);
-            if (viewCount == 0) {
+            if (false && viewCount == 0) {
                 viewHolder.ivViewsIcon.setVisibility(View.GONE);
                 viewHolder.tvViewsCount.setVisibility(View.GONE);
             } else {
                 viewHolder.ivViewsIcon.setVisibility(View.VISIBLE);
                 viewHolder.tvViewsCount.setVisibility(View.VISIBLE);
             }
-            if (false && likeCount == 0) {
+            if (likeCount == 0) {
                 viewHolder.ivLikesIcon.setVisibility(View.GONE);
                 viewHolder.tvLikesCount.setVisibility(View.GONE);
             } else {
                 viewHolder.ivLikesIcon.setVisibility(View.VISIBLE);
                 viewHolder.tvLikesCount.setVisibility(View.VISIBLE);
             }
-            if (false && commentsCount == 0) {
+            if (commentsCount == 0) {
                 viewHolder.ivCommentsIcon.setVisibility(View.GONE);
                 viewHolder.tvCommentsCount.setVisibility(View.GONE);
             } else {
