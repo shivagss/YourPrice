@@ -12,10 +12,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.gabiq.youbid.R;
@@ -32,6 +34,8 @@ import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+
+import uk.co.chrisjenx.paralloid.Parallaxor;
 
 
 /**
@@ -148,7 +152,11 @@ public class SubmitOfferFragment extends Fragment {
 
         progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
 
-
+        FrameLayout topContent = (FrameLayout) view.findViewById(R.id.top_content);
+        ScrollView scrollView = (ScrollView) view.findViewById(R.id.scroll_view);
+        if (scrollView instanceof Parallaxor) {
+            ((Parallaxor) scrollView).parallaxViewBy(topContent, 0.5f);
+        }
 
         //retrievePreviousBid(itemId);
 
