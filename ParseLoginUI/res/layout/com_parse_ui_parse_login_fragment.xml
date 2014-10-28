@@ -14,10 +14,10 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0.5"
+        android:alpha="0.80"
         android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        android:src="@drawable/gg"/>
+        android:scaleType="centerCrop"
+        android:src="@drawable/login"/>
 
     <LinearLayout
         android:layout_width="match_parent"
