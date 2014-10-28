@@ -1,8 +1,11 @@
 package com.gabiq.youbid.adapter;
 
+import android.app.Activity;
 import android.content.Context;
-import android.util.Log;
-import android.view.MotionEvent;
+import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -10,23 +13,25 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.capricorn.ArcMenu;
 import com.gabiq.youbid.R;
+import com.gabiq.youbid.activity.DetailsActivity;
+import com.gabiq.youbid.fragment.CommentsFragment;
+import com.gabiq.youbid.fragment.DialogCommentsFragment;
 import com.gabiq.youbid.model.Favorite;
 import com.gabiq.youbid.model.Item;
 import com.parse.GetCallback;
-import com.parse.GetDataCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
-import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
 
 import java.math.BigInteger;
-import java.util.Random;
 
 public class ItemAdapter extends ParseQueryAdapter<Item> {
+    private static final int[] ITEM_DRAWABLES = { R.drawable.composer_like, R.drawable.composer_comment, R.drawable.composer_share };
 
     public ItemAdapter(Context context, ParseQueryAdapter.QueryFactory<Item> parseQuery) {
         super(context, parseQuery);
@@ -36,6 +41,7 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
 //    protected void setPageOnQuery(int page, ParseQuery<Item> query) {
 //        super.setPageOnQuery(page, query);
 //    }
+
 
     @Override
     public View getItemView(final Item item, View convertView, ViewGroup parent) {
@@ -47,26 +53,113 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
             viewHolder = new ViewHolder();
             viewHolder.tvItemCellCaption = (TextView) convertView.findViewById(R.id.tvItemCellCaption);
             viewHolder.ivItemCellImage = (ImageView) convertView.findViewById(R.id.ivItemCellImage);
-            viewHolder.btnItemCellFavorite = (Button) convertView.findViewById(R.id.btnItemCellFavorite);
+//            viewHolder.btnItemCellFavorite = (Button) convertView.findViewById(R.id.btnItemCellFavorite);
             viewHolder.ivItemCellSold = (ImageView) convertView.findViewById(R.id.ivItemCellSold);
             viewHolder.tvViewsCount = (TextView) convertView.findViewById(R.id.tvViewsCount);
             viewHolder.tvLikesCount = (TextView) convertView.findViewById(R.id.tvLikesCount);
             viewHolder.ivViewsIcon = (ImageView) convertView.findViewById(R.id.ivViewsIcon);
             viewHolder.ivLikesIcon = (ImageView) convertView.findViewById(R.id.ivLikesIcon);
             viewHolder.rlItemCellStatus = (RelativeLayout) convertView.findViewById(R.id.rlItemCellStatus);
+            viewHolder.arcMenu = (ArcMenu) convertView.findViewById(R.id.arc_menu);
 
-            viewHolder.btnItemCellFavorite.setOnTouchListener(new View.OnTouchListener() {
+            int[] itemDrawables = ITEM_DRAWABLES;
+            final int itemCount = itemDrawables.length;
+            for (int i = 0; i < itemCount; i++) {
+                ImageView menuitem = new ImageView(getContext());
+                menuitem.setImageResource(itemDrawables[i]);
 
+                final int position = i;
+                viewHolder.arcMenu.addItem(menuitem, new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+
+                        if (position == 0) {
+                            // like
+                            // check if we already liked this item
+                            ParseQuery<Favorite> query = ParseQuery.getQuery("Favorite");
+                            query.whereEqualTo("user", ParseUser.getCurrentUser());
+                            query.whereEqualTo("itemId", viewHolder.item.getObjectId());
+                            query.getFirstInBackground(new GetCallback<Favorite>() {
+                                public void done(Favorite favorite, ParseException e) {
+                                    if (favorite != null) {
+                                        // unfavorite
+                                        favorite.deleteInBackground();
+
+                                        viewHolder.item.increment("likeCount", -1);
+                                        viewHolder.item.saveInBackground();
+                                    } else {
+                                        // favorite
+                                        Favorite newFavorite = new Favorite();
+                                        newFavorite.setItem(viewHolder.item);
+                                        newFavorite.setUser(ParseUser.getCurrentUser());
+                                        newFavorite.saveInBackground();
+
+                                        viewHolder.item.increment("likeCount");
+                                        viewHolder.item.saveInBackground();
+                                    }
+
+                                    int likeCount = item.getLikeCount();
+                                    viewHolder.tvLikesCount.setText(String.valueOf(likeCount));
+                                }
+                            });
+
+
+                        } else if (position == 1) {
+                            // comment
+                            FragmentActivity activity = (FragmentActivity)getContext();
+                            FragmentManager fm = activity.getSupportFragmentManager();
+                            DialogCommentsFragment commentFragment = DialogCommentsFragment.newInstance(viewHolder.item.getObjectId());
+                            commentFragment.show(fm, "dialog_comments_fragment");
+
+//                            Intent intent = new Intent(getContext(), DetailsActivity.class);
+//                            intent.putExtra("item_id", viewHolder.item.getObjectId());
+//                            intent.putExtra("type", "comment");
+//                            getContext().startActivity(intent);
+                        } else if (position == 2) {
+                            // share
+                            String text = "Check out this " + viewHolder.item.getCaption() + ": http://yourprice.com/viewitem?item_id=" + viewHolder.item.getObjectId() + "";
+                            Intent sendIntent = new Intent();
+                            sendIntent.setAction(Intent.ACTION_SEND);
+                            sendIntent.putExtra(Intent.EXTRA_TEXT, text);
+                            sendIntent.setType("text/plain");
+                            getContext().startActivity(Intent.createChooser(sendIntent, "Share via"));
+                        }
+//                        Toast.makeText(getContext(), "position:" + position, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+
+            convertView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    boolean isFavorite = !item.isFavorite();
-                    Favorite.setFavorite(item, isFavorite);
-                    item.setFavorite(isFavorite);
-                    viewHolder.btnItemCellFavorite.setPressed(isFavorite);
-
+                public boolean onLongClick(View view) {
+                    viewHolder.arcMenu.setVisibility(View.VISIBLE);
+                    viewHolder.arcMenu.openMenu();
                     return true;
                 }
             });
+
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getContext(), DetailsActivity.class);
+                    intent.putExtra("item_id", viewHolder.item.getObjectId());
+                    getContext().startActivity(intent);
+                }
+            });
+
+//            viewHolder.btnItemCellFavorite.setOnTouchListener(new View.OnTouchListener() {
+//
+//                @Override
+//                public boolean onTouch(View v, MotionEvent event) {
+//                    boolean isFavorite = !item.isFavorite();
+//                    Favorite.setFavorite(item, isFavorite);
+//                    item.setFavorite(isFavorite);
+//                    viewHolder.btnItemCellFavorite.setPressed(isFavorite);
+//
+//                    return true;
+//                }
+//            });
 
             convertView.setTag(viewHolder);
         } else {
@@ -76,6 +169,9 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
         super.getItemView(item, convertView, parent);
 
         BigInteger bigInt = new BigInteger(item.getObjectId().getBytes());
+
+        viewHolder.arcMenu.setVisibility(View.INVISIBLE);
+        viewHolder.arcMenu.toState(false, false);
 
         int imageResource = 0;
         switch (bigInt.intValue() % 5) {
@@ -96,7 +192,7 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
                 break;
         }
 
-        viewHolder.itemId = item.getObjectId();
+        viewHolder.item = item;
         viewHolder.tvItemCellCaption.setText(item.getString("caption"));
         viewHolder.ivItemCellImage.setImageResource(imageResource);
         if (item.getHasSold()) {
@@ -159,7 +255,7 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
     }
 
     private static class ViewHolder {
-        String itemId;
+        Item item;
         ImageView ivItemCellImage;
         ImageView ivItemCellSold;
         TextView tvItemCellCaption;
@@ -169,6 +265,7 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
         ImageView ivViewsIcon;
         ImageView ivLikesIcon;
         RelativeLayout rlItemCellStatus;
+        ArcMenu arcMenu;
     }
 
 }

@@ -1,5 +1,5 @@
 // Parse Login UI Library
-include ':ParseLoginUI'
+include ':ParseLoginUI', ':ArcMenu'
 
 // Facebook SDK
 include 'facebook-sdk:facebook'
