@@ -19,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import com.gabiq.youbid.activity.EditProfileActivity;
 import com.gabiq.youbid.activity.UserListActivity;
 import com.gabiq.youbid.model.Followers;
 import com.gabiq.youbid.model.Item;
+import com.gabiq.youbid.utils.RoundTransform;
 import com.parse.CountCallback;
 import com.parse.DeleteCallback;
 import com.parse.FindCallback;
@@ -40,6 +42,7 @@ import com.parse.ParseImageView;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -64,8 +67,7 @@ public class ProfileFragment extends Fragment {
     private String userId;
     private UserStoreFragment storeFragment;
     private ParseUser mUser;
-    private ParseImageView ivBackgroundPic;
-    private ParseImageView ivProfilePic;
+    private ImageView ivProfilePic;
     private TextView tvUserName;
     private TextView tvScreenName;
     private TextView tvLocation;
@@ -141,8 +143,8 @@ public class ProfileFragment extends Fragment {
         btnUnFollow.setVisibility(View.GONE);
 
         ParseQuery<ParseUser> query = ParseUser.getQuery();
-    query.whereEqualTo("objectId", userId);
-    query.findInBackground(new FindCallback<ParseUser>() {
+        query.whereEqualTo("objectId", userId);
+        query.findInBackground(new FindCallback<ParseUser>() {
         public void done(List<ParseUser> objects, ParseException e) {
             if (e == null) {
                 mUser = (ParseUser) objects.get(0);
@@ -159,15 +161,14 @@ public class ProfileFragment extends Fragment {
                 tvWebsite.setText(mUser.getString("website"));
                 tvDescription.setText(mUser.getString("about"));
                 ParseFile photoFile = mUser.getParseFile("photo");
+
                 if (photoFile != null) {
-                    ivProfilePic.setParseFile(photoFile);
-                    ivProfilePic.loadInBackground(new GetDataCallback() {
-                        @Override
-                        public void done(byte[] data, ParseException e) {
-                            // nothing to do
-                        }
-                    });
+                    Picasso.with(getActivity())
+                            .load(photoFile.getUrl())
+                            .transform(new RoundTransform())
+                            .into(ivProfilePic);
                 }
+
             } else {
                 // Something went wrong.
             }
@@ -177,8 +178,7 @@ public class ProfileFragment extends Fragment {
 }
 
     private void setupViews(View v) {
-        ivBackgroundPic = (ParseImageView) v.findViewById(R.id.ivBackgroundPic);
-        ivProfilePic = (ParseImageView) v.findViewById(R.id.ivProfilePic);
+        ivProfilePic = (ImageView) v.findViewById(R.id.ivProfilePic);
         ivProfilePic.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

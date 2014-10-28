@@ -25,5 +25,7 @@
     <!--Comment Cell-->
     <dimen name="comment_cell_time_textSize">12sp</dimen>
 
+    <!--Edit Text-->
+    <dimen name="edit_text_rounded_radius">0dp</dimen>
 
 </resources>

@@ -7,147 +7,156 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        tools:context="com.codepath.shivagss.twitterclient.activity.ProfileActivity">
+        android:orientation="vertical">
 
         <RelativeLayout
             android:id="@+id/rlProfileBackground"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="wrap_content"
             android:gravity="center">
 
-            <com.parse.ParseImageView
-                android:id="@+id/ivBackgroundPic"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop" />
+        <RelativeLayout
+            android:id="@+id/rlTopHeader"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-            <com.parse.ParseImageView
+        <ImageView
                 android:id="@+id/ivProfilePic"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginLeft="10dp"
                 android:adjustViewBounds="true"
+                android:padding="5dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/ic_icon_profile"
-                android:padding="5dp" />
+                android:src="@drawable/ic_icon_profile" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_toRightOf="@id/ivProfilePic"
-                android:layout_marginTop="0dp"
-                android:layout_marginLeft="10dp"
-                android:layout_alignTop="@id/ivProfilePic"
+                android:layout_height="wrap_content"
                 android:layout_alignBottom="@id/ivProfilePic"
-                android:layout_height="wrap_content">
-            <TextView
-                android:id="@+id/tvUserName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Full Name"
-                android:textColor="@color/primary_color"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/tvScreenName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tvUserName"
-                android:layout_marginTop="2dp"
-                android:text="username"
-                android:textColor="@color/primary_color"
-                android:textSize="12sp" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/tvScreenName"
-                android:layout_marginTop="2dp">
+                android:layout_alignTop="@id/ivProfilePic"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="0dp"
+                android:layout_toRightOf="@id/ivProfilePic">
 
                 <TextView
-                    android:id="@+id/tvLocation"
+                    android:id="@+id/tvUserName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
-                    android:drawablePadding="5dp"
-                    android:gravity="center"
-                    android:paddingTop="2dp"
-                    android:text=""
+                    android:text="Full Name"
                     android:textColor="@color/primary_color"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvScreenName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvUserName"
+                    android:layout_marginTop="2dp"
+                    android:text="username"
+                    android:textColor="@color/secondaryTextColor"
                     android:textSize="12sp" />
 
-                <TextView
-                    android:id="@+id/tvDisplayURL"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_centerHorizontal="true"
-                    android:layout_toRightOf="@id/tvLocation"
-                    android:gravity="center"
-                    android:paddingTop="2dp"
-                    android:text="website.com "
-                    android:textColor="@color/primary_color"
-                    android:textSize="12sp"
-                    android:textStyle="bold" />
-            </RelativeLayout>
+                    android:layout_below="@id/tvScreenName"
+                    android:layout_marginTop="2dp">
+
+                    <TextView
+                        android:id="@+id/tvLocation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="5dp"
+                        android:gravity="left"
+                        android:paddingTop="2dp"
+                        android:text="location"
+                        android:textColor="@color/secondaryTextColor"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/tvDisplayURL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tvLocation"
+                        android:gravity="left"
+                        android:paddingTop="2dp"
+                        android:text="website.com"
+                        android:textColor="@color/secondaryTextColor"
+                        android:textSize="12sp"
+                        android:textStyle="bold" />
+                </RelativeLayout>
 
             </RelativeLayout>
 
-            <Button
-                android:id="@+id/btnFollowIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/Button.Accept"
-                android:layout_alignParentRight="true"
-                android:drawableLeft="@drawable/ic_action_follow"
-                android:layout_alignParentBottom="true"
-                android:drawablePadding="5dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="10dp"
-                android:gravity="center"
-                android:text="Follow"/>
 
-            <Button
-                android:id="@+id/btnFollowingIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                style="@style/Button.Accept"
-                android:layout_alignParentRight="true"
-                android:drawableLeft="@drawable/ic_action_following"
-                android:layout_alignParentBottom="true"
-                android:drawablePadding="5dp"
-                android:layout_marginBottom="10dp"
-                android:visibility="invisible"
-                android:layout_marginRight="10dp"
-                android:text="Following"
-                android:gravity="center"/>
+        </RelativeLayout>
 
-            <Button
-                android:id="@+id/btnEditProfile"
-                android:layout_width="wrap_content"
-                style="@style/Button.Accept"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="10dp"
-                android:visibility="invisible"
-                android:text="Edit Profile"
-                android:gravity="center"/>
 
             <TextView
                 android:id="@+id/tvUserDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/ivProfilePic"
-                android:gravity="center"
-                android:layout_marginLeft="10dp"
+                android:layout_below="@id/rlTopHeader"
+                android:layout_marginLeft="15dp"
                 android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center"
                 android:text="Store for novelty products"
                 android:textColor="@color/primary_color"
-                android:textSize="12sp" />
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/btnFollowIcon"
+                style="@style/Button.Green"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/rlTopHeader"
+                android:layout_alignBaseline="@+id/tvUserDescription"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:drawableLeft="@drawable/ic_action_follow"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:text="Follow"
+                android:textSize="14sp" />
+
+            <Button
+                android:id="@+id/btnFollowingIcon"
+                style="@style/Button.Red"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/rlTopHeader"
+                android:layout_alignBaseline="@+id/tvUserDescription"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:drawableLeft="@drawable/ic_action_following"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:text="Unfollow"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/btnEditProfile"
+                android:layout_width="120dp"
+                android:layout_height="40dp"
+                android:layout_below="@id/rlTopHeader"
+                android:layout_alignBaseline="@+id/tvUserDescription"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:text="Edit Profile"
+                android:textSize="14sp"
+                android:visibility="gone" />
+
 
         </RelativeLayout>
 
@@ -220,9 +229,9 @@
             android:background="@android:color/darker_gray" />
 
         <FrameLayout
+            android:id="@+id/flStoreContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/flStoreContainer">
+            android:layout_height="match_parent">
 
         </FrameLayout>
 
