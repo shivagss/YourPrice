@@ -53,13 +53,22 @@ public class DialogCommentsFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        getDialog().setTitle("COMMENTS");
+        getDialog().setTitle("Comments");
+        // Customize Animation
         getDialog().getWindow()
                 .getAttributes().windowAnimations = R.style.DialogAnimation;
 //        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.MyDialog);
+        // Customize Header Color
+        TextView title = (TextView)getDialog().findViewById( android.R.id.title );
+        title.setTextColor( getResources().getColor( R.color.dialogTitleColor ) );
+        int titleDividerId = getResources().getIdentifier("titleDivider", "id", "android");
+        View titleDivider = getDialog().findViewById(titleDividerId);
+        if (titleDivider != null)
+            titleDivider.setBackgroundColor(getResources().getColor(R.color.dialogTitleColor));
 
-        if(getArguments() != null)
+        if (getArguments() != null) {
             itemId = getArguments().getString("itemId");
+        }
         View view = inflater.inflate(R.layout.fragment_comments, container, false);
 
         lvComments = (ListView) view.findViewById(R.id.lvComments);
@@ -153,7 +162,7 @@ public class DialogCommentsFragment extends DialogFragment {
             }
         });
         // Configure the refreshing colors
-        swipeContainer.setColorScheme(android.R.color.holo_blue_bright,
+        swipeContainer.setColorScheme(R.color.refreshColor1,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);

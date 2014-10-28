@@ -9,7 +9,19 @@
         <item name="android:actionMenuTextColor">@color/textActionBar</item>
 
         <item name="android:actionButtonStyle">@style/ActionButtonStyle</item>
+        <!--<item name="android:windowTitleStyle">@style/DialogWindowTitleTextAppearance</item>-->
+
     </style>
+
+    <!--<style name="DialogWindowTitleStyle" parent="@android:style/TextAppearance.DialogWindowTitle">-->
+        <!--<item name="android:textAppearance">@style/DialogWindowTitleTextAppearance</item>-->
+    <!--</style>-->
+
+    <!--<style name="DialogWindowTitleTextAppearance" parent="@android:style/TextAppearance.DialogWindowTitle">-->
+        <!--<item name="android:textColor">@color/dialogTitleColor</item>-->
+        <!--<item name="android:fontFamily">sans-serif-condensed</item>-->
+        <!--<item name="android:textStyle">bold</item>-->
+    <!--</style>-->
 
     <style name="ActionButtonStyle" parent="@android:style/Widget.Holo.Light.ActionButton">
         <item name="android:minWidth">28dip</item>
@@ -26,7 +38,7 @@
     <style name="ActionBarTitleText"
         parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">@color/textActionBar</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textStyle">italic</item>
     </style>
 
 

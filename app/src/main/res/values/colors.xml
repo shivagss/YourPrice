@@ -166,8 +166,10 @@
     <color name="placeholder4">#f0F7A645</color>
     <color name="placeholder5">#f0CE1919</color>
 
-    <color name="backgroundActionBar">#E6E6E6</color>
-    <color name="textActionBar">#4B4B4B</color>
+    <!--<color name="backgroundActionBar">#E6E6E6</color>-->
+    <!--<color name="textActionBar">#4B4B4B</color>-->
+    <color name="backgroundActionBar">#80FFFFFF</color>
+    <color name="textActionBar">#CE1919</color>
 
     <color name="backgroundFragment">#F2F2F2</color>
     <color name="backgroundHeader">#E9E9E9</color>
@@ -191,5 +193,11 @@
     <color name="buttonRed">#CE1919</color>
     <color name="buttonDefault">#0084c3</color>
 
+    <color name="drawerDark">#CE1919</color>
+    <color name="drawerLight">#e0CE1919</color>
+    <color name="drawerItemPressed">#40000000</color>
+
+    <color name="refreshColor1">#CE1919</color>
+    <color name="dialogTitleColor">#CE1919</color>
 
 </resources>
