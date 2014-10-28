@@ -1,6 +1,7 @@
 package com.gabiq.youbid.model;
 
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 
 @ParseClassName("Keyword")
@@ -15,7 +16,11 @@ public class Keyword extends ParseObject {
     }
 
     public String getKeyword() {
-        return getString("keyword");
+        try {
+            return fetchIfNeeded().getString("keyword");
+        } catch (ParseException e) {
+            return "";
+        }
     }
 
     public void setKeyword(String keyword) {

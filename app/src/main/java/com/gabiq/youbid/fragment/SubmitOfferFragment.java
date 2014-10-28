@@ -7,18 +7,22 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gabiq.youbid.R;
+import com.gabiq.youbid.adapter.ItemTagsViewAdapter;
 import com.gabiq.youbid.model.Bid;
 import com.gabiq.youbid.model.Item;
+import com.gabiq.youbid.model.Keyword;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -26,6 +30,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 
 
 /**
@@ -53,6 +59,9 @@ public class SubmitOfferFragment extends Fragment {
     private RelativeLayout bidSection;
     private RelativeLayout sellerSection;
     AlertDialog dialog;
+    private GridView gvTags;
+    private ArrayList<Keyword> mTagsList;
+    private ArrayAdapter<Keyword> mTagsAdapter;
 
 
     /**
@@ -138,6 +147,8 @@ public class SubmitOfferFragment extends Fragment {
         ivItemSold = (ImageView) view.findViewById(R.id.ivItemSold);
 
         progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
+
+
 
         //retrievePreviousBid(itemId);
 
@@ -275,6 +286,17 @@ public class SubmitOfferFragment extends Fragment {
             bidSection.setVisibility(View.GONE);
         } else {
             ivItemSold.setVisibility(View.GONE);
+        }
+
+        gvTags = (GridView) view.findViewById(R.id.gvTagsDetails);
+        mTagsList = new ArrayList<Keyword>();
+        mTagsAdapter = new ItemTagsViewAdapter(getActivity(), mTagsList);
+        mTagsAdapter.addAll(item.getKeywords());
+        gvTags.setAdapter(mTagsAdapter);
+        if (mTagsList.size() == 0) {
+            gvTags.setVisibility(View.GONE);
+        } else {
+            gvTags.setVisibility(View.VISIBLE);
         }
 
     }

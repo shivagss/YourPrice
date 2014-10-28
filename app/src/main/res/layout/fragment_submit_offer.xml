@@ -87,11 +87,22 @@
                     android:visibility="gone" />
             </RelativeLayout>
 
+            <GridView
+                android:id="@+id/gvTagsDetails"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"
+                android:padding="10dp"
+                android:layout_below="@id/detailsSection"
+                style="@style/CommentCell.WithPadding"
+                android:numColumns="5">
+            </GridView>
+
             <RelativeLayout
                 android:id="@+id/bidSection"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/detailsSection"
+                android:layout_below="@id/gvTagsDetails"
                 style="@style/CommentCell.WithPadding"
                 android:paddingTop="10dp"
                 android:paddingBottom="15dp"
@@ -142,6 +153,8 @@
 
 
             </RelativeLayout>
+
+
 
             <RelativeLayout
                 android:layout_width="match_parent"

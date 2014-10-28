@@ -1,14 +1,11 @@
 package com.gabiq.youbid.model;
 
 
-import com.parse.CountCallback;
-import com.parse.GetCallback;
 import com.parse.ParseClassName;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseGeoPoint;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -105,7 +102,12 @@ public class Item extends ParseObject{
 
     public List<Keyword> getKeywords(){
         List<Keyword> list = new ArrayList<Keyword>();
-        List<Keyword> cloudList = getList("keywords");
+        List<Keyword> cloudList = null;
+        try {
+            cloudList = fetch(). getList("keywords");
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         if(cloudList != null){
             list.addAll(cloudList);
         }
