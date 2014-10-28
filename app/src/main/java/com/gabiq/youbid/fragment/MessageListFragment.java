@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -42,6 +43,8 @@ import com.parse.SaveCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.List;
 
 public class MessageListFragment extends Fragment {
     private static final String ARG_ITEM_ID = "itemId";
@@ -291,6 +294,24 @@ public class MessageListFragment extends Fragment {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
 //                bidListAdapter.loadNextPage();
+            }
+        });
+
+        final RelativeLayout emptySection = (RelativeLayout) view.findViewById(R.id.emptySection);
+        lvMessageList.setEmptyView(emptySection);
+
+        final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+
+        messageListAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Message>() {
+            @Override
+            public void onLoading() {
+//                progressBar.setVisibility(View.VISIBLE);
+                emptySection.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onLoaded(List<Message> message, Exception e) {
+                progressBar.setVisibility(View.GONE);
             }
         });
 

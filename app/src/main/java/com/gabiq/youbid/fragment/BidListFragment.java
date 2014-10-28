@@ -14,18 +14,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.activity.BidListActivity;
 import com.gabiq.youbid.activity.MessageListActivity;
 import com.gabiq.youbid.adapter.BidListAdapter;
 import com.gabiq.youbid.model.Bid;
+import com.gabiq.youbid.model.Comment;
 import com.gabiq.youbid.utils.EndlessScrollListener;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import java.util.List;
 
 public class BidListFragment extends Fragment {
     private static final String ARG_ISSELLER_ID = "isSeller";
@@ -169,6 +174,24 @@ public class BidListFragment extends Fragment {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
 //                bidListAdapter.loadNextPage();
+            }
+        });
+
+        final RelativeLayout emptySection = (RelativeLayout) view.findViewById(R.id.emptySection);
+        lvBidList.setEmptyView(emptySection);
+
+        final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+
+        bidListAdapter.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Bid>() {
+            @Override
+            public void onLoading() {
+//                progressBar.setVisibility(View.VISIBLE);
+                emptySection.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onLoaded(List<Bid> bid, Exception e) {
+                progressBar.setVisibility(View.GONE);
             }
         });
 

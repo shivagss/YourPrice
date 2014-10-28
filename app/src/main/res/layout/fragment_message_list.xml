@@ -90,6 +90,8 @@
             android:paddingBottom="5dp" />
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <include layout="@layout/list_empty_base" />
+
     <RelativeLayout
         android:id="@+id/rlFooter"
         android:layout_width="match_parent"

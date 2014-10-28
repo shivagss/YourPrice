@@ -46,7 +46,8 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
 
         Bundle extras = intent.getExtras();
         if((extras != null)){
-            dispatchNotification(extras);        }
+            dispatchNotification(extras);
+        }
     }
 
     protected void onNewIntent(Intent intent) {
