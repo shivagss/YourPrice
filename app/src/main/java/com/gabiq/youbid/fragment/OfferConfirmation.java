@@ -8,6 +8,7 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.gabiq.youbid.R;
 
@@ -48,6 +49,8 @@ public class OfferConfirmation extends DialogFragment {
         View v = inflater.inflate(R.layout.offer_confirmation, null);
         Button btnCancel = (Button) v.findViewById(R.id.btnCancel);
         Button btnConfirm = (Button)v.findViewById(R.id.btnConfirm);
+        TextView tvOfferText = (TextView)v.findViewById(R.id.tvOfferConfirmBody);
+        tvOfferText.setText(getResources().getString(R.string.offer_confirm_body)+" $" + Double.toString(amount));
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override

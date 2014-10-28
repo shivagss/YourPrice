@@ -18,8 +18,8 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="@string/offer_confirm_body"
         android:layout_marginBottom="10dp"
-        android:textColor="@color/textCommentTime"
-        android:id="@+id/textView2" />
+        android:textColor="@color/DarkGray"
+        android:id="@+id/tvOfferConfirmBody" />
 
     <Button
         android:layout_width="match_parent"
