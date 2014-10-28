@@ -54,6 +54,7 @@
     <Button
         android:id="@+id/create_account"
         style="@style/ParseLoginUI.Button"
+        android:alpha="0.80"
         android:layout_marginTop="@dimen/com_parse_ui_small_vertical_spacing"
         android:text="@string/com_parse_ui_create_account_button_label" />
 

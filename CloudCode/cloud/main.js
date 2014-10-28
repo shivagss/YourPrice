@@ -140,6 +140,25 @@ function getCommenters(itemId, callback) {
   });
 }
 
+function updateCommentCount(item) {
+  query = new Parse.Query("Comment");
+  query.equalTo("itemId", item.id);
+  query.count({
+    success: function(count) {
+      item.set("commentCount", count);
+      item.save(null, {
+        success: function(item) {
+        },
+        error: function(item, error) {
+        }
+      });
+    },
+    error: function(error) {
+      // The request failed
+    }
+  });
+}
+
 Parse.Cloud.afterSave("Comment", function(request) {
   var itemId = request.object.get("itemId");
   var commentId = request.object.id
@@ -192,6 +211,9 @@ Parse.Cloud.afterSave("Comment", function(request) {
               console.log("Error sending comment push notification to " + seller);
             }
           });
+
+          // update item comment count
+          updateCommentCount(item);
         },
         error: function(error) {
           console.error("Got an error " + error.code + " : " + error.message);

@@ -57,8 +57,10 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
             viewHolder.ivItemCellSold = (ImageView) convertView.findViewById(R.id.ivItemCellSold);
             viewHolder.tvViewsCount = (TextView) convertView.findViewById(R.id.tvViewsCount);
             viewHolder.tvLikesCount = (TextView) convertView.findViewById(R.id.tvLikesCount);
+            viewHolder.tvCommentsCount = (TextView) convertView.findViewById(R.id.tvCommentsCount);
             viewHolder.ivViewsIcon = (ImageView) convertView.findViewById(R.id.ivViewsIcon);
             viewHolder.ivLikesIcon = (ImageView) convertView.findViewById(R.id.ivLikesIcon);
+            viewHolder.ivCommentsIcon = (ImageView) convertView.findViewById(R.id.ivCommentsIcon);
             viewHolder.rlItemCellStatus = (RelativeLayout) convertView.findViewById(R.id.rlItemCellStatus);
             viewHolder.arcMenu = (ArcMenu) convertView.findViewById(R.id.arc_menu);
 
@@ -207,23 +209,33 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
         int likeCount = item.getLikeCount();
         viewHolder.tvLikesCount.setText(String.valueOf(likeCount));
 
-        if (viewCount == 0 && likeCount == 0) {
+        int commentsCount = item.getCommentCount();
+        viewHolder.tvCommentsCount.setText(String.valueOf(commentsCount));
+
+        if (viewCount == 0 && likeCount == 0 && commentsCount == 0) {
             viewHolder.rlItemCellStatus.setVisibility(View.GONE);
         } else {
             viewHolder.rlItemCellStatus.setVisibility(View.VISIBLE);
-            if (viewCount == 0) {
+            if (false && viewCount == 0) {
                 viewHolder.ivViewsIcon.setVisibility(View.GONE);
                 viewHolder.tvViewsCount.setVisibility(View.GONE);
             } else {
                 viewHolder.ivViewsIcon.setVisibility(View.VISIBLE);
                 viewHolder.tvViewsCount.setVisibility(View.VISIBLE);
             }
-            if (false && likeCount == 0) {
+            if (likeCount == 0) {
                 viewHolder.ivLikesIcon.setVisibility(View.GONE);
                 viewHolder.tvLikesCount.setVisibility(View.GONE);
             } else {
                 viewHolder.ivLikesIcon.setVisibility(View.VISIBLE);
                 viewHolder.tvLikesCount.setVisibility(View.VISIBLE);
+            }
+            if (commentsCount == 0) {
+                viewHolder.ivCommentsIcon.setVisibility(View.GONE);
+                viewHolder.tvCommentsCount.setVisibility(View.GONE);
+            } else {
+                viewHolder.ivCommentsIcon.setVisibility(View.VISIBLE);
+                viewHolder.tvCommentsCount.setVisibility(View.VISIBLE);
             }
         }
 
@@ -262,8 +274,10 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
         Button btnItemCellFavorite;
         TextView tvViewsCount;
         TextView tvLikesCount;
+        TextView tvCommentsCount;
         ImageView ivViewsIcon;
         ImageView ivLikesIcon;
+        ImageView ivCommentsIcon;
         RelativeLayout rlItemCellStatus;
         ArcMenu arcMenu;
     }

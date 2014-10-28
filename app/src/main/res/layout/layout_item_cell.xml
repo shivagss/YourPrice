@@ -78,6 +78,28 @@
                 android:layout_marginRight="3dp"
                 android:layout_toRightOf="@+id/ivLikesIcon"
                 android:text="0" />
+
+            <ImageView
+                android:id="@+id/ivCommentsIcon"
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:layout_toRightOf="@+id/tvLikesCount"
+                android:layout_centerVertical="true"
+                android:alpha="0.8"
+                android:src="@drawable/ic_comments" />
+
+            <TextView
+                style="@style/GridCell.Footer"
+                android:id="@+id/tvCommentsCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_toRightOf="@+id/ivCommentsIcon"
+                android:text="0" />
+
         </RelativeLayout>
 
 
