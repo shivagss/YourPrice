@@ -96,13 +96,13 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
         dlDrawer.setupDrawerConfiguration((ListView) findViewById(R.id.lvDrawer),
                 R.layout.drawer_nav_item, R.id.flContent);
         // Add nav items
-        dlDrawer.addNavItem("Items for Sale", R.drawable.ic_action_new, "Items for Sale", SearchItemFragment.class);
-        dlDrawer.addNavItem("My Profile", R.drawable.ic_icon_profile, "My Profile", ProfileFragment.class);
-        dlDrawer.addNavItem("Following", R.drawable.ic_action_new, "Following", FollowingItemsFragment.class);
-        dlDrawer.addNavItem("My Favorites", R.drawable.ic_action_new, "My Favorites", FavoriteItemsFragment.class);
-        dlDrawer.addNavItem("My Offers", R.drawable.ic_action_photo, "My Offers", MyBidsFragment.class);
-        dlDrawer.addNavItem("Notifications", R.drawable.ic_action_photo, "Notifications", RecentActivityFragment.class);
-        dlDrawer.addNavItem("Logout", R.drawable.ic_action_photo, "Logout", LogoutFragment.class);
+        dlDrawer.addNavItem("Items for Sale", R.drawable.ic_store_white, "Items for Sale", SearchItemFragment.class);
+        dlDrawer.addNavItem("My Profile", R.drawable.ic_card_white, "My Profile", ProfileFragment.class);
+        dlDrawer.addNavItem("Following Items", R.drawable.ic_gift_white, "Following Items", FollowingItemsFragment.class);
+        dlDrawer.addNavItem("My Favorites", R.drawable.ic_heart_white, "My Favorites", FavoriteItemsFragment.class);
+        dlDrawer.addNavItem("My Offers", R.drawable.ic_dollar_white, "My Offers", MyBidsFragment.class);
+        dlDrawer.addNavItem("Notifications", R.drawable.ic_alert_white, "Notifications", RecentActivityFragment.class);
+        dlDrawer.addNavItem("Logout", R.drawable.ic_logout_white, "Logout", LogoutFragment.class);
 
         // Select default
         if (savedInstanceState == null) {
