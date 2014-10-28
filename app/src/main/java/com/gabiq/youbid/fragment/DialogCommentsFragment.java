@@ -11,6 +11,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gabiq.youbid.R;
@@ -21,6 +23,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import java.util.List;
 
 // Lots of common code with CommentsFragment needs to refactor
 
@@ -49,13 +53,36 @@ public class DialogCommentsFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        getDialog().setTitle("COMMENTS");
+        getDialog().getWindow()
+                .getAttributes().windowAnimations = R.style.DialogAnimation;
+//        setStyle(DialogFragment.STYLE_NO_TITLE, R.style.MyDialog);
+
         if(getArguments() != null)
             itemId = getArguments().getString("itemId");
         View view = inflater.inflate(R.layout.fragment_comments, container, false);
 
         lvComments = (ListView) view.findViewById(R.id.lvComments);
+        final RelativeLayout emptySection = (RelativeLayout) view.findViewById(R.id.emptySection);
+        lvComments.setEmptyView(emptySection);
 
         aComments = new CommentsAdapter(getActivity(), getParseQuery());
+
+        final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+
+        aComments.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Comment>() {
+            @Override
+            public void onLoading() {
+                emptySection.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onLoaded(List<Comment> items, Exception e) {
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+
+
         lvComments.setAdapter(aComments);
         etComments = (EditText)view.findViewById(R.id.etComments);
         etComments.clearFocus();

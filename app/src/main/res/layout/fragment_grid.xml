@@ -21,37 +21,7 @@
             app:column_count_landscape="3"/>
     </android.support.v4.widget.SwipeRefreshLayout>
 
+    <include layout="@layout/list_empty_base" />
 
-    <RelativeLayout
-        android:id="@+id/emptySection"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/empty_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="@string/empty_list_label"
-            android:layout_centerInParent="true" />
-
-        <ImageView
-            android:id="@+id/empty_image"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@id/empty_label"
-            android:layout_centerInParent="true"
-            android:src="@drawable/ic_launcher"/>
-    </RelativeLayout>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyleLarge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="visible"
-        android:layout_centerInParent="true"/>
 
 </RelativeLayout>

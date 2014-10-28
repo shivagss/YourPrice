@@ -11,16 +11,21 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.adapter.CommentsAdapter;
 import com.gabiq.youbid.model.Comment;
+import com.gabiq.youbid.model.Item;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import java.util.List;
 
 /**
  * Created by sreejumon on 10/14/14.
@@ -52,8 +57,28 @@ public class CommentsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_comments, container, false);
 
         lvComments = (ListView) view.findViewById(R.id.lvComments);
+        final RelativeLayout emptySection = (RelativeLayout) view.findViewById(R.id.emptySection);
+        lvComments.setEmptyView(emptySection);
 
         aComments = new CommentsAdapter(getActivity(), getParseQuery());
+
+        final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+
+        aComments.addOnQueryLoadListener(new ParseQueryAdapter.OnQueryLoadListener<Comment>() {
+            @Override
+            public void onLoading() {
+//                progressBar.setVisibility(View.VISIBLE);
+                emptySection.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onLoaded(List<Comment> items, Exception e) {
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+
+
+
         lvComments.setAdapter(aComments);
         etComments = (EditText)view.findViewById(R.id.etComments);
         etComments.clearFocus();

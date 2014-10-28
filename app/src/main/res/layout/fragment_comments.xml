@@ -49,4 +49,6 @@
             />
     </RelativeLayout>
 
+    <include layout="@layout/list_empty_base" />
+
 </RelativeLayout>
