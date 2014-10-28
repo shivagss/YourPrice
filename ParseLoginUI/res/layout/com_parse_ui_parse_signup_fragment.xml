@@ -8,8 +8,8 @@
         android:id="@+id/kbvBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:alpha="0.78"
-        android:src="@drawable/loginbig"/>
+        android:alpha="0.85"
+        android:src="@drawable/loginitems"/>
 
     <!--<ImageView-->
         <!--android:layout_width="match_parent"-->
