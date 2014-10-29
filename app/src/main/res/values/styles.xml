@@ -4,6 +4,7 @@
     <style name="AppTheme" parent="android:Theme.Holo.Light.DarkActionBar">
         <item name="android:windowBackground">@color/backgroundFragment</item>
         <item  name="android:buttonStyle">@style/Button</item>
+        <item name="cpbStyle">@style/CircularProgressBar</item>
 
         <item name="android:actionBarStyle">@style/ActionBar</item>
         <item name="android:actionMenuTextColor">@color/textActionBar</item>

@@ -205,4 +205,11 @@
 
     <color name="secondaryTextColor">#D8D8D8</color>
 
+    <integer-array name="app_colors">
+        <item>@color/drawerDark</item>
+        <item>@color/drawerLight</item>
+        <item>@color/drawerDark</item>
+        <item>@color/drawerLight</item>
+    </integer-array>
+
 </resources>
