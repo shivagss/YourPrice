@@ -40,12 +40,18 @@
             android:src="@drawable/ic_sold"
             android:visibility="gone" />
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyle"
+        <fr.castorflex.android.circularprogressbar.CircularProgressBar
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:id="@+id/progressBar"
+            android:layout_gravity="center"
+            app:cpb_rotation_speed="0.2"
+            app:cpb_sweep_speed="1.0"
+            app:cpb_stroke_width="4dp"
+            app:cpb_min_sweep_angle="10"
+            app:cpb_max_sweep_angle="300"
+            app:cpb_colors="@array/app_colors"/>
 
         <ImageView
             android:id="@+id/ivLike"

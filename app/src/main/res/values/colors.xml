@@ -168,8 +168,8 @@
 
     <!--<color name="backgroundActionBar">#E6E6E6</color>-->
     <!--<color name="textActionBar">#4B4B4B</color>-->
-    <color name="backgroundActionBar">#80FFFFFF</color>
-    <color name="textActionBar">#CE1919</color>
+    <color name="backgroundActionBar">#CE1919</color>
+    <color name="textActionBar">#FFFFFF</color>
 
     <color name="backgroundFragment">#F2F2F2</color>
     <color name="backgroundHeader">#E9E9E9</color>
@@ -204,5 +204,12 @@
     <color name="editTextBoxColorGreen">#7052B14F</color>
 
     <color name="secondaryTextColor">#D8D8D8</color>
+
+    <integer-array name="app_colors">
+        <item>@color/drawerDark</item>
+        <item>@color/drawerLight</item>
+        <item>@color/drawerDark</item>
+        <item>@color/drawerLight</item>
+    </integer-array>
 
 </resources>

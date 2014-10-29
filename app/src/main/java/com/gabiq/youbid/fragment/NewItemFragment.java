@@ -532,8 +532,9 @@ public class NewItemFragment extends Fragment {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(getActivity());
         }
-        mProgressDialog.setMessage(message);
+//        mProgressDialog.setMessage(message);
         mProgressDialog.show();
+        mProgressDialog.setContentView(R.layout.app_progress);
     }
 
     public void dismissProgress() {

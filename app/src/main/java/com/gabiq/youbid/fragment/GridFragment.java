@@ -65,6 +65,7 @@ public class GridFragment extends Fragment {
             public ParseQuery<Item> create() {
                 ParseQuery query = new ParseQuery("Item");
                 query.orderByDescending("createdAt");
+                query.include("createdBy");
                 query.setCachePolicy(ParseQuery.CachePolicy.CACHE_ELSE_NETWORK);
                 return query;
             }

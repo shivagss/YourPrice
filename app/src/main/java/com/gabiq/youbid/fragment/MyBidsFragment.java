@@ -17,6 +17,7 @@ public class MyBidsFragment extends GridFragment {
                 bidQuery.whereEqualTo("createdBy", ParseUser.getCurrentUser());
                 ParseQuery itemQuery = new ParseQuery("Item");
                 itemQuery.whereMatchesKeyInQuery("objectId", "itemId", bidQuery);
+                itemQuery.include("createdBy");
                 return itemQuery;
             }
         };

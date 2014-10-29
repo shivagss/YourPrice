@@ -24,6 +24,7 @@ import com.gabiq.youbid.activity.CreateItemActivity;
 import com.gabiq.youbid.activity.ProfileActivity;
 import com.gabiq.youbid.adapter.DetailsFragmentAdapter;
 import com.gabiq.youbid.model.Item;
+import com.gabiq.youbid.model.ItemCache;
 import com.gabiq.youbid.utils.FixedSpeedScroller;
 import com.gabiq.youbid.utils.RoundTransform;
 import com.gabiq.youbid.utils.Utils;
@@ -38,25 +39,19 @@ import com.viewpagerindicator.TabPageIndicator;
 
 import java.lang.reflect.Field;
 
-/**
- * Created by sreejumon on 10/14/14.
- */
 public class DetailsFragment extends Fragment {
 
     private Item item;
+    private ItemCache itemCache;
     private String itemId;
     private TextView tvTimePosted;
     private TextView tvUserName;
     private TextView tvViewCount;
     private TextView tvLocation;
 
-    private CommentsFragment commentFragment;
     private Menu detailsMenu;
     private ImageView ivProfile;
 
-    private BootstrapButton btnDetails;
-    private BootstrapButton btnComments;
-    private BootstrapButton btnBids;
     private ViewType defaultTab = ViewType.Details;
     private DetailsFragmentAdapter mAdapter;
     private ViewPager mPager;
@@ -84,6 +79,7 @@ public class DetailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         // Get back arguments
         itemId = getArguments().getString("item_id");
+        itemCache = (ItemCache) getArguments().getSerializable("item_cache");
         defaultTab = (ViewType) getArguments().getSerializable("viewType");
     }
 
@@ -100,7 +96,7 @@ public class DetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_details, container, false);
 
-        showProgress("Loading...");
+        item = null;
 
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -111,41 +107,6 @@ public class DetailsFragment extends Fragment {
                 startProfileActivity();
             }
         });
-
-        btnDetails = (BootstrapButton) rootView.findViewById(R.id.btnDetails);
-        btnDetails.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                updateView(ViewType.Details);
-                resetButtons();
-                btnDetails.setLeftIcon("fa-chevron-down");
-                mPager.setCurrentItem(0);
-            }
-        });
-
-        btnComments = (BootstrapButton) rootView.findViewById(R.id.btnComments);
-        btnComments.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                updateView(ViewType.Comments);
-                resetButtons();
-                btnComments.setLeftIcon("fa-chevron-down");
-                mPager.setCurrentItem(1);
-            }
-        });
-
-        btnBids = (BootstrapButton) rootView.findViewById(R.id.btnBids);
-        btnBids.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                updateView(ViewType.Bids);
-                resetButtons();
-                btnBids.setLeftIcon("fa-chevron-down");
-                mPager.setCurrentItem(2);
-            }
-        });
-
-        resetButtons();
 
         tvTimePosted = (TextView) rootView.findViewById(R.id.tvTimePosted);
         tvUserName = (TextView) rootView.findViewById(R.id.tvUserName);
@@ -170,41 +131,42 @@ public class DetailsFragment extends Fragment {
         mPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
             @Override
             public void onPageSelected(int position) {
-                resetButtons();
-                if(position == 0){
-                    btnDetails.setLeftIcon("fa-chevron-down");
-                }if(position == 1){
-                    btnComments.setLeftIcon("fa-chevron-down");
-                }if(position == 2){
-                    btnBids.setLeftIcon("fa-chevron-down");
-                }
                 super.onPageSelected(position);
             }
         });
 
         setHasOptionsMenu(true);
 
-        retrieveItem(itemId);
+        if (itemCache == null) {
+            showProgress("Loading...");
+            retrieveItem(itemId);
+        } else {
+        }
 
-//        updateView(defaultTab);
+        setTabTo(defaultTab);
 
         return rootView;
+    }
+
+    private void setTabTo(ViewType viewType) {
+        mPager.setCurrentItem(viewType.ordinal());
     }
 
     private void startProfileActivity() {
 
         Intent intent = new Intent(getActivity(), ProfileActivity.class);
         if (item != null)
-            intent.putExtra("userId", item.getUser().getObjectId());
+            intent.putExtra("userId", item.getUserFast().getObjectId());
         startActivity(intent);
 
     }
 
-    public static DetailsFragment newInstance(String itemId, ViewType viewType) {
+    public static DetailsFragment newInstance(String itemId, ItemCache itemCache, ViewType viewType) {
         DetailsFragment detailsFragment = new DetailsFragment();
         Bundle args = new Bundle();
         args.putString("item_id", itemId);
         args.putSerializable("viewType", viewType);
+        args.putSerializable("item_cache", itemCache);
         detailsFragment.setArguments(args);
         return detailsFragment;
     }
@@ -212,6 +174,7 @@ public class DetailsFragment extends Fragment {
     private void retrieveItem(String itemId) {
         ParseQuery<Item> query = ParseQuery.getQuery("Item");
         query.whereEqualTo("objectId", itemId);
+        query.include("createdBy");
         query.getFirstInBackground(new GetCallback<Item>() {
             public void done(Item i, ParseException e) {
                 if (e == null) {
@@ -225,16 +188,11 @@ public class DetailsFragment extends Fragment {
     }
 
     private void updateUI() {
-        if (item == null) return;
 
-        isSeller = item.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
-
-        mAdapter = new DetailsFragmentAdapter(itemId, isSeller, getActivity().getSupportFragmentManager());
+        mAdapter = new DetailsFragmentAdapter(itemId, itemCache, isSeller, getActivity().getSupportFragmentManager());
         mPager.setAdapter(mAdapter);
         indicator.setViewPager(mPager);
         mPager.setCurrentItem(0);
-        resetButtons();
-        btnDetails.setLeftIcon("fa-chevron-down");
         mAdapter.notifyDataSetChanged();
         indicator.setVisibility(View.VISIBLE);
 
@@ -242,60 +200,65 @@ public class DetailsFragment extends Fragment {
         MenuItem deleteMenu = detailsMenu.findItem(R.id.action_delete);
         MenuItem editIMenu = detailsMenu.findItem(R.id.action_edit);
 
-        if (isSeller) {
-            deleteMenu.setVisible(true);
-            editIMenu.setVisible(true);
-            btnBids.setText("Offers");
+        if (itemCache != null) {
+            isSeller = itemCache.getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
+            if (isSeller) {
+                deleteMenu.setVisible(true);
+                editIMenu.setVisible(true);
+            } else {
+                deleteMenu.setVisible(false);
+                editIMenu.setVisible(false);
+            }
+
+            tvTimePosted.setText(Utils.getRelativeTimeAgo(itemCache.getCreatedAt()));
+            tvUserName.setText(itemCache.getUser().getName());
+
+            int viewCount = itemCache.getViewCount() + 1;
+// TODO: launch in background
+//            item.setViewCount(viewCount);
+//            item.saveInBackground();
+            tvViewCount.setText(viewCount + " views");
+            String photoUrl = itemCache.getUser().getPhotoUrl();
+            if (photoUrl != null) {
+                Picasso.with(getActivity())
+                        .load(photoUrl)
+                        .transform(new RoundTransform())
+                        .into(ivProfile);
+            }
+            tvLocation.setText(itemCache.getUser().getLocationText());
+
         } else {
-            deleteMenu.setVisible(false);
-            editIMenu.setVisible(false);
-            btnBids.setText("My Offers");
+            if (item == null) return;
+
+            isSeller = item.getUserFast().getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
+            if (isSeller) {
+                deleteMenu.setVisible(true);
+                editIMenu.setVisible(true);
+            } else {
+                deleteMenu.setVisible(false);
+                editIMenu.setVisible(false);
+            }
+
+            tvTimePosted.setText(Utils.getRelativeTimeAgo(item.getCreatedAt()));
+            tvUserName.setText(item.getUserFast().getName());
+
+            int viewCount = item.getViewCount() + 1;
+            item.setViewCount(viewCount);
+            item.saveInBackground();
+            tvViewCount.setText(viewCount + " views");
+            ParseFile photoFile = item.getUserFast().getParseUser().getParseFile("photo");
+            if (photoFile != null) {
+                Picasso.with(getActivity())
+                        .load(photoFile.getUrl())
+                        .transform(new RoundTransform())
+                        .into(ivProfile);
+            }
+            tvLocation.setText(item.getUserFast().getLocationText());
+            dismissProgress();
         }
 
-        tvTimePosted.setText(Utils.getRelativeTimeAgo(item.getCreatedAt()));
-        tvUserName.setText(item.getUser().getName());
-
-        int viewCount = item.getViewCount() + 1;
-        item.setViewCount(viewCount);
-        item.saveInBackground();
-        tvViewCount.setText(viewCount + " views");
-        ParseFile photoFile = item.getUser().getParseUser().getParseFile("photo");
-        if (photoFile != null) {
-            Picasso.with(getActivity())
-                    .load(photoFile.getUrl())
-                    .transform(new RoundTransform())
-                    .into(ivProfile);
-        }
-        tvLocation.setText(item.getUser().getLocationText());
-        dismissProgress();
     }
 
-/*
-    private Target target = new Target() {
-        @Override
-        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-            ivProfile.setImage(bitmap);
-        }
-
-        @Override
-        public void onBitmapFailed(Drawable drawable) {
-
-        }
-
-        @Override
-        public void onPrepareLoad(Drawable drawable) {
-
-        }
-    };
-
-
-
-    @Override
-    public void onDestroy() {  // could be in onPause or onStop
-        Picasso.with(getActivity()).cancelRequest(target);
-        super.onDestroy();
-    }
-    */
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -363,8 +326,9 @@ public class DetailsFragment extends Fragment {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(getActivity());
         }
-        mProgressDialog.setMessage(message);
+//        mProgressDialog.setMessage(message);
         mProgressDialog.show();
+        mProgressDialog.setContentView(R.layout.app_progress);
     }
 
     public void dismissProgress() {
@@ -379,43 +343,6 @@ public class DetailsFragment extends Fragment {
         dismissProgress();
     }
 
-
-//    private void updateView(ViewType viewType) {
-//
-//        FragmentTransaction ft;
-//        resetButtons();
-//        switch (viewType) {
-//            case Details:
-//                ft = getFragmentManager().beginTransaction();
-//                SubmitOfferFragment submitOfferFragment = SubmitOfferFragment.newInstance(itemId);
-//                ft.replace(R.id.flCommentsContainer, submitOfferFragment);
-//                ft.commit();
-//                btnDetails.setLeftIcon("fa-chevron-down");
-//                break;
-//            case Comments:
-//                ft = getFragmentManager().beginTransaction();
-//                commentFragment = CommentsFragment.newInstance(itemId);
-//                ft.replace(R.id.flCommentsContainer, commentFragment);
-//                ft.commit();
-//                btnComments.setLeftIcon("fa-chevron-down");
-//                break;
-//            case Bids:
-//                ft = getFragmentManager().beginTransaction();
-//                BidListFragment bidListFragment = BidListFragment.newInstance(itemId, isSeller);
-//                ft.replace(R.id.flCommentsContainer, bidListFragment);
-//                ft.commit();
-//                btnBids.setLeftIcon("fa-chevron-down");
-//                break;
-//        }
-//
-//
-//    }
-
-    private void resetButtons() {
-        btnBids.setLeftIcon("fa-chevron-right");
-        btnComments.setLeftIcon("fa-chevron-right");
-        btnDetails.setLeftIcon("fa-chevron-right");
-    }
 
     public void submitOffer(double amount, String itemId) {
         SubmitOfferFragment offerFragment = (SubmitOfferFragment) mAdapter.getItem(0);

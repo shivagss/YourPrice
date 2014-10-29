@@ -78,10 +78,14 @@ public class Item extends ParseObject{
     public ParseGeoPoint getLocation(){ return getParseGeoPoint("location");}
     public void setLocation (ParseGeoPoint location){ put("location", location);}
 
+    public User getUserFast() {
+        return new User(getParseUser("createdBy"));
+    }
+
     public User getUser() {
         User user = null;
         try {
-            user = new User(getParseUser("createdBy").fetch());
+            user = new User(getParseUser("createdBy").fetchIfNeeded());
         } catch (ParseException e1) {
             e1.printStackTrace();
         }
@@ -100,11 +104,21 @@ public class Item extends ParseObject{
         put("viewCount", viewCount);
     }
 
+    public List<Keyword>  getKeywordsFast() {
+        List<Keyword> list = new ArrayList<Keyword>();
+        List<Keyword> cloudList = null;
+        cloudList = getList("keywords");
+        if(cloudList != null){
+            list.addAll(cloudList);
+        }
+        return list;
+    }
+
     public List<Keyword> getKeywords(){
         List<Keyword> list = new ArrayList<Keyword>();
         List<Keyword> cloudList = null;
         try {
-            cloudList = fetch(). getList("keywords");
+            cloudList = fetchIfNeeded().getList("keywords");
         } catch (ParseException e) {
             e.printStackTrace();
         }

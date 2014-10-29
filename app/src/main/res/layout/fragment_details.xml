@@ -68,6 +68,7 @@
             android:layout_toLeftOf="@+id/tvTimePosted"
             android:layout_toStartOf="@+id/tvTimePosted"
             android:textColor="@color/textCommentTime"
+            android:layout_marginTop="2dp"
             fontawesometext:fa_icon="fa-clock-o" />
 
         <TextView
@@ -90,59 +91,11 @@
             android:layout_toLeftOf="@+id/tvViewsCount"
             android:layout_toStartOf="@+id/tvViewsCount"
             android:textColor="@color/textCommentTime"
-            android:layout_marginTop="-2dp"
+            android:layout_marginTop="2dp"
             fontawesometext:fa_icon="fa-eye" />
 
 
     </RelativeLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        style="@style/CommentCell"
-        android:visibility="gone"
-        android:layout_height="wrap_content">
-
-        <com.beardedhen.androidbootstrap.BootstrapButton
-            android:id="@+id/btnDetails"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_weight="1"
-            android:text="Details"
-            android:textSize="12sp"
-            bootstrap:bb_icon_left="fa-chevron-right"
-            bootstrap:bb_type="primary" />
-
-        <com.beardedhen.androidbootstrap.BootstrapButton
-            android:id="@+id/btnComments"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/btnDetails"
-            android:layout_toRightOf="@+id/btnDetails"
-            android:text="Comments"
-            android:textSize="12sp"
-            bootstrap:bb_icon_left="fa-chevron-right"
-            bootstrap:bb_type="info" />
-
-        <com.beardedhen.androidbootstrap.BootstrapButton
-            android:id="@+id/btnBids"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_toEndOf="@+id/btnComments"
-            android:layout_toRightOf="@+id/btnComments"
-            android:layout_weight="1"
-            android:text="Offers"
-            android:textSize="12sp"
-            bootstrap:bb_icon_left="fa-chevron-right"
-            bootstrap:bb_type="warning" />
-
-
-    </LinearLayout>
 
     <com.viewpagerindicator.TabPageIndicator
         android:id="@+id/indicator"

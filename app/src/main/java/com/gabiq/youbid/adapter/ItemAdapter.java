@@ -20,6 +20,7 @@ import com.gabiq.youbid.fragment.CommentsFragment;
 import com.gabiq.youbid.fragment.DialogCommentsFragment;
 import com.gabiq.youbid.model.Favorite;
 import com.gabiq.youbid.model.Item;
+import com.gabiq.youbid.model.ItemCache;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -114,10 +115,6 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
                             DialogCommentsFragment commentFragment = DialogCommentsFragment.newInstance(viewHolder.item.getObjectId());
                             commentFragment.show(fm, "dialog_comments_fragment");
 
-//                            Intent intent = new Intent(getContext(), DetailsActivity.class);
-//                            intent.putExtra("item_id", viewHolder.item.getObjectId());
-//                            intent.putExtra("type", "comment");
-//                            getContext().startActivity(intent);
                         } else if (position == 2) {
                             // share
                             String text = "Check out this " + viewHolder.item.getCaption() + ": http://yourprice.com/viewitem?item_id=" + viewHolder.item.getObjectId() + "";
@@ -146,6 +143,7 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
                 public void onClick(View view) {
                     Intent intent = new Intent(getContext(), DetailsActivity.class);
                     intent.putExtra("item_id", viewHolder.item.getObjectId());
+                    intent.putExtra("item_cache", new ItemCache(viewHolder.item));
                     getContext().startActivity(intent);
                 }
             });

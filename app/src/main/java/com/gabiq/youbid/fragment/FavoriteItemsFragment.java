@@ -19,6 +19,7 @@ public class FavoriteItemsFragment extends GridFragment {
                 ParseQuery itemQuery = new ParseQuery("Item");
                 itemQuery.whereMatchesKeyInQuery("objectId", "itemId", favoritesQuery);
                 itemQuery.orderByDescending("createdAt");
+                itemQuery.include("createdBy");
 
                 return itemQuery;
             }
