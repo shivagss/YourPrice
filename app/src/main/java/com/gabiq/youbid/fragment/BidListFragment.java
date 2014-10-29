@@ -156,7 +156,7 @@ public class BidListFragment extends Fragment {
             }
         });
         // Configure the refreshing colors
-        swipeContainer.setColorScheme(android.R.color.holo_blue_bright,
+        swipeContainer.setColorScheme(R.color.refreshColor1,
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);

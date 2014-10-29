@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -137,11 +138,11 @@ public class DetailsFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        if (itemCache == null) {
-            showProgress("Loading...");
-            retrieveItem(itemId);
-        } else {
-        }
+        updateUI();
+//        if (itemCache == null) {
+//            showProgress("Loading...");
+//            retrieveItem(itemId);
+//        }
 
         setTabTo(defaultTab);
 
@@ -187,21 +188,12 @@ public class DetailsFragment extends Fragment {
         });
     }
 
-    private void updateUI() {
+    private void updateMenus() {
+        if (detailsMenu != null) {
+            //Hide the delete & edit option if the user is not the owner
+            MenuItem deleteMenu = detailsMenu.findItem(R.id.action_delete);
+            MenuItem editIMenu = detailsMenu.findItem(R.id.action_edit);
 
-        mAdapter = new DetailsFragmentAdapter(itemId, itemCache, isSeller, getActivity().getSupportFragmentManager());
-        mPager.setAdapter(mAdapter);
-        indicator.setViewPager(mPager);
-        mPager.setCurrentItem(0);
-        mAdapter.notifyDataSetChanged();
-        indicator.setVisibility(View.VISIBLE);
-
-        //Hide the delete & edit option if the user is not the owner
-        MenuItem deleteMenu = detailsMenu.findItem(R.id.action_delete);
-        MenuItem editIMenu = detailsMenu.findItem(R.id.action_edit);
-
-        if (itemCache != null) {
-            isSeller = itemCache.getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
             if (isSeller) {
                 deleteMenu.setVisible(true);
                 editIMenu.setVisible(true);
@@ -209,6 +201,50 @@ public class DetailsFragment extends Fragment {
                 deleteMenu.setVisible(false);
                 editIMenu.setVisible(false);
             }
+        }
+    }
+
+    private void updateUI() {
+        if (item != null) {
+            Log.d("INFO", "******************** updateUI called");
+            isSeller = item.getUserFast().getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
+        } else if (itemCache != null) {
+            Log.d("INFO", "******************** updateUI called (cached)");
+            isSeller = itemCache.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
+        }
+
+        int lastItem = 0;
+        if (mPager != null) {
+            lastItem = mPager.getCurrentItem();
+        }
+        mAdapter = new DetailsFragmentAdapter(itemId, itemCache, isSeller, getActivity().getSupportFragmentManager());
+        mPager.setAdapter(mAdapter);
+        indicator.setViewPager(mPager);
+        mPager.setCurrentItem(lastItem);
+        mAdapter.notifyDataSetChanged();
+        indicator.setVisibility(View.VISIBLE);
+
+        if (item != null) {
+            updateMenus();
+
+            tvTimePosted.setText(Utils.getRelativeTimeAgo(item.getCreatedAt()));
+            tvUserName.setText(item.getUserFast().getName());
+
+            int viewCount = item.getViewCount() + 1;
+            item.setViewCount(viewCount);
+            item.saveInBackground();
+            tvViewCount.setText(viewCount + " views");
+            ParseFile photoFile = item.getUserFast().getParseUser().getParseFile("photo");
+            if (photoFile != null) {
+                Picasso.with(getActivity())
+                        .load(photoFile.getUrl())
+                        .transform(new RoundTransform())
+                        .into(ivProfile);
+            }
+            tvLocation.setText(item.getUserFast().getLocationText());
+//            dismissProgress();
+        } else if (itemCache != null) {
+            updateMenus();
 
             tvTimePosted.setText(Utils.getRelativeTimeAgo(itemCache.getCreatedAt()));
             tvUserName.setText(itemCache.getUser().getName());
@@ -226,37 +262,7 @@ public class DetailsFragment extends Fragment {
                         .into(ivProfile);
             }
             tvLocation.setText(itemCache.getUser().getLocationText());
-
-        } else {
-            if (item == null) return;
-
-            isSeller = item.getUserFast().getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
-            if (isSeller) {
-                deleteMenu.setVisible(true);
-                editIMenu.setVisible(true);
-            } else {
-                deleteMenu.setVisible(false);
-                editIMenu.setVisible(false);
-            }
-
-            tvTimePosted.setText(Utils.getRelativeTimeAgo(item.getCreatedAt()));
-            tvUserName.setText(item.getUserFast().getName());
-
-            int viewCount = item.getViewCount() + 1;
-            item.setViewCount(viewCount);
-            item.saveInBackground();
-            tvViewCount.setText(viewCount + " views");
-            ParseFile photoFile = item.getUserFast().getParseUser().getParseFile("photo");
-            if (photoFile != null) {
-                Picasso.with(getActivity())
-                        .load(photoFile.getUrl())
-                        .transform(new RoundTransform())
-                        .into(ivProfile);
-            }
-            tvLocation.setText(item.getUserFast().getLocationText());
-            dismissProgress();
         }
-
     }
 
 
@@ -267,6 +273,7 @@ public class DetailsFragment extends Fragment {
         getActivity().getMenuInflater().inflate(R.menu.details, menu);
 
         detailsMenu = menu;
+        updateMenus();
     }
 
     @Override
