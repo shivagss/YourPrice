@@ -24,6 +24,7 @@ import com.gabiq.youbid.activity.CreateItemActivity;
 import com.gabiq.youbid.activity.ProfileActivity;
 import com.gabiq.youbid.adapter.DetailsFragmentAdapter;
 import com.gabiq.youbid.model.Item;
+import com.gabiq.youbid.model.ItemCache;
 import com.gabiq.youbid.utils.FixedSpeedScroller;
 import com.gabiq.youbid.utils.RoundTransform;
 import com.gabiq.youbid.utils.Utils;
@@ -41,13 +42,13 @@ import java.lang.reflect.Field;
 public class DetailsFragment extends Fragment {
 
     private Item item;
+    private ItemCache itemCache;
     private String itemId;
     private TextView tvTimePosted;
     private TextView tvUserName;
     private TextView tvViewCount;
     private TextView tvLocation;
 
-    private CommentsFragment commentFragment;
     private Menu detailsMenu;
     private ImageView ivProfile;
 
@@ -78,6 +79,7 @@ public class DetailsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         // Get back arguments
         itemId = getArguments().getString("item_id");
+        itemCache = (ItemCache) getArguments().getSerializable("item_cache");
         defaultTab = (ViewType) getArguments().getSerializable("viewType");
     }
 
@@ -95,7 +97,6 @@ public class DetailsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_details, container, false);
 
         item = null;
-        showProgress("Loading...");
 
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -136,7 +137,11 @@ public class DetailsFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        retrieveItem(itemId);
+        if (itemCache == null) {
+            showProgress("Loading...");
+            retrieveItem(itemId);
+        } else {
+        }
 
         setTabTo(defaultTab);
 
@@ -156,11 +161,12 @@ public class DetailsFragment extends Fragment {
 
     }
 
-    public static DetailsFragment newInstance(String itemId, ViewType viewType) {
+    public static DetailsFragment newInstance(String itemId, ItemCache itemCache, ViewType viewType) {
         DetailsFragment detailsFragment = new DetailsFragment();
         Bundle args = new Bundle();
         args.putString("item_id", itemId);
         args.putSerializable("viewType", viewType);
+        args.putSerializable("item_cache", itemCache);
         detailsFragment.setArguments(args);
         return detailsFragment;
     }
@@ -182,11 +188,8 @@ public class DetailsFragment extends Fragment {
     }
 
     private void updateUI() {
-        if (item == null) return;
 
-        isSeller = item.getUserFast().getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
-
-        mAdapter = new DetailsFragmentAdapter(itemId, isSeller, getActivity().getSupportFragmentManager());
+        mAdapter = new DetailsFragmentAdapter(itemId, itemCache, isSeller, getActivity().getSupportFragmentManager());
         mPager.setAdapter(mAdapter);
         indicator.setViewPager(mPager);
         mPager.setCurrentItem(0);
@@ -197,30 +200,63 @@ public class DetailsFragment extends Fragment {
         MenuItem deleteMenu = detailsMenu.findItem(R.id.action_delete);
         MenuItem editIMenu = detailsMenu.findItem(R.id.action_edit);
 
-        if (isSeller) {
-            deleteMenu.setVisible(true);
-            editIMenu.setVisible(true);
+        if (itemCache != null) {
+            isSeller = itemCache.getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
+            if (isSeller) {
+                deleteMenu.setVisible(true);
+                editIMenu.setVisible(true);
+            } else {
+                deleteMenu.setVisible(false);
+                editIMenu.setVisible(false);
+            }
+
+            tvTimePosted.setText(Utils.getRelativeTimeAgo(itemCache.getCreatedAt()));
+            tvUserName.setText(itemCache.getUser().getName());
+
+            int viewCount = itemCache.getViewCount() + 1;
+// TODO: launch in background
+//            item.setViewCount(viewCount);
+//            item.saveInBackground();
+            tvViewCount.setText(viewCount + " views");
+            String photoUrl = itemCache.getUser().getPhotoUrl();
+            if (photoUrl != null) {
+                Picasso.with(getActivity())
+                        .load(photoUrl)
+                        .transform(new RoundTransform())
+                        .into(ivProfile);
+            }
+            tvLocation.setText(itemCache.getUser().getLocationText());
+
         } else {
-            deleteMenu.setVisible(false);
-            editIMenu.setVisible(false);
+            if (item == null) return;
+
+            isSeller = item.getUserFast().getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
+            if (isSeller) {
+                deleteMenu.setVisible(true);
+                editIMenu.setVisible(true);
+            } else {
+                deleteMenu.setVisible(false);
+                editIMenu.setVisible(false);
+            }
+
+            tvTimePosted.setText(Utils.getRelativeTimeAgo(item.getCreatedAt()));
+            tvUserName.setText(item.getUserFast().getName());
+
+            int viewCount = item.getViewCount() + 1;
+            item.setViewCount(viewCount);
+            item.saveInBackground();
+            tvViewCount.setText(viewCount + " views");
+            ParseFile photoFile = item.getUserFast().getParseUser().getParseFile("photo");
+            if (photoFile != null) {
+                Picasso.with(getActivity())
+                        .load(photoFile.getUrl())
+                        .transform(new RoundTransform())
+                        .into(ivProfile);
+            }
+            tvLocation.setText(item.getUserFast().getLocationText());
+            dismissProgress();
         }
 
-        tvTimePosted.setText(Utils.getRelativeTimeAgo(item.getCreatedAt()));
-        tvUserName.setText(item.getUserFast().getName());
-
-        int viewCount = item.getViewCount() + 1;
-        item.setViewCount(viewCount);
-        item.saveInBackground();
-        tvViewCount.setText(viewCount + " views");
-        ParseFile photoFile = item.getUserFast().getParseUser().getParseFile("photo");
-        if (photoFile != null) {
-            Picasso.with(getActivity())
-                    .load(photoFile.getUrl())
-                    .transform(new RoundTransform())
-                    .into(ivProfile);
-        }
-        tvLocation.setText(item.getUserFast().getLocationText());
-        dismissProgress();
     }
 
 

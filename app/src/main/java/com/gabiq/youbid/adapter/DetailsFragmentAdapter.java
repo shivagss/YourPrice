@@ -13,6 +13,7 @@ import com.gabiq.youbid.fragment.CommentsFragment;
 import com.gabiq.youbid.fragment.Page1Fragment;
 import com.gabiq.youbid.fragment.Page2Fragment;
 import com.gabiq.youbid.fragment.SubmitOfferFragment;
+import com.gabiq.youbid.model.ItemCache;
 
 public class DetailsFragmentAdapter extends FragmentPagerAdapter {
 
@@ -20,13 +21,15 @@ public class DetailsFragmentAdapter extends FragmentPagerAdapter {
 
     private final boolean isSeller;
     private final String itemId;
+    private final ItemCache itemCache;
     SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
     private int mCount = 3;
 
-    public DetailsFragmentAdapter(String itemId, boolean isSeller, FragmentManager fm) {
+    public DetailsFragmentAdapter(String itemId, ItemCache itemCache, boolean isSeller, FragmentManager fm) {
         super(fm);
         this.itemId = itemId;
         this.isSeller = isSeller;
+        this.itemCache = itemCache;
     }
 
     @Override
@@ -40,7 +43,7 @@ public class DetailsFragmentAdapter extends FragmentPagerAdapter {
                 return BidListFragment.newInstance(itemId, isSeller);
             }
             default:{
-                return SubmitOfferFragment.newInstance(itemId);
+                return SubmitOfferFragment.newInstance(itemId, itemCache);
             }
         }
     }

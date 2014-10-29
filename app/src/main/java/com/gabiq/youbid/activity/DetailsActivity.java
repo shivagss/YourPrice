@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.fragment.DetailsFragment;
 import com.gabiq.youbid.fragment.OfferConfirmation;
+import com.gabiq.youbid.model.ItemCache;
 
 public class DetailsActivity extends FragmentActivity implements OfferConfirmation.AlertDialogListener {
 
@@ -26,6 +27,7 @@ public class DetailsActivity extends FragmentActivity implements OfferConfirmati
         }
      */
         String itemId = getIntent().getStringExtra("item_id");
+        ItemCache itemCache = (ItemCache) getIntent().getSerializableExtra("item_cache");
 
         Intent intent = getIntent();
         if (Intent.ACTION_VIEW.equals(intent.getAction())) {
@@ -39,7 +41,7 @@ public class DetailsActivity extends FragmentActivity implements OfferConfirmati
         }
         if (savedInstanceState == null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-            detailsFragment = DetailsFragment.newInstance(itemId, viewType);
+            detailsFragment = DetailsFragment.newInstance(itemId, itemCache, viewType);
             ft.replace(R.id.container, detailsFragment);
             ft.commit();
         }

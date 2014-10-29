@@ -26,6 +26,7 @@ import com.gabiq.youbid.R;
 import com.gabiq.youbid.adapter.ItemTagsViewAdapter;
 import com.gabiq.youbid.model.Bid;
 import com.gabiq.youbid.model.Item;
+import com.gabiq.youbid.model.ItemCache;
 import com.gabiq.youbid.model.Keyword;
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -50,8 +51,10 @@ public class SubmitOfferFragment extends Fragment {
 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "itemId";
+    private static final String ARG_PARAM2 = "itemCache";
 
     private String itemId;
+    private ItemCache itemCache;
     private EditText etBidAmount;
     private Button btnBid;
     private TextView tvBidStatus;
@@ -75,10 +78,11 @@ public class SubmitOfferFragment extends Fragment {
      * this fragment using the provided parameters.
      * @return A new instance of fragment SubmitOfferFragment.
      */
-    public static SubmitOfferFragment newInstance(String item_id) {
+    public static SubmitOfferFragment newInstance(String item_id, ItemCache itemCache) {
         SubmitOfferFragment fragment = new SubmitOfferFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, item_id);
+        args.putSerializable(ARG_PARAM2, itemCache);
         fragment.setArguments(args);
         return fragment;
     }
@@ -92,6 +96,7 @@ public class SubmitOfferFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             itemId = getArguments().getString(ARG_PARAM1);
+            itemCache = (ItemCache) getArguments().getSerializable(ARG_PARAM2);
         }
     }
 
@@ -104,6 +109,8 @@ public class SubmitOfferFragment extends Fragment {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_submit_offer, container, false);
 
+        ivItemPic = (ImageView) view.findViewById(R.id.ivItemPic);
+        tvCaption = (TextView)view.findViewById(R.id.tvCaption);
 
         etBidAmount = (EditText) view.findViewById(R.id.etBidAmount);
 
@@ -126,7 +133,6 @@ public class SubmitOfferFragment extends Fragment {
         });
 
         bidSection = (RelativeLayout)view.findViewById(R.id.bidSection);
-        retrieveItem(itemId);
 
         sellerSection = (RelativeLayout)view.findViewById(R.id.layoutSeller);
 
@@ -152,14 +158,18 @@ public class SubmitOfferFragment extends Fragment {
 
         ivItemSold = (ImageView) view.findViewById(R.id.ivItemSold);
 
-        progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
-
         FrameLayout topContent = (FrameLayout) view.findViewById(R.id.top_content);
         ScrollView scrollView = (ScrollView) view.findViewById(R.id.scroll_view);
         if (scrollView instanceof Parallaxor) {
             ((Parallaxor) scrollView).parallaxViewBy(topContent, 0.5f);
         }
 
+        if (itemCache != null) {
+            updateUIfromCache();
+        }
+
+        progressBar = (ProgressBar)view.findViewById(R.id.progressBar);
+        retrieveItem(itemId);
         //retrievePreviousBid(itemId);
 
         return view;
@@ -263,20 +273,55 @@ public class SubmitOfferFragment extends Fragment {
         });
     }
 
+    private void updateUIfromCache() {
+// Disable preload thumbnail for now
+//        String thumbnailUrl = itemCache.getThumbnailUrl();
+//        if (thumbnailUrl != null) {
+//            Picasso.with(getActivity())
+//                    .load(thumbnailUrl)
+//                    .into(ivItemPic);
+//        }
+
+        tvCaption.setText(itemCache.getCaption());
+
+        TextView tvDesc = (TextView)view.findViewById(R.id.tvDescription);
+        if(itemCache.getDescription() != null) {
+            tvDesc.setText(itemCache.getDescription());
+            tvDesc.setVisibility(View.VISIBLE);
+        }
+
+        boolean isSeller = itemCache.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
+        if (isSeller) {
+            bidSection.setVisibility(View.GONE);
+            sellerSection.setVisibility(View.VISIBLE);
+            cbItemSold.setChecked(itemCache.isHasSold());
+        } else {
+            bidSection.setVisibility(View.VISIBLE);
+            sellerSection.setVisibility(View.GONE);
+        }
+
+        if (itemCache.isHasSold()) {
+            ivItemSold.setVisibility(View.VISIBLE);
+            bidSection.setVisibility(View.GONE);
+        } else {
+            ivItemSold.setVisibility(View.GONE);
+        }
+
+    }
+
     private void updateUI()
     {
-        ivItemPic = (ImageView) view.findViewById(R.id.ivItemPic);
-        ivItemPic.setImageResource(0);
+        if (item == null) return;
+
+//        ivItemPic.setImageResource(0);
 
         ParseFile photoFile =  item.getParseFile("photo");
-
         if (photoFile != null) {
             Picasso.with(getActivity())
                     .load(photoFile.getUrl())
                     .into(ivItemPic);
         }
 
-        tvCaption = (TextView)view.findViewById(R.id.tvCaption);
         tvCaption.setText(item.getCaption());
 
         TextView tvDesc = (TextView)view.findViewById(R.id.tvDescription);
