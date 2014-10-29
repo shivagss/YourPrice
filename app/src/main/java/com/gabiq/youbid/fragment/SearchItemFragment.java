@@ -39,14 +39,12 @@ public class SearchItemFragment extends GridFragment {
                 if (searchKeyword == null) {
                     ParseQuery query = new ParseQuery("Item");
                     query.orderByDescending("createdAt");
-                    query.include("createdBy");
                     return query;
                 } else {
                     // caption query
                     ParseQuery captionQuery = new ParseQuery("Item");
                     captionQuery.whereContains("caption", searchKeyword.toLowerCase());
 //                    captionQuery.orderByDescending("createdAt");
-                    captionQuery.include("createdBy");
 
                     // keyword query
                     ParseQuery<Keyword> keywordQuery = ParseQuery.getQuery("Keyword");
@@ -54,13 +52,13 @@ public class SearchItemFragment extends GridFragment {
                     ParseQuery itemQuery = new ParseQuery("Item");
                     itemQuery.whereMatchesKeyInQuery("objectId", "itemId", keywordQuery);
 //                    itemQuery.orderByDescending("createdAt");
-                    itemQuery.include("createdBy");
 
                     List<ParseQuery<ParseObject>> queries = new ArrayList<ParseQuery<ParseObject>>();
                     queries.add(itemQuery);
                     queries.add(captionQuery);
 
                     ParseQuery mainQuery = ParseQuery.or(queries);
+                    mainQuery.include("createdBy");
 
                     return mainQuery;
                 }
