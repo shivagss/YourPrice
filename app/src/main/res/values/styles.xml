@@ -11,6 +11,7 @@
         <item name="android:actionButtonStyle">@style/ActionButtonStyle</item>
         <!--<item name="android:windowTitleStyle">@style/DialogWindowTitleTextAppearance</item>-->
 
+        <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
     </style>
 
     <!--<style name="DialogWindowTitleStyle" parent="@android:style/TextAppearance.DialogWindowTitle">-->
@@ -38,7 +39,7 @@
     <style name="ActionBarTitleText"
         parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">@color/textActionBar</item>
-        <item name="android:textStyle">italic</item>
+        <item name="android:textStyle">bold|italic</item>
     </style>
 
 
@@ -126,10 +127,6 @@
     <style name="Animations.SlideWindow">
         <item name="@android:windowEnterAnimation">@anim/slide_in_left</item>
         <item name="@android:windowExitAnimation">@anim/slide_out_right</item>
-    </style>
-
-    <style name="StyledIndicators" parent="@android:style/Theme.Holo.Light">
-        <item name="vpiTabPageIndicatorStyle">@style/CustomTabPageIndicator</item>
     </style>
 
     <style name="CustomTabPageIndicator" parent="Widget.TabPageIndicator">

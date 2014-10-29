@@ -68,6 +68,7 @@
             android:layout_toLeftOf="@+id/tvTimePosted"
             android:layout_toStartOf="@+id/tvTimePosted"
             android:textColor="@color/textCommentTime"
+            android:layout_marginTop="2dp"
             fontawesometext:fa_icon="fa-clock-o" />
 
         <TextView
@@ -90,7 +91,7 @@
             android:layout_toLeftOf="@+id/tvViewsCount"
             android:layout_toStartOf="@+id/tvViewsCount"
             android:textColor="@color/textCommentTime"
-            android:layout_marginTop="-2dp"
+            android:layout_marginTop="2dp"
             fontawesometext:fa_icon="fa-eye" />
 
 
