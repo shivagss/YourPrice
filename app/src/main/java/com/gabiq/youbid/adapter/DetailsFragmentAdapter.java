@@ -16,6 +16,8 @@ import com.gabiq.youbid.fragment.SubmitOfferFragment;
 
 public class DetailsFragmentAdapter extends FragmentPagerAdapter {
 
+    private static final String[] CONTENT = new String[] { "Details", "Comments", "Bids" };
+
     private final boolean isSeller;
     private final String itemId;
     SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
@@ -58,6 +60,11 @@ public class DetailsFragmentAdapter extends FragmentPagerAdapter {
 
     public Fragment getRegisteredFragment(int position) {
         return registeredFragments.get(position);
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return CONTENT[position % CONTENT.length].toUpperCase();
     }
 
     @Override

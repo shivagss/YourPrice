@@ -34,6 +34,7 @@ import com.parse.ParseFile;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
+import com.viewpagerindicator.TabPageIndicator;
 
 import java.lang.reflect.Field;
 
@@ -62,8 +63,7 @@ public class DetailsFragment extends Fragment {
     private Field mScroller;
     private FixedSpeedScroller scroller;
     private static Interpolator sAnimator = new LinearInterpolator();
-
-
+    private TabPageIndicator indicator;
 
 
     public enum ViewType {
@@ -152,6 +152,7 @@ public class DetailsFragment extends Fragment {
 
         mPager = (ViewPager) rootView.findViewById(R.id.pager);
         mPager.setOffscreenPageLimit(2);
+        indicator = (TabPageIndicator)rootView.findViewById(R.id.indicator);
 
         try {
             mScroller = ViewPager.class.getDeclaredField("mScroller");
@@ -228,10 +229,12 @@ public class DetailsFragment extends Fragment {
 
         mAdapter = new DetailsFragmentAdapter(itemId, isSeller, getActivity().getSupportFragmentManager());
         mPager.setAdapter(mAdapter);
+        indicator.setViewPager(mPager);
         mPager.setCurrentItem(0);
         resetButtons();
         btnDetails.setLeftIcon("fa-chevron-down");
         mAdapter.notifyDataSetChanged();
+        indicator.setVisibility(View.VISIBLE);
 
         //Hide the delete & edit option if the user is not the owner
         MenuItem deleteMenu = detailsMenu.findItem(R.id.action_delete);

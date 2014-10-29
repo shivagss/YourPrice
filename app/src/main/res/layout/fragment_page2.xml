@@ -6,85 +6,94 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:text="DETAILS (Optional)"
-        android:layout_margin="10dp"
-        android:textStyle="bold"
-        android:textSize="14sp"/>
-
-    <LinearLayout
-        style="@style/CommentCell.WithPadding"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    <EditText
-        android:id="@+id/etDescription"
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:gravity="left"
-        android:padding="10dp"
-        android:layout_margin="10dp"
-        android:background="@drawable/edit_text_box"
-        android:hint="Tell us something about this item"
-        android:maxLines="3"
-        android:layout_marginBottom="10dp"/>
-        </LinearLayout>
+        android:textSize="14sp"
+        android:textStyle="bold" />
 
     <LinearLayout
         style="@style/CommentCell.WithPadding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/etMinPrice"
+        <EditText
+            android:id="@+id/etDescription"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/edit_text_box"
+            android:gravity="left"
+            android:hint="Tell us something about this item"
+            android:maxLines="3"
+            android:padding="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        style="@style/CommentCell.WithPadding"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="left"
-        android:padding="10dp"
-        android:layout_margin="10dp"
-        android:background="@drawable/edit_text_box"
-        android:hint="Minimum price"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:layout_marginBottom="10dp"
-        android:inputType="numberDecimal"/>
-        </LinearLayout>
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/etMinPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/edit_text_box"
+            android:gravity="left"
+            android:hint="Minimum price"
+            android:inputType="numberDecimal"
+            android:maxLines="1"
+            android:padding="10dp"
+            android:singleLine="true" />
+    </LinearLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:orientation="horizontal"
         style="@style/CommentCell.WithPadding"
-        android:layout_height="wrap_content">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <Button
+            android:id="@+id/btnAddTag"
+            style="@style/Button.Accept"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            style="@style/Button.Accept"
-            android:id="@+id/btnAddTag"
             android:layout_margin="10dp"
-            android:text="Add"/>
-    <EditText
-        android:id="@+id/etTags"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="left|center_vertical"
-        android:layout_toLeftOf="@id/btnAddTag"
-        android:padding="10dp"
-        android:layout_margin="10dp"
-        android:background="@drawable/edit_text_box"
-        android:hint="Tags"
-        android:singleLine="true"
-        android:maxLines="1"/>
+            android:text="Add" />
+
+        <EditText
+            android:id="@+id/etTags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_toLeftOf="@id/btnAddTag"
+            android:background="@drawable/edit_text_box"
+            android:gravity="left|center_vertical"
+            android:hint="Tags"
+            android:maxLines="1"
+            android:padding="10dp"
+            android:singleLine="true" />
 
     </RelativeLayout>
-    <GridView
-        android:id="@+id/gvTags"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
+
+    <RelativeLayout
         style="@style/CommentCell.WithPadding"
-        android:numColumns="3">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <GridView
+            android:id="@+id/gvTags"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:numColumns="3"
+            android:visibility="gone">
 
         </GridView>
+    </RelativeLayout>
 
 </LinearLayout>
