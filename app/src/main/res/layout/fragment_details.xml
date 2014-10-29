@@ -7,11 +7,15 @@
     android:orientation="vertical"
     tools:context="com.gabiq.youbid.activity.DetailsActivity$PlaceholderFragment">
 
+    <!--style="@style/CommentCell.WithPadding"-->
 
     <RelativeLayout
         android:id="@+id/detailsHeader"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="5dp"
         android:layout_width="match_parent"
-        style="@style/CommentCell.WithPadding"
         android:layout_height="wrap_content">
 
         <ImageView
@@ -39,6 +43,7 @@
             android:id="@+id/tvItemLocation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/secondaryTextColor"
             android:layout_alignLeft="@+id/tvUserName"
             android:layout_alignStart="@+id/tvUserName"
             android:layout_below="@+id/tvUserName"
@@ -49,6 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_alignBaseline="@+id/tvUserName"
             style = "@style/CommentCellTime"
             android:layout_marginRight="10dp"
             android:layout_marginTop="8dp"
@@ -69,6 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_alignBaseline="@+id/tvItemLocation"
             android:layout_below="@id/tvTimePosted"
             style = "@style/CommentCellTime"
             android:layout_marginRight="10dp"

@@ -201,6 +201,7 @@
     <color name="dialogTitleColor">#CE1919</color>
 
     <color name="editTextBoxColor">#70CE1919</color>
+    <color name="editTextBoxColorGreen">#7052B14F</color>
 
     <color name="secondaryTextColor">#D8D8D8</color>
 
