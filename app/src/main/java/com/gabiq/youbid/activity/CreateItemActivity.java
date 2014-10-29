@@ -91,7 +91,7 @@ public class CreateItemActivity extends FragmentActivity implements OnNewItemFra
         mIndicator = (CirclePageIndicator) findViewById(R.id.indicator);
         mIndicator.setViewPager(mPager);
         mIndicator.setSnap(true);
-        mIndicator.setFillColor(getResources().getColor(R.color.com_facebook_blue));
+        mIndicator.setFillColor(getResources().getColor(R.color.drawerDark));
         mIndicator.setStrokeColor(getResources().getColor(R.color.primary_color));
     }
 
@@ -197,8 +197,9 @@ public class CreateItemActivity extends FragmentActivity implements OnNewItemFra
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);
         }
-        mProgressDialog.setMessage(message);
+//        mProgressDialog.setMessage(message);
         mProgressDialog.show();
+        mProgressDialog.setContentView(R.layout.app_progress);
     }
 
     @Override
