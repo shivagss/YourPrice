@@ -39,6 +39,7 @@ public class SearchItemFragment extends GridFragment {
                 if (searchKeyword == null) {
                     ParseQuery query = new ParseQuery("Item");
                     query.orderByDescending("createdAt");
+                    query.include("createdBy");
                     return query;
                 } else {
                     // caption query
