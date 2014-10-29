@@ -71,7 +71,7 @@ public class OfferConfirmation extends DialogFragment {
 
         builder.setView(v);
         AlertDialog dialog  = builder.create();
-        dialog.getWindow().getAttributes().windowAnimations = R.style.Animations_SlideWindow;
+        dialog.getWindow().getAttributes().windowAnimations = R.style.DialogAnimation;
         return dialog;
     }
 }
