@@ -78,6 +78,10 @@ public class Item extends ParseObject{
     public ParseGeoPoint getLocation(){ return getParseGeoPoint("location");}
     public void setLocation (ParseGeoPoint location){ put("location", location);}
 
+    public User getUserFast() {
+        return new User(getParseUser("createdBy"));
+    }
+
     public User getUser() {
         User user = null;
         try {
@@ -98,6 +102,16 @@ public class Item extends ParseObject{
     }
     public void setViewCount(int viewCount) {
         put("viewCount", viewCount);
+    }
+
+    public List<Keyword>  getKeywordsFast() {
+        List<Keyword> list = new ArrayList<Keyword>();
+        List<Keyword> cloudList = null;
+        cloudList = getList("keywords");
+        if(cloudList != null){
+            list.addAll(cloudList);
+        }
+        return list;
     }
 
     public List<Keyword> getKeywords(){

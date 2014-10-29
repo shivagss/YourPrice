@@ -248,6 +248,8 @@ public class SubmitOfferFragment extends Fragment {
     private void retrieveItem(String itemId){
         ParseQuery<Item> query = ParseQuery.getQuery("Item");
         query.whereEqualTo("objectId", itemId);
+        query.include("createdBy");
+        query.include("keywords");
         query.getFirstInBackground(new GetCallback<Item>() {
             public void done(Item i, ParseException e) {
                 if(e == null){
@@ -283,7 +285,7 @@ public class SubmitOfferFragment extends Fragment {
             tvDesc.setVisibility(View.VISIBLE);
         }
 
-        boolean isSeller = item.getUser().getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
+        boolean isSeller = item.getUserFast().getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
         if (isSeller) {
             bidSection.setVisibility(View.GONE);
             sellerSection.setVisibility(View.VISIBLE);

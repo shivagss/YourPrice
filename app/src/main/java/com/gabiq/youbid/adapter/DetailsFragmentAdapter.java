@@ -16,7 +16,7 @@ import com.gabiq.youbid.fragment.SubmitOfferFragment;
 
 public class DetailsFragmentAdapter extends FragmentPagerAdapter {
 
-    private static final String[] CONTENT = new String[] { "Details", "Comments", "Bids" };
+    private static final String[] CONTENT = new String[] { "Details", "Comments", "Offers" };
 
     private final boolean isSeller;
     private final String itemId;
@@ -64,6 +64,8 @@ public class DetailsFragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
+        if (position == 2 && !isSeller) return "MY OFFERS";
+
         return CONTENT[position % CONTENT.length].toUpperCase();
     }
 
