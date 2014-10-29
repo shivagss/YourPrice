@@ -1,13 +1,15 @@
 package com.gabiq.youbid.utils;
 
-import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Resources;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.support.v4.app.FragmentManager;
 import android.text.format.DateUtils;
+
+import com.gabiq.youbid.fragment.AlertDialog;
 
 import java.util.Date;
 
@@ -20,27 +22,27 @@ public class Utils {
     public static final long WEEK_IN_MILLIS = DAY_IN_MILLIS * 7;
 
     @SuppressWarnings("deprecation")
-    public static void showAlertDialog(Context context, String title, String message, Boolean status) {
-        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+    public static void showAlertDialog(FragmentManager manager, String title, String message, Boolean status) {
+        com.gabiq.youbid.fragment.AlertDialog dialog = new AlertDialog();
+        dialog.initialize(title,message);
+        dialog.show(manager, "AlertDialog");
 
+    }
+    //Deprecated. Always use the above styled Alert with required title and message
+    public static void showAlertDialog(Context context, String title, String message, Boolean status) {
+        android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(context).create();
         // Setting Dialog Title
         alertDialog.setTitle(title);
-
         // Setting Dialog Message
         alertDialog.setMessage(message);
-
-        // Setting alert dialog icon
-//        alertDialog.setIcon(R.drawable.fail);
-
-        // Setting OK Button
+         // Setting OK Button
         alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-            }
+        }
         });
-
-        // Showing Alert Message
-        alertDialog.show();
-    }
+           // Showing Alert Message
+            alertDialog.show();
+     }
 
 
     public static String getRelativeTimeAgo(Date date) {

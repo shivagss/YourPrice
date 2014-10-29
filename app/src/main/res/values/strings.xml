@@ -95,5 +95,6 @@
     <string name="select_location">Select Location</string>
     <string name="offer_confirmation_header">Offer Confirmation</string>
     <string name="offer_confirm_body">Your offer amount is</string>
+    <string name="alert_header_generic">YourPrice Message</string>
 
 </resources>

@@ -1,12 +1,8 @@
 package com.gabiq.youbid.fragment;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.net.Uri;
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,8 +71,8 @@ public class LoginFragment extends Fragment {
                 if (connectionManger.isConnected()) {
                     performLogin();
                 } else {
-                    Utils.showAlertDialog(getActivity(), "No Internet Connection",
-                            "You don't have internet connection.", false);
+                    Utils.showAlertDialog(getFragmentManager(), getResources().getString(R.string.alert_header_generic),
+                            "Please check your internet connection", false);
                 }
             }
         });
@@ -183,7 +179,7 @@ public class LoginFragment extends Fragment {
 
     protected void loginUnSuccessful() {
 //        Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
-        Utils.showAlertDialog(getActivity(),"Login", "Username or Password is invalid.", false);
+        Utils.showAlertDialog(getFragmentManager(),getResources().getString(R.string.alert_header_generic), "Username or Password is invalid.", false);
     }
 
     private void clearErrors(){

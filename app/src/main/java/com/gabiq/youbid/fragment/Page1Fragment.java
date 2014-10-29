@@ -23,9 +23,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -35,12 +33,9 @@ import com.gabiq.youbid.R;
 import com.gabiq.youbid.listener.OnNewItemFragmentInteractionListener;
 import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.utils.Utils;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
 import com.parse.ParseImageView;
-import com.parse.ParseQuery;
-import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import java.io.ByteArrayOutputStream;
@@ -184,11 +179,11 @@ public class Page1Fragment extends Fragment {
 
     private boolean isvalidInput() {
         if(TextUtils.isEmpty(etItemCaption.getText().toString())){
-            Utils.showAlertDialog(getActivity(), "Message", getString(R.string.error_enter_caption), true);
+            Utils.showAlertDialog(getFragmentManager(), getResources().getString(R.string.alert_header_generic), getString(R.string.error_enter_caption), true);
             return false;
         }
         if(photoBitmap == null){
-            Utils.showAlertDialog(getActivity(), "Message", getString(R.string.error_upload_photo), true);
+            Utils.showAlertDialog(getFragmentManager(), getResources().getString(R.string.alert_header_generic), getString(R.string.error_upload_photo), true);
             return false;
         }
         return true;

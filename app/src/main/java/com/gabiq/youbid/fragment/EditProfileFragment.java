@@ -461,7 +461,7 @@ public class EditProfileFragment extends Fragment {
 
     private boolean isvalidInput() {
         if(TextUtils.isEmpty(etFullName.getText())){
-            Utils.showAlertDialog(getActivity(), "Message", getActivity().getString(R.string.error_enter_name), true);
+            Utils.showAlertDialog(getFragmentManager(), getResources().getString(R.string.alert_header_generic), getActivity().getString(R.string.error_enter_name), true);
             return false;
         }
         return true;

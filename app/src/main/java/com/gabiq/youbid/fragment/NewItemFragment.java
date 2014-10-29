@@ -1,14 +1,12 @@
 package com.gabiq.youbid.fragment;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -16,9 +14,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.text.Editable;
+import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,13 +32,9 @@ import android.widget.Toast;
 
 import com.aviary.android.feather.library.Constants;
 import com.aviary.android.feather.sdk.FeatherActivity;
-import com.facebook.android.Util;
 import com.gabiq.youbid.R;
-import com.gabiq.youbid.activity.NewItemActivity;
-import com.gabiq.youbid.activity.PreviewPhotoActivity;
 import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.utils.Utils;
-import com.parse.DeleteCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseFile;
@@ -518,11 +511,11 @@ public class NewItemFragment extends Fragment {
 
     private boolean isvalidInput() {
         if(TextUtils.isEmpty(etItemCaption.getText())){
-            Utils.showAlertDialog(getActivity(), "Message", getActivity().getString(R.string.error_enter_caption), true);
+            Utils.showAlertDialog(getFragmentManager(), getResources().getString(R.string.alert_header_generic), getActivity().getString(R.string.error_enter_caption), true);
             return false;
         }
         if(photoBitmap == null){
-            Utils.showAlertDialog(getActivity(), "Message", getActivity().getString(R.string.error_upload_photo), true);
+            Utils.showAlertDialog(getFragmentManager(), getResources().getString(R.string.alert_header_generic), getActivity().getString(R.string.error_upload_photo), true);
             return false;
         }
         return true;
