@@ -102,6 +102,8 @@ public class DetailsFragment extends Fragment {
 
         showProgress("Loading...");
 
+        getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+
         ivProfile = (ImageView) rootView.findViewById(R.id.ivProfile);
         ivProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -307,6 +309,10 @@ public class DetailsFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
         int id = menuItem.getItemId();
+        if(id == android.R.id.home){
+            getActivity().finish();
+            return true;
+        }
         if (id == R.id.action_edit) {
             Intent intent = new Intent(getActivity(), CreateItemActivity.class);
             intent.putExtra("item_id", item.getObjectId());
