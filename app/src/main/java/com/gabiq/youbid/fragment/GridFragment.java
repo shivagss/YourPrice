@@ -137,7 +137,7 @@ public class GridFragment extends Fragment {
         mGridHelper.setOnScrollListener(new EndlessScrollListener() {
             @Override
             public void onLoadMore(int page, int totalItemsCount) {
-                mItemAdapter.loadNextPage();
+//                mItemAdapter.loadNextPage();
             }
         });
 

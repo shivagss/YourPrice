@@ -262,7 +262,7 @@ public class SubmitOfferFragment extends Fragment {
         query.include("keywords");
         query.getFirstInBackground(new GetCallback<Item>() {
             public void done(Item i, ParseException e) {
-                if(e == null){
+                if(e == null && i != null){
                     item = i;
                     updateUI();
                     progressBar.setVisibility(View.INVISIBLE);
@@ -311,7 +311,7 @@ public class SubmitOfferFragment extends Fragment {
 
     private void updateUI()
     {
-        if (item == null) return;
+        if (item == null || getActivity() == null) return;
 
 //        ivItemPic.setImageResource(0);
 

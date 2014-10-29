@@ -205,6 +205,8 @@ public class DetailsFragment extends Fragment {
     }
 
     private void updateUI() {
+        if (getActivity() == null) return;
+
         if (item != null) {
             Log.d("INFO", "******************** updateUI called");
             isSeller = item.getUserFast().getObjectId().equals(ParseUser.getCurrentUser().getObjectId());
