@@ -1,20 +1,4 @@
-/*
- * Copyright (C) 2012 Capricorn
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-package com.capricorn;
+package com.gabiq.youbid.itemMenu;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -33,24 +17,19 @@ import android.view.animation.Animation.AnimationListener;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-/**
- * A custom view that looks like the menu in <a href="https://path.com">Path
- * 2.0</a> (for iOS).
- * 
- * @author Capricorn
- * 
- */
-public class ArcMenu extends RelativeLayout {
-    private ArcLayout mArcLayout;
+import com.gabiq.youbid.R;
+
+public class ItemMenu extends RelativeLayout {
+    private ItemMenuLayout mItemMenuLayout;
 
     private ImageView mHintView;
 
-    public ArcMenu(Context context) {
+    public ItemMenu(Context context) {
         super(context);
         init(context);
     }
 
-    public ArcMenu(Context context, AttributeSet attrs) {
+    public ItemMenu(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
         applyAttrs(attrs);
@@ -58,9 +37,9 @@ public class ArcMenu extends RelativeLayout {
 
     private void init(Context context) {
         LayoutInflater li = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        li.inflate(R.layout.arc_menu, this);
+        li.inflate(R.layout.item_menu, this);
 
-        mArcLayout = (ArcLayout) findViewById(R.id.item_layout);
+        mItemMenuLayout = (ItemMenuLayout) findViewById(R.id.item_layout);
 
         final ViewGroup controlLayout = (ViewGroup) findViewById(R.id.control_layout);
         controlLayout.setClickable(true);
@@ -69,8 +48,8 @@ public class ArcMenu extends RelativeLayout {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    mHintView.startAnimation(createHintSwitchAnimation(mArcLayout.isExpanded()));
-                    mArcLayout.switchState(true);
+                    mHintView.startAnimation(createHintSwitchAnimation(mItemMenuLayout.isExpanded()));
+                    mItemMenuLayout.switchState(true);
                 }
 
                 return false;
@@ -82,37 +61,37 @@ public class ArcMenu extends RelativeLayout {
 
 
     public void openMenu() {
-//        mHintView.startAnimation(createHintSwitchAnimation(mArcLayout.isExpanded()));
-        mArcLayout.toState(true, true);
+//        mHintView.startAnimation(createHintSwitchAnimation(mItemMenuLayout.isExpanded()));
+        mItemMenuLayout.toState(true, true);
     }
 
     public void closeMenu() {
-//        mHintView.startAnimation(createHintSwitchAnimation(mArcLayout.isExpanded()));
-        mArcLayout.toState(false, true);
+//        mHintView.startAnimation(createHintSwitchAnimation(mItemMenuLayout.isExpanded()));
+        mItemMenuLayout.toState(false, true);
     }
 
     public void toState(boolean onState, boolean showAnimation) {
-        mArcLayout.toState(onState, showAnimation);
+        mItemMenuLayout.toState(onState, showAnimation);
     }
 
     private void applyAttrs(AttributeSet attrs) {
         if (attrs != null) {
-            TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.ArcLayout, 0, 0);
+            TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.ItemMenuLayout, 0, 0);
 
-            float fromDegrees = a.getFloat(R.styleable.ArcLayout_fromDegrees, ArcLayout.DEFAULT_FROM_DEGREES);
-            float toDegrees = a.getFloat(R.styleable.ArcLayout_toDegrees, ArcLayout.DEFAULT_TO_DEGREES);
-            mArcLayout.setArc(fromDegrees, toDegrees);
+            float fromDegrees = a.getFloat(R.styleable.ItemMenuLayout_fromDegrees, ItemMenuLayout.DEFAULT_FROM_DEGREES);
+            float toDegrees = a.getFloat(R.styleable.ItemMenuLayout_toDegrees, ItemMenuLayout.DEFAULT_TO_DEGREES);
+            mItemMenuLayout.setArc(fromDegrees, toDegrees);
 
-            int defaultChildSize = mArcLayout.getChildSize();
-            int newChildSize = a.getDimensionPixelSize(R.styleable.ArcLayout_childSize, defaultChildSize);
-            mArcLayout.setChildSize(newChildSize);
+            int defaultChildSize = mItemMenuLayout.getChildSize();
+            int newChildSize = a.getDimensionPixelSize(R.styleable.ItemMenuLayout_childSize, defaultChildSize);
+            mItemMenuLayout.setChildSize(newChildSize);
 
             a.recycle();
         }
     }
 
     public void addItem(View item, OnClickListener listener) {
-        mArcLayout.addView(item);
+        mItemMenuLayout.addView(item);
         item.setOnClickListener(getItemClickListener(listener));
     }
 
@@ -146,9 +125,9 @@ public class ArcMenu extends RelativeLayout {
                     }
                 });
 
-                final int itemCount = mArcLayout.getChildCount();
+                final int itemCount = mItemMenuLayout.getChildCount();
                 for (int i = 0; i < itemCount; i++) {
-                    View item = mArcLayout.getChildAt(i);
+                    View item = mItemMenuLayout.getChildAt(i);
                     if (viewClicked != item) {
                         bindItemAnimation(item, false, 300);
                     }
@@ -158,12 +137,12 @@ public class ArcMenu extends RelativeLayout {
 
                     @Override
                     public void run() {
-                        mArcLayout.toState(false, false);
-//                        mArcLayout.setVisibility(View.INVISIBLE);
+                        mItemMenuLayout.toState(false, false);
+//                        mItemMenuLayout.setVisibility(View.INVISIBLE);
                     }
                 }, 300);
 
-                mArcLayout.invalidate();
+                mItemMenuLayout.invalidate();
 //                mHintView.startAnimation(createHintSwitchAnimation(true));
 
                 if (listener != null) {
@@ -181,14 +160,14 @@ public class ArcMenu extends RelativeLayout {
     }
 
     private void itemDidDisappear() {
-        final int itemCount = mArcLayout.getChildCount();
+        final int itemCount = mItemMenuLayout.getChildCount();
         for (int i = 0; i < itemCount; i++) {
-            View item = mArcLayout.getChildAt(i);
+            View item = mItemMenuLayout.getChildAt(i);
             item.clearAnimation();
         }
 
-        mArcLayout.toState(false, false);
-//        mArcLayout.switchState(false);
+        mItemMenuLayout.toState(false, false);
+//        mItemMenuLayout.switchState(false);
 //        setVisibility(View.INVISIBLE);
     }
 
@@ -244,3 +223,5 @@ public class ArcMenu extends RelativeLayout {
         return animationSet;
     }
 }
+
+

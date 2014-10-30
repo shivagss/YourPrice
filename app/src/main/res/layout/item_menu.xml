@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <com.capricorn.ArcLayout
+    <com.gabiq.youbid.itemMenu.ItemMenu
         xmlns:custom="http://schemas.android.com/apk/res-auto"
         android:id="@+id/item_layout"
         android:layout_width="wrap_content"
@@ -24,8 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:duplicateParentState="true"
-            android:src="@drawable/composer_icn_plus" />
+            android:duplicateParentState="true" />
     </FrameLayout>
 
 </merge>

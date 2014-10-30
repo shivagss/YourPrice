@@ -129,11 +129,11 @@
         <!--android:background="@drawable/favorite_button_selector"/>-->
 
     <com.capricorn.ArcMenu
-        android:id="@+id/arc_menu"
+        android:id="@+id/item_menu"
         android:layout_alignParentTop="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="invisible"
+        android:visibility="gone"
         arc:fromDegrees="210.0"
         arc:toDegrees="330.0"
         arc:childSize="40dp"/>

@@ -1,20 +1,4 @@
-/*
- * Copyright (C) 2012 Capricorn
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-package com.capricorn;
+package com.gabiq.youbid.itemMenu;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -32,16 +16,10 @@ import android.view.animation.OvershootInterpolator;
 import android.view.animation.RotateAnimation;
 import android.view.animation.Animation.AnimationListener;
 
-/**
- * A Layout that arranges its children around its center. The arc can be set by
- * calling {@link #setArc(float, float) setArc()}. You can override the method
- * {@link #onMeasure(int, int) onMeasure()}, otherwise it is always
- * WRAP_CONTENT.
- * 
- * @author Capricorn
- * 
- */
-public class ArcLayout extends ViewGroup {
+import com.gabiq.youbid.R;
+
+
+public class ItemMenuLayout extends ViewGroup {
     /**
      * children will be set the same size.
      */
@@ -66,15 +44,15 @@ public class ArcLayout extends ViewGroup {
 
     private boolean mExpanded = false;
 
-    public ArcLayout(Context context) {
+    public ItemMenuLayout(Context context) {
         super(context);
     }
 
-    public ArcLayout(Context context, AttributeSet attrs) {
+    public ItemMenuLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
 
         if (attrs != null) {
-            TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.ArcLayout, 0, 0);
+            TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.ItemMenuLayout, 0, 0);
             mFromDegrees = a.getFloat(R.styleable.ArcLayout_fromDegrees, DEFAULT_FROM_DEGREES);
             mToDegrees = a.getFloat(R.styleable.ArcLayout_toDegrees, DEFAULT_TO_DEGREES);
             mChildSize = Math.max(a.getDimensionPixelSize(R.styleable.ArcLayout_childSize, 0), 0);
@@ -84,7 +62,7 @@ public class ArcLayout extends ViewGroup {
     }
 
     private static int computeRadius(final float arcDegrees, final int childCount, final int childSize,
-            final int childPadding, final int minRadius) {
+                                     final int childPadding, final int minRadius) {
         if (childCount < 2) {
             return minRadius;
         }
@@ -99,7 +77,7 @@ public class ArcLayout extends ViewGroup {
     }
 
     private static Rect computeChildFrame(final int centerX, final int centerY, final int radius, final float degrees,
-            final int size) {
+                                          final int size) {
 
         final double childCenterX = centerX + radius * Math.cos(Math.toRadians(degrees));
         final double childCenterY = centerY + radius * Math.sin(Math.toRadians(degrees));
@@ -140,11 +118,8 @@ public class ArcLayout extends ViewGroup {
         }
     }
 
-    /**
-     * refers to {@link LayoutAnimationController#getDelayForView(View view)}
-     */
     private static long computeStartOffset(final int childCount, final boolean expanded, final int index,
-            final float delayPercent, final long duration, Interpolator interpolator) {
+                                           final float delayPercent, final long duration, Interpolator interpolator) {
         final float delay = delayPercent * duration;
         final long viewDelay = (long) (getTransformedIndex(expanded, childCount, index) * delay);
         final float totalDelay = delay * childCount;
@@ -164,7 +139,7 @@ public class ArcLayout extends ViewGroup {
     }
 
     private static Animation createExpandAnimation(float fromXDelta, float toXDelta, float fromYDelta, float toYDelta,
-            long startOffset, long duration, Interpolator interpolator) {
+                                                   long startOffset, long duration, Interpolator interpolator) {
 
         AnimationSet animationSet = new AnimationSet(false);
 
@@ -185,7 +160,7 @@ public class ArcLayout extends ViewGroup {
     }
 
     private static Animation createShrinkAnimation(float fromXDelta, float toXDelta, float fromYDelta, float toYDelta,
-            long startOffset, long duration, Interpolator interpolator) {
+                                                   long startOffset, long duration, Interpolator interpolator) {
         AnimationSet animationSet = new AnimationSet(false);
         animationSet.setFillAfter(true);
 
@@ -294,7 +269,7 @@ public class ArcLayout extends ViewGroup {
 
     /**
      * switch between expansion and shrinkage
-     * 
+     *
      * @param showAnimation
      */
     public void switchState(final boolean showAnimation) {
@@ -314,7 +289,7 @@ public class ArcLayout extends ViewGroup {
         if (!showAnimation) {
             requestLayout();
         }
-        
+
         invalidate();
     }
 

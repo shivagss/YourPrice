@@ -18,6 +18,7 @@ import com.gabiq.youbid.R;
 import com.gabiq.youbid.activity.DetailsActivity;
 import com.gabiq.youbid.fragment.CommentsFragment;
 import com.gabiq.youbid.fragment.DialogCommentsFragment;
+import com.gabiq.youbid.itemMenu.ItemMenu;
 import com.gabiq.youbid.model.Favorite;
 import com.gabiq.youbid.model.Item;
 import com.gabiq.youbid.model.ItemCache;
@@ -63,7 +64,7 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
             viewHolder.ivLikesIcon = (ImageView) convertView.findViewById(R.id.ivLikesIcon);
             viewHolder.ivCommentsIcon = (ImageView) convertView.findViewById(R.id.ivCommentsIcon);
             viewHolder.rlItemCellStatus = (RelativeLayout) convertView.findViewById(R.id.rlItemCellStatus);
-            viewHolder.arcMenu = (ArcMenu) convertView.findViewById(R.id.arc_menu);
+            viewHolder.itemMenu = (ArcMenu) convertView.findViewById(R.id.item_menu);
 
             int[] itemDrawables = ITEM_DRAWABLES;
             final int itemCount = itemDrawables.length;
@@ -72,7 +73,7 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
                 menuitem.setImageResource(itemDrawables[i]);
 
                 final int position = i;
-                viewHolder.arcMenu.addItem(menuitem, new View.OnClickListener() {
+                viewHolder.itemMenu.addItem(menuitem, new View.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
@@ -132,8 +133,9 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
             convertView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    viewHolder.arcMenu.setVisibility(View.VISIBLE);
-                    viewHolder.arcMenu.openMenu();
+                    viewHolder.itemMenu.setVisibility(View.VISIBLE);
+                    viewHolder.itemMenu.openMenu();
+                    viewHolder.isMenuOpen = true;
                     return true;
                 }
             });
@@ -141,10 +143,16 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(getContext(), DetailsActivity.class);
-                    intent.putExtra("item_id", viewHolder.item.getObjectId());
-                    intent.putExtra("item_cache", new ItemCache(viewHolder.item));
-                    getContext().startActivity(intent);
+                    if (viewHolder.isMenuOpen) {
+                        viewHolder.itemMenu.closeMenu();
+                    } else {
+                        Intent intent = new Intent(getContext(), DetailsActivity.class);
+                        intent.putExtra("item_id", viewHolder.item.getObjectId());
+                        intent.putExtra("item_cache", new ItemCache(viewHolder.item));
+                        getContext().startActivity(intent);
+                    }
+                    viewHolder.isMenuOpen = false;
+
                 }
             });
 
@@ -168,10 +176,12 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
 
         super.getItemView(item, convertView, parent);
 
+
         BigInteger bigInt = new BigInteger(item.getObjectId().getBytes());
 
-        viewHolder.arcMenu.setVisibility(View.INVISIBLE);
-        viewHolder.arcMenu.toState(false, false);
+        viewHolder.itemMenu.setVisibility(View.INVISIBLE);
+        viewHolder.itemMenu.toState(false, false);
+        viewHolder.isMenuOpen = false;
 
         int imageResource = 0;
         switch (bigInt.intValue() % 5) {
@@ -266,6 +276,7 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
 
     private static class ViewHolder {
         Item item;
+        boolean isMenuOpen;
         ImageView ivItemCellImage;
         ImageView ivItemCellSold;
         TextView tvItemCellCaption;
@@ -277,7 +288,7 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
         ImageView ivLikesIcon;
         ImageView ivCommentsIcon;
         RelativeLayout rlItemCellStatus;
-        ArcMenu arcMenu;
+        ArcMenu itemMenu;
     }
 
 }
