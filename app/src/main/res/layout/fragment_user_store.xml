@@ -24,7 +24,7 @@
                 android:layout_marginLeft="10dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_launcher" />
+                android:src="@drawable/ic_profile" />
 
             <TextView
                 android:id="@+id/tvUserStoreName"

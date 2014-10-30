@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.activity.ProfileActivity;
+import com.gabiq.youbid.utils.RoundTransform;
 import com.parse.ParseFile;
 import com.parse.ParseUser;
 import com.squareup.picasso.Picasso;
@@ -74,7 +75,10 @@ public class UsersListAdapter extends ArrayAdapter<ParseUser> {
         viewHolder.ivProfilePic.setImageResource(0);
         ParseFile photo = user.getParseFile("photo");
         if(photo != null) {
-            Picasso.with(getContext()).load(photo.getUrl()).into(viewHolder.ivProfilePic);
+            Picasso.with(getContext())
+                    .load(photo.getUrl())
+                    .transform(new RoundTransform())
+                    .into(viewHolder.ivProfilePic);
         }
 
         viewHolder.ivProfilePic.setOnClickListener(new View.OnClickListener() {

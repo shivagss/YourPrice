@@ -23,7 +23,7 @@
             android:layout_alignParentTop="true"
             android:layout_marginRight="10dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/ic_launcher" />
+            android:src="@drawable/ic_profile" />
 
         <TextView
             android:id="@+id/tvEntryBidName"
