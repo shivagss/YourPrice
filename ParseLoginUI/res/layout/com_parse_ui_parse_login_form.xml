@@ -4,6 +4,8 @@
     android:orientation="vertical"
     android:gravity="center"
     android:id="@+id/parse_login"
+    android:padding="10dp"
+    android:background="@drawable/container_drop_shadow"
     android:visibility="gone">
 
     <EditText
@@ -33,6 +35,7 @@
         <Button
             android:id="@+id/parse_login_button"
             style="@style/ParseLoginUI.Button"
+            android:background="#CE1919"
             android:layout_weight="0.5"
             android:alpha="0.80"
             android:text="@string/com_parse_ui_parse_login_button_label" />

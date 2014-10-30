@@ -2,6 +2,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
+    android:padding="10dp"
+    android:background="@drawable/container_drop_shadow"
     android:orientation="vertical"    >
 
     <EditText
@@ -55,6 +57,7 @@
         android:id="@+id/create_account"
         style="@style/ParseLoginUI.Button"
         android:alpha="0.80"
+        android:background="#CE1919"
         android:layout_marginTop="@dimen/com_parse_ui_small_vertical_spacing"
         android:text="@string/com_parse_ui_create_account_button_label" />
 
