@@ -126,7 +126,7 @@ public class ProfileFragment extends Fragment {
         args.putInt("headerVisibility", View.GONE);
         storeFragment.setArguments(args);
 
-        showProgress("Fetching profile...");
+//        showProgress("Fetching profile...");
 
         setupViews(v);
 
@@ -172,7 +172,7 @@ public class ProfileFragment extends Fragment {
             } else {
                 // Something went wrong.
             }
-            dismissProgress();
+//            dismissProgress();
         }
     });
 }
