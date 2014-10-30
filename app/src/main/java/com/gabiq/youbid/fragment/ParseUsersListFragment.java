@@ -142,7 +142,7 @@ public class ParseUsersListFragment extends Fragment {
     }
 
     private void setupSwipeContainer(View view) {
-        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.commentListSwipeContainer);
+        swipeContainer = (SwipeRefreshLayout) view.findViewById(R.id.usersListSwipeContainer);
         // Setup refresh listener which triggers new data loading
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
