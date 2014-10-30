@@ -11,6 +11,14 @@
         android:alpha="0.85"
         android:src="@drawable/loginitems"/>
 
+    <include
+        layout="@layout/com_parse_ui_parse_login_app_logo"
+        android:layout_width="wrap_content"
+        android:id="@+id/app_logo_layout"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="100dp"
+        android:layout_height="wrap_content" />
+
     <!--<ImageView-->
         <!--android:layout_width="match_parent"-->
         <!--android:layout_height="match_parent"-->
@@ -22,7 +30,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_centerInParent="true"
+        android:layout_below="@id/app_logo_layout"
         android:layout_margin="40dp"
         android:gravity="center"
         android:orientation="vertical">
