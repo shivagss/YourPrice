@@ -10,12 +10,13 @@
     <!--<ScrollView-->
     <!--android:layout_width="match_parent"-->
     <!--android:layout_height="wrap_content">-->
+    <!--style="@style/CommentCell.WithPadding"-->
 
     <FrameLayout
         android:id="@+id/top_content"
-        style="@style/CommentCell.WithPadding"
         android:layout_width="match_parent"
-        android:layout_height="300dp">
+        android:layout_height="match_parent">
+
 
         <ImageView
             android:id="@+id/ivItemPic"
@@ -26,15 +27,16 @@
             android:layout_alignParentStart="true"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="5dp"
+            android:adjustViewBounds="true"
             android:scaleType="fitCenter" />
 
         <ImageView
             android:id="@+id/ivItemSold"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:layout_margin="0dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_margin="0dp"
             android:adjustViewBounds="true"
             android:scaleType="fitXY"
             android:src="@drawable/ic_sold"
@@ -62,6 +64,7 @@
             android:layout_margin="20dp"
             android:src="@drawable/favorite_normal"
             android:visibility="invisible" />
+
     </FrameLayout>
 
     <uk.co.chrisjenx.paralloid.views.ParallaxScrollView
@@ -73,7 +76,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="300dp">
+            android:paddingTop="310dp">
 
             <RelativeLayout
                 android:id="@+id/detailsSection"
