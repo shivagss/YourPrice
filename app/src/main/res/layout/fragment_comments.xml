@@ -35,9 +35,9 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:paddingRight="50dp"
-            android:paddingLeft="5dp"
+            android:paddingLeft="15dp"
             android:hint="@string/hint_add_comment"
-            android:background="#EEEEEE"
+            android:background="#DDDDDD"
             android:maxLines="4" />
 
         <ImageView

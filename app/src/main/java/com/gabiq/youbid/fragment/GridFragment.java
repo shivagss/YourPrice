@@ -133,15 +133,15 @@ public class GridFragment extends Fragment {
         mGvItemGrid.setAdapter(mItemAdapter);
 
 
-        mGridHelper = new GridScrollingHelper(getActivity(), null);
-        mGridHelper.setOnScrollListener(new EndlessScrollListener() {
-            @Override
-            public void onLoadMore(int page, int totalItemsCount) {
+//        mGridHelper = new GridScrollingHelper(getActivity(), null);
+//        mGridHelper.setOnScrollListener(new EndlessScrollListener() {
+//            @Override
+//            public void onLoadMore(int page, int totalItemsCount) {
 //                mItemAdapter.loadNextPage();
-            }
-        });
-
-        mGvItemGrid.setOnScrollListener(mGridHelper);
+//            }
+//        });
+//
+//        mGvItemGrid.setOnScrollListener(mGridHelper);
     }
 
 

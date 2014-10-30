@@ -212,4 +212,7 @@
         <item>@color/drawerLight</item>
     </integer-array>
 
+    <color name="itemTag">#0084c3</color>
+    <color name="itemTagBorder">#9CDFFF</color>
+
 </resources>

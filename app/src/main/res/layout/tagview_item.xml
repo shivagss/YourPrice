@@ -19,6 +19,6 @@
         android:textColor="@color/white"
         android:layout_margin="2dp"
         android:singleLine="true"
-        android:background="@drawable/bbuton_primary_rounded"/>
+        android:background="@drawable/tag_item"/>
 
 </RelativeLayout>
