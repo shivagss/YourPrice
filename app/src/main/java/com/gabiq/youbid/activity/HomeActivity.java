@@ -105,12 +105,12 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
         dlDrawer.setupDrawerConfiguration((ListView) findViewById(R.id.lvDrawer),
                 R.layout.drawer_nav_item, R.id.flContent);
         // Add nav items
-        dlDrawer.addNavItem("Items for Sale", R.drawable.ic_store_white, "YourPrice", SearchItemFragment.class);
-        dlDrawer.addNavItem("My Profile", R.drawable.ic_card_white, "My Profile", ProfileFragment.class);
-        dlDrawer.addNavItem("Following Items", R.drawable.ic_gift_white, "Following Items", FollowingItemsFragment.class);
-        dlDrawer.addNavItem("My Favorites", R.drawable.ic_heart_white, "My Favorites", FavoriteItemsFragment.class);
-        dlDrawer.addNavItem("My Offers", R.drawable.ic_dollar_white, "My Offers", MyBidsFragment.class);
+        dlDrawer.addNavItem("Home", R.drawable.ic_store_white, "YourPrice", SearchItemFragment.class);
+        dlDrawer.addNavItem("Activity", R.drawable.ic_gift_white, "Activity Feed", FollowingItemsFragment.class);
+        dlDrawer.addNavItem("Favorites", R.drawable.ic_heart_white, "Favorites", FavoriteItemsFragment.class);
+        dlDrawer.addNavItem("Offers", R.drawable.ic_dollar_white, "Offers", MyBidsFragment.class);
         dlDrawer.addNavItem("Notifications", R.drawable.ic_alert_white, "Notifications", RecentActivityFragment.class);
+        dlDrawer.addNavItem("Profile", R.drawable.ic_card_white, "Profile", ProfileFragment.class);
         dlDrawer.addNavItem("Logout", R.drawable.ic_logout_white, "Logout", LogoutFragment.class);
 
         // Select default
@@ -187,6 +187,7 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
     public void onBackPressed() {
         //Hijack accidental back button press to avoid finishing activity.
         //User should logout from action menu
+        dlDrawer.selectDrawerItem(0);
     }
 
     public void onFragmentMessage() {
