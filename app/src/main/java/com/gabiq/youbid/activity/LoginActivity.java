@@ -18,6 +18,14 @@ public class LoginActivity extends Activity implements LoginFragment.OnFragmentI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         getActionBar().hide();
+        overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
+
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.activity_open_scale,R.anim.activity_close_translate);
     }
 
 

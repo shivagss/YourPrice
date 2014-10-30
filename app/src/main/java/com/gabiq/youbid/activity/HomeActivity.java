@@ -48,6 +48,14 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
         if((extras != null)){
             dispatchNotification(extras);
         }
+        overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
+
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.activity_open_scale,R.anim.activity_close_translate);
     }
 
     protected void onNewIntent(Intent intent) {

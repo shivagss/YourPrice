@@ -47,7 +47,14 @@ public class DetailsActivity extends FragmentActivity implements OfferConfirmati
         }
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
 
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.activity_open_scale,R.anim.activity_close_translate);
     }
 
     @Override

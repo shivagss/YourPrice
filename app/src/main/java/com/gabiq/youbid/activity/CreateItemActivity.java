@@ -93,6 +93,14 @@ public class CreateItemActivity extends FragmentActivity implements OnNewItemFra
         mIndicator.setSnap(true);
         mIndicator.setFillColor(getResources().getColor(R.color.drawerDark));
         mIndicator.setStrokeColor(getResources().getColor(R.color.primary_color));
+        overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
+
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.activity_open_scale,R.anim.activity_close_translate);
     }
 
     @Override

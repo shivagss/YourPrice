@@ -55,6 +55,14 @@ public class UserListActivity extends Activity implements ParseUsersListFragment
                 }
             });
         }
+        overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
+
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.activity_open_scale,R.anim.activity_close_translate);
     }
 
     @Override
