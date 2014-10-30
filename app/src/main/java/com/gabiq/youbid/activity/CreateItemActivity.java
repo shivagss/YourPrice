@@ -170,6 +170,7 @@ public class CreateItemActivity extends FragmentActivity implements OnNewItemFra
         ParseQuery<Item> query = ParseQuery.getQuery("Item");
         query.whereEqualTo("objectId", itemId);
         query.include("keywords");
+        query.include("createdBy");
         query.getFirstInBackground(new GetCallback<Item>() {
             public void done(Item i, ParseException e) {
                 if (e == null) {

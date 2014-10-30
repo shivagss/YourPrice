@@ -17,6 +17,7 @@ public class FollowingItemsFragment extends GridFragment {
                 ParseQuery itemQuery = new ParseQuery("Item");
                 itemQuery.whereMatchesKeyInQuery("createdBy", "following", followingQuery);
                 itemQuery.orderByDescending("createdAt");
+                itemQuery.include("createdBy");
 
                 return itemQuery;
             }

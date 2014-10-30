@@ -6,6 +6,7 @@
     android:id="@+id/parse_login"
     android:padding="10dp"
     android:background="@drawable/container_drop_shadow"
+    android:alpha="0.95"
     android:visibility="gone">
 
     <EditText
