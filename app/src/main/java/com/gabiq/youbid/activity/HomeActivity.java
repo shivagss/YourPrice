@@ -179,6 +179,7 @@ public class HomeActivity extends FragmentActivity implements GridFragment.OnFra
     private void postItem() {
         Intent i = new Intent(this, CreateItemActivity.class);
         startActivity(i);
+        overridePendingTransition(R.anim.activity_open_translate,R.anim.activity_close_scale);
     }
 
 
