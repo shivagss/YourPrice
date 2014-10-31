@@ -1,6 +1,6 @@
 # YourPrice - Craiglist meets Instagram
 
-YourPrice mobile app is a local marketplace for used goods designed to create a fun and engaying buying and selling experience.
+YourPrice mobile app is a local marketplace for used goods designed to create a fun and engaging buying and selling experience.
 In YourPrice sellers do not post prices but instead focus on creating engaging posts and the buyers make offers to the sellers.
 
 Demo of core functionality of the YourPrice app:
