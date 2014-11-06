@@ -18,6 +18,7 @@ public class FavoriteItemsFragment extends GridFragment {
                 favoritesQuery.whereEqualTo("user", ParseUser.getCurrentUser());
                 ParseQuery itemQuery = new ParseQuery("Item");
                 itemQuery.whereMatchesKeyInQuery("objectId", "itemId", favoritesQuery);
+                itemQuery.whereNotEqualTo("state", "disabled");
                 itemQuery.orderByDescending("createdAt");
                 itemQuery.include("createdBy");
 

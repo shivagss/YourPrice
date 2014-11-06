@@ -16,6 +16,7 @@ public class FollowingItemsFragment extends GridFragment {
                 followingQuery.whereEqualTo("follower", ParseUser.getCurrentUser());
                 ParseQuery itemQuery = new ParseQuery("Item");
                 itemQuery.whereMatchesKeyInQuery("createdBy", "following", followingQuery);
+                itemQuery.whereNotEqualTo("state", "disabled");
                 itemQuery.orderByDescending("createdAt");
                 itemQuery.include("createdBy");
 

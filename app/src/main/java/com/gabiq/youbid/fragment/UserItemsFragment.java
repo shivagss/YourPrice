@@ -39,6 +39,7 @@ public class UserItemsFragment extends GridFragment {
             public ParseQuery<Item> create() {
                 ParseQuery query = new ParseQuery("Item");
                 query.whereEqualTo("createdBy", user);
+                query.whereNotEqualTo("state", "disabled");
                 query.include("createdBy");
                 return query;
             }

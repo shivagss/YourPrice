@@ -40,6 +40,7 @@ public class SearchItemFragment extends GridFragment {
                     ParseQuery query = new ParseQuery("Item");
                     query.orderByDescending("createdAt");
                     query.include("createdBy");
+                    query.whereNotEqualTo("state", "disabled");
                     return query;
                 } else {
                     // caption query
@@ -59,6 +60,7 @@ public class SearchItemFragment extends GridFragment {
                     queries.add(captionQuery);
 
                     ParseQuery mainQuery = ParseQuery.or(queries);
+                    mainQuery.whereNotEqualTo("state", "disabled");
                     mainQuery.include("createdBy");
 
                     return mainQuery;
