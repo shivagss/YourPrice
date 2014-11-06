@@ -72,7 +72,6 @@ public class MessageListFragment extends Fragment {
         public void onReceive(Context context, Intent intent) {
 
             if (intent.hasExtra("ordered")) {
-                abortBroadcast();
 
                 String jsonString = intent.getStringExtra("com.parse.Data");
                 if (jsonString != null) {
@@ -82,9 +81,15 @@ public class MessageListFragment extends Fragment {
                             if (json.has("type")) {
                                 String type = json.getString("type");
                                 if (type.equals("message")) {
-                                    if (messageListAdapter != null) {
-                                        messageListAdapter.loadObjects();
-                                        Utils.tryPlayRingtone(getActivity());
+                                    if (json.has("itemId")) {
+                                        String itemId = json.getString("itemId");
+                                        if (MessageListFragment.this.itemId != null && itemId.equals(MessageListFragment.this.itemId)) {
+                                            if (messageListAdapter != null) {
+                                                abortBroadcast();
+                                                messageListAdapter.loadObjects();
+                                                Utils.tryPlayRingtone(getActivity());
+                                            }
+                                        }
                                     }
                                 }
                             }

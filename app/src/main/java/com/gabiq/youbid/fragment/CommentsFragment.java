@@ -1,9 +1,13 @@
 package com.gabiq.youbid.fragment;
 
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,11 +23,15 @@ import com.gabiq.youbid.R;
 import com.gabiq.youbid.adapter.CommentsAdapter;
 import com.gabiq.youbid.model.Comment;
 import com.gabiq.youbid.model.Item;
+import com.gabiq.youbid.utils.Utils;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -41,6 +49,41 @@ public class CommentsFragment extends Fragment {
     private SwipeRefreshLayout swipeContainer;
 
 
+    private BroadcastReceiver mNotificationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent.hasExtra("ordered")) {
+
+                String jsonString = intent.getStringExtra("com.parse.Data");
+                if (jsonString != null) {
+                    try {
+                        JSONObject json = new JSONObject(jsonString);
+                        if (json != null) {
+                            if (json.has("type")) {
+                                String type = json.getString("type");
+                                if (type.equals("comment")) {
+                                    if (json.has("itemId")) {
+                                        String itemId = json.getString("itemId");
+                                        if (CommentsFragment.this.itemId != null && itemId.equals(CommentsFragment.this.itemId)) {
+                                            if (aComments != null) {
+                                                abortBroadcast();
+                                                aComments.loadObjects();
+                                                Utils.tryPlayRingtone(getActivity());
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } catch (JSONException e) {
+                        Log.e("Error", "Error parsing json in push notification in BidListFragment" + e.toString());
+                    }
+                }
+            }
+        }
+    };
+
     public static CommentsFragment newInstance(String item_id) {
         CommentsFragment fragmentComments = new CommentsFragment();
         Bundle args = new Bundle();
@@ -48,6 +91,23 @@ public class CommentsFragment extends Fragment {
         fragmentComments.setArguments(args);
         return fragmentComments;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        IntentFilter filter = new IntentFilter("com.parse.push.intent.RECEIVE");
+        filter.setPriority(1);
+
+        getActivity().registerReceiver(mNotificationReceiver, filter);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(mNotificationReceiver);
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

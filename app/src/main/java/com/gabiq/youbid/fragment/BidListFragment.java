@@ -2,8 +2,11 @@ package com.gabiq.youbid.fragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -24,11 +27,15 @@ import com.gabiq.youbid.adapter.BidListAdapter;
 import com.gabiq.youbid.model.Bid;
 import com.gabiq.youbid.model.Comment;
 import com.gabiq.youbid.utils.EndlessScrollListener;
+import com.gabiq.youbid.utils.Utils;
 import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -42,6 +49,41 @@ public class BidListFragment extends Fragment {
     private SwipeRefreshLayout swipeContainer;
 
     private OnFragmentInteractionListener mListener;
+
+    private BroadcastReceiver mNotificationReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent.hasExtra("ordered")) {
+
+                String jsonString = intent.getStringExtra("com.parse.Data");
+                if (jsonString != null) {
+                    try {
+                        JSONObject json = new JSONObject(jsonString);
+                        if (json != null) {
+                            if (json.has("type")) {
+                                String type = json.getString("type");
+                                if (type.equals("bid")) {
+                                    if (json.has("itemId")) {
+                                        String itemId = json.getString("itemId");
+                                        if (BidListFragment.this.itemId != null && itemId.equals(BidListFragment.this.itemId)) {
+                                            if (bidListAdapter != null) {
+                                                abortBroadcast();
+                                                bidListAdapter.loadObjects();
+                                                Utils.tryPlayRingtone(getActivity());
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    } catch (JSONException e) {
+                        Log.e("Error", "Error parsing json in push notification in BidListFragment" + e.toString());
+                    }
+                }
+            }
+        }
+    };
 
 
     public static BidListFragment newInstance(String itemId, boolean isSeller) {
@@ -84,7 +126,21 @@ public class BidListFragment extends Fragment {
         if (bidListAdapter != null) {
             bidListAdapter.loadObjects();
         }
+
+        IntentFilter filter = new IntentFilter("com.parse.push.intent.RECEIVE");
+        filter.setPriority(1);
+
+        getActivity().registerReceiver(mNotificationReceiver, filter);
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(mNotificationReceiver);
+    }
+
+
+
 
     private void setupViews(View view) {
         lvBidList = (ListView) view.findViewById(R.id.lvBidList);
