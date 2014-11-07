@@ -2,7 +2,7 @@
 <resources>
 
     <!--<color name="aviary_background_color">#ff141619</color>-->
-    <color name="aviary_background_color">#ff000000</color>
+    <color name="aviary_background_color">#F2F2F2</color>
 
     <color name="aviary_primary_color">#ffffffff</color>
     <!--<color name="aviary_primary_color_pressed">#FF00b1fd</color>-->
