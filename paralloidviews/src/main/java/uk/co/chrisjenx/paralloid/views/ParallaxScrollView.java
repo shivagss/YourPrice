@@ -55,6 +55,19 @@ public class ParallaxScrollView extends ScrollView implements Parallaxor {
     @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
         super.onScrollChanged(l, t, oldl, oldt);
+        if(listener != null){
+            listener.onScrollChanged(l,t,oldl,oldt);
+        }
         mParallaxViewController.onScrollChanged(this, l, t, oldl, oldt);
+    }
+
+    public void setListener(OnScrollChangedListener listener) {
+        this.listener = listener;
+    }
+
+    public OnScrollChangedListener listener;
+
+    public interface OnScrollChangedListener {
+        void onScrollChanged(int l, int t, int oldl, int oldt);
     }
 }

@@ -96,5 +96,7 @@
     <string name="offer_confirmation_header">Offer Confirmation</string>
     <string name="offer_confirm_body">Your offer amount is</string>
     <string name="alert_header_generic">YourPrice Message</string>
+    <string name="title_activity_image">Image</string>
+    <string name="no_internet">Pleace check your Internet connection and try again later</string>
 
 </resources>

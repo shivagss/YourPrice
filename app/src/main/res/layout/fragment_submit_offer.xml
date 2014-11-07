@@ -75,12 +75,17 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingTop="310dp">
+            android:layout_height="match_parent">
+
+            <View
+                android:id="@+id/ivPlaceHolderItemPic"
+                android:layout_width="match_parent"
+                android:layout_height="310dp"/>
 
             <RelativeLayout
                 android:id="@+id/detailsSection"
                 style="@style/CommentCell.WithPadding"
+                android:layout_below="@id/ivPlaceHolderItemPic"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 

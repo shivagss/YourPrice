@@ -1,10 +1,19 @@
 package com.gabiq.youbid.fragment;
 
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.renderscript.Allocation;
+import android.renderscript.Element;
+import android.renderscript.RenderScript;
+import android.renderscript.ScriptIntrinsicBlur;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,8 +30,10 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.gabiq.youbid.R;
+import com.gabiq.youbid.activity.ImageActivity;
 import com.gabiq.youbid.adapter.ItemTagsViewAdapter;
 import com.gabiq.youbid.model.Bid;
 import com.gabiq.youbid.model.Item;
@@ -39,6 +50,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 import uk.co.chrisjenx.paralloid.Parallaxor;
+import uk.co.chrisjenx.paralloid.views.ParallaxScrollView;
 
 
 /**
@@ -71,6 +83,7 @@ public class SubmitOfferFragment extends Fragment {
     private GridView gvTags;
     private ArrayList<Keyword> mTagsList;
     private ArrayAdapter<Keyword> mTagsAdapter;
+    private Bitmap original;
 
 
     /**
@@ -110,6 +123,18 @@ public class SubmitOfferFragment extends Fragment {
         view = inflater.inflate(R.layout.fragment_submit_offer, container, false);
 
         ivItemPic = (ImageView) view.findViewById(R.id.ivItemPic);
+        View ivPlaceHolderItemPic = view.findViewById(R.id.ivPlaceHolderItemPic);
+        ivPlaceHolderItemPic.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(item != null) {
+                    Intent intent = new Intent(getActivity(), ImageActivity.class);
+                    ParseFile photoFile = item.getParseFile("photo");
+                    intent.putExtra("media_url", photoFile.getUrl());
+                    startActivity(intent);
+                }
+            }
+        });
         tvCaption = (TextView)view.findViewById(R.id.tvCaption);
 
         etBidAmount = (EditText) view.findViewById(R.id.etBidAmount);
@@ -159,10 +184,28 @@ public class SubmitOfferFragment extends Fragment {
         ivItemSold = (ImageView) view.findViewById(R.id.ivItemSold);
 
         FrameLayout topContent = (FrameLayout) view.findViewById(R.id.top_content);
-        ScrollView scrollView = (ScrollView) view.findViewById(R.id.scroll_view);
-        if (scrollView instanceof Parallaxor) {
-            ((Parallaxor) scrollView).parallaxViewBy(topContent, 0.5f);
-        }
+        ParallaxScrollView scrollView = (ParallaxScrollView) view.findViewById(R.id.scroll_view);
+        scrollView.setListener(new ParallaxScrollView.OnScrollChangedListener() {
+            @Override
+            public void onScrollChanged(int l, int t, int oldl, int oldt) {
+                if(original == null) {
+                    if(ivItemPic != null && ivItemPic.getDrawable() != null) {
+                        original = ((BitmapDrawable) ivItemPic.getDrawable()).getBitmap();
+                    }else {
+                        return;
+                    }
+                }
+                if(t > ivItemPic.getHeight()) return;
+                if(t == 0 && oldt > 0){
+                    ivItemPic.setImageBitmap(original);
+                }else {
+                    Bitmap blurBitmap = BlurImage(original, (t/100)*2);
+                    ivItemPic.setImageBitmap(blurBitmap);
+                }
+            }
+        });
+
+        scrollView.parallaxViewBy(topContent, 0.5f);
 
         if (itemCache != null) {
             updateUIfromCache();
@@ -173,6 +216,33 @@ public class SubmitOfferFragment extends Fragment {
         //retrievePreviousBid(itemId);
 
         return view;
+    }
+
+    @SuppressLint("NewApi")
+    Bitmap BlurImage (Bitmap input, int radius)
+    {
+        try
+        {
+            RenderScript rsScript = RenderScript.create(getActivity().getApplicationContext());
+            Allocation alloc = Allocation.createFromBitmap(rsScript, input);
+
+            ScriptIntrinsicBlur blur = ScriptIntrinsicBlur.create(rsScript,   Element.U8_4(rsScript));
+            blur.setRadius(radius);
+            blur.setInput(alloc);
+
+            Bitmap result = Bitmap.createBitmap(input.getWidth(), input.getHeight(), Bitmap.Config.ARGB_8888);
+            Allocation outAlloc = Allocation.createFromBitmap(rsScript, result);
+
+            blur.forEach(outAlloc);
+            outAlloc.copyTo(result);
+
+            rsScript.destroy();
+            return result;
+        }
+        catch (Exception e) {
+            return input;
+        }
+
     }
 
     private void retrievePreviousBid(String itemId) {
