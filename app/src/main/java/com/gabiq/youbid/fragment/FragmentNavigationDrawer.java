@@ -153,7 +153,7 @@ public class FragmentNavigationDrawer extends DrawerLayout {
     private ActionBarDrawerToggle setupDrawerToggle() {
         return new ActionBarDrawerToggle(getActivity(), /* host Activity */
                 this, /* DrawerLayout object */
-                R.drawable.ic_drawer, /* nav drawer image to replace 'Up' caret */
+                R.drawable.ic_drawer_red, /* nav drawer image to replace 'Up' caret */
                 R.string.drawer_open, /* "open drawer" description for accessibility */
                 R.string.drawer_close /* "close drawer" description for accessibility */
         ) {

@@ -3,14 +3,14 @@
       tools:context="com.gabiq.youbid.activity.DetailsActivity">
     <item
         android:id="@+id/action_edit"
-        android:icon="@drawable/ic_edit_white"
+        android:icon="@drawable/ic_edit_red"
         android:orderInCategory="100"
         android:showAsAction="always"
         android:visible="false"
         android:title="Edit"/>
     <item
         android:id="@+id/action_delete"
-        android:icon="@drawable/ic_trash_white"
+        android:icon="@drawable/ic_trash_red"
         android:orderInCategory="100"
         android:showAsAction="always"
         android:visible="false"
@@ -18,7 +18,7 @@
 
     <item
         android:id="@+id/action_share"
-        android:icon="@drawable/ic_share_white"
+        android:icon="@drawable/ic_share_red"
         android:orderInCategory="100"
         android:showAsAction="always"
         android:title="Share"/>

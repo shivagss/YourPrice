@@ -132,12 +132,12 @@
         android:id="@+id/item_menu"
         android:layout_alignParentTop="true"
         android:gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:visibility="gone"
-        arc:fromDegrees="210.0"
-        arc:toDegrees="330.0"
-        arc:childSize="40dp"/>
+        arc:fromDegrees="200.0"
+        arc:toDegrees="340.0"
+        arc:childSize="50dp"/>
 
 
 </RelativeLayout>

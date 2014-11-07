@@ -41,6 +41,7 @@
         parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
         <item name="android:textColor">@color/textActionBar</item>
         <item name="android:textStyle">bold|italic</item>
+        <item name="android:textSize">22sp</item>
     </style>
 
 
@@ -69,7 +70,7 @@
         <item name="android:padding">@dimen/grid_cell_description_padding</item>
         <item name="android:textColor">@color/textGridCell</item>
         <item name="android:textSize">@dimen/grid_cell_description_textSize</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textStyle">normal</item>
     </style>
 
     <style name="GridCell.Footer">

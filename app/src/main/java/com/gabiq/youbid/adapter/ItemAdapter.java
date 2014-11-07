@@ -33,7 +33,7 @@ import com.squareup.picasso.Picasso;
 import java.math.BigInteger;
 
 public class ItemAdapter extends ParseQueryAdapter<Item> {
-    private static final int[] ITEM_DRAWABLES = { R.drawable.composer_like, R.drawable.composer_comment, R.drawable.composer_share };
+    private static final int[] ITEM_DRAWABLES = { R.drawable.composer_like_red, R.drawable.composer_comment_red, R.drawable.composer_share_red };
 
     public ItemAdapter(Context context, ParseQueryAdapter.QueryFactory<Item> parseQuery) {
         super(context, parseQuery);

@@ -15,7 +15,7 @@
             android:id="@+id/gvItemGrid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:item_margin="15dp"
+            app:item_margin="10dp"
             android:background="#f0f0f0"
             app:column_count_portrait="2"
             app:column_count_landscape="3"/>
