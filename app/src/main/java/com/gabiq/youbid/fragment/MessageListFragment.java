@@ -303,6 +303,7 @@ public class MessageListFragment extends Fragment {
         });
 
         final RelativeLayout emptySection = (RelativeLayout) view.findViewById(R.id.emptySection);
+        ((TextView) view.findViewById(R.id.empty_label)).setText(getActivity().getString(R.string.messages_empty_label));
         lvMessageList.setEmptyView(emptySection);
 
         final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);

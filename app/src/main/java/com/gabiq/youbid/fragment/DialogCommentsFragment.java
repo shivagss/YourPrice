@@ -73,6 +73,7 @@ public class DialogCommentsFragment extends DialogFragment {
 
         lvComments = (ListView) view.findViewById(R.id.lvComments);
         final RelativeLayout emptySection = (RelativeLayout) view.findViewById(R.id.emptySection);
+        ((TextView) view.findViewById(R.id.empty_label)).setText(getActivity().getString(R.string.comments_empty_label));
         lvComments.setEmptyView(emptySection);
 
         aComments = new CommentsAdapter(getActivity(), getParseQuery());

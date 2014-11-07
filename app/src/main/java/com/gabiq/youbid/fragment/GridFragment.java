@@ -88,6 +88,7 @@ public class GridFragment extends Fragment {
 
         mGvItemGrid = (StaggeredGridView) view.findViewById(R.id.gvItemGrid);
         emptySection = (RelativeLayout) view.findViewById(R.id.emptySection);
+        ((TextView) view.findViewById(R.id.empty_label)).setText(getEmptyLabel());
         mGvItemGrid.setEmptyView(emptySection);
 //        mEmptyLabel = (TextView) view.findViewById(R.id.empty_label);
 //        mEmptyImage = (ImageView) view.findViewById(R.id.empty_image);
@@ -108,6 +109,10 @@ public class GridFragment extends Fragment {
 
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
 
+    }
+
+    protected String getEmptyLabel() {
+        return getActivity().getString(R.string.empty_list_label);
     }
 
     private void setupSwipeContainer(View view) {

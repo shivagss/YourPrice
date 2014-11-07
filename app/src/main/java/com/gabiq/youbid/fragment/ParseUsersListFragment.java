@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.adapter.UsersListAdapter;
@@ -67,6 +68,7 @@ public class ParseUsersListFragment extends Fragment {
 
         lvUsers = (ListView) view.findViewById(R.id.lvUsers);
         emptySection = (RelativeLayout) view.findViewById(R.id.emptySection);
+        ((TextView) view.findViewById(R.id.empty_label)).setText(getActivity().getString(R.string.users_empty_label));
         lvUsers.setEmptyView(emptySection);
         lvUsers.setDivider(getActivity().getResources().getDrawable(android.R.color.transparent));
 

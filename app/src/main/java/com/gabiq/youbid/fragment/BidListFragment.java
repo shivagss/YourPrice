@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.gabiq.youbid.R;
 import com.gabiq.youbid.activity.BidListActivity;
@@ -36,6 +37,7 @@ import com.parse.SaveCallback;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -234,6 +236,7 @@ public class BidListFragment extends Fragment {
         });
 
         final RelativeLayout emptySection = (RelativeLayout) view.findViewById(R.id.emptySection);
+        ((TextView) view.findViewById(R.id.empty_label)).setText(getActivity().getString(R.string.bids_empty_label));
         lvBidList.setEmptyView(emptySection);
 
         final ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.progressBar);

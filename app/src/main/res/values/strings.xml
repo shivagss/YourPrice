@@ -98,5 +98,10 @@
     <string name="alert_header_generic">YourPrice Message</string>
     <string name="title_activity_image">Image</string>
     <string name="no_internet">Pleace check your Internet connection and try again later</string>
+    <string name="bids_empty_label">No offers yet</string>
+    <string name="comments_empty_label">No comments yet</string>
+    <string name="messages_empty_label">No messages yet</string>
+    <string name="users_empty_label">No users found</string>
+    <string name="favorites_empty_list_label">No favorites yet</string>
 
 </resources>

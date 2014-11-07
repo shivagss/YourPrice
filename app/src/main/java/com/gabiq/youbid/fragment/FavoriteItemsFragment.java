@@ -1,6 +1,7 @@
 package com.gabiq.youbid.fragment;
 
 
+import com.gabiq.youbid.R;
 import com.gabiq.youbid.model.Favorite;
 import com.gabiq.youbid.model.Item;
 import com.parse.ParseObject;
@@ -9,6 +10,11 @@ import com.parse.ParseQueryAdapter;
 import com.parse.ParseUser;
 
 public class FavoriteItemsFragment extends GridFragment {
+
+    @Override
+    protected String getEmptyLabel() {
+        return getActivity().getString(R.string.favorites_empty_list_label);
+    }
 
     @Override
     protected ParseQueryAdapter.QueryFactory<Item> getParseQuery() {

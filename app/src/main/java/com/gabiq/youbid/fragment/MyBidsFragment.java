@@ -9,6 +9,7 @@ import com.parse.ParseUser;
 
 public class MyBidsFragment extends GridFragment {
 
+
     @Override
     protected ParseQueryAdapter.QueryFactory<Item> getParseQuery() {
         return new ParseQueryAdapter.QueryFactory<Item>() {
