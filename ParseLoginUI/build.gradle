@@ -4,6 +4,7 @@ dependencies {
     compile 'com.flaviofaria:kenburnsview:1.0.3'
     compile project(':facebook-sdk:facebook')
     compile 'com.android.support:support-v4:13.0.+'
+    compile 'com.github.castorflex.smoothprogressbar:library-circular:1.0.1'
     compile fileTree(dir: 'libs', include: '*.jar')
 }
 

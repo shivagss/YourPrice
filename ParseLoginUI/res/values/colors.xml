@@ -15,4 +15,15 @@
     <color name="com_parse_ui_twitter_login_button_push">#2588B5</color>
     <color name="com_parse_ui_twitter_login_button_focus">#2788BE</color>
 
+    <color name="drawerDark">#CE1919</color>
+    <color name="drawerLight">#e0CE1919</color>
+
+
+    <integer-array name="app_colors">
+        <item>@color/drawerLight</item>
+        <item>@color/drawerLight</item>
+        <item>@color/drawerLight</item>
+        <item>@color/drawerLight</item>
+    </integer-array>
+
 </resources>

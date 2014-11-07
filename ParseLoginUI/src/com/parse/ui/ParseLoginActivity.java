@@ -179,6 +179,7 @@ public class ParseLoginActivity extends FragmentActivity implements
     if (showSpinner) {
       progressDialog = ProgressDialog.show(this, null,
           getString(R.string.com_parse_ui_progress_dialog_text), true, false);
+        progressDialog.setContentView(R.layout.app_progress);
     }
   }
 

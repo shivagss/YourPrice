@@ -67,7 +67,6 @@ dependencies {
     compile project(':ArcMenu')
     compile project(':paralloid')
     compile project(':paralloidViews')
-    compile 'com.github.castorflex.smoothprogressbar:library-circular:1.0.1'
 }
 
 
