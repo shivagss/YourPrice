@@ -239,9 +239,9 @@ public class MessageListFragment extends Fragment {
             bid.saveInBackground(new SaveCallback() {
                 @Override
                 public void done(ParseException e) {
-                    getActivity().finish();
                 }
             });
+            getActivity().finish();
         } else {
             Log.e("ERROR", "Error getting bid in MessageListFragment");
         }

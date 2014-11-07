@@ -1,43 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="aviary_background_color">#ff141619</color>
-    
+    <!--<color name="aviary_background_color">#ff141619</color>-->
+    <color name="aviary_background_color">#ff000000</color>
+
     <color name="aviary_primary_color">#ffffffff</color>
-    <color name="aviary_primary_color_pressed">#FF00b1fd</color>
-    
+    <!--<color name="aviary_primary_color_pressed">#FF00b1fd</color>-->
+    <color name="aviary_primary_color_pressed">#FFCCCCCC</color>
+
     <color name="aviary_highlighted_text_light">#6633b5e5</color>
 
     <color name="aviary_hint_foreground_light">#808080</color>
-    
-    <color name="aviary_nav_primary_color">#FF303740</color>
-    <color name="aviary_nav_secondary_color">#ff21262b</color>
-    
-    <color name="aviary_nav_divider_light">#FF474951</color>
-    <color name="aviary_nav_divider_dark">#FF000000</color>
-    
-    <color name="aviary_logo_primary_color">#FF23282e</color>
-    <color name="aviary_logo_secondary_color">#ff21262b</color>
 
-	<color name="aviary_link_text_default">#ff0a7bdb</color>
-	<color name="aviary_link_text_default_inverted">#ffececec</color>
+    <!--<color name="aviary_nav_primary_color">#FF303740</color>-->
+    <!--<color name="aviary_nav_secondary_color">#ff21262b</color>-->
+    <color name="aviary_nav_primary_color">#FFCE1919</color>
+    <color name="aviary_nav_secondary_color">#e0CE1919</color>
+
+    <!--<color name="aviary_nav_divider_light">#FF474951</color>-->
+    <!--<color name="aviary_nav_divider_dark">#FF000000</color>-->
+    <color name="aviary_nav_divider_light">#FFCCCCCC</color>
+    <color name="aviary_nav_divider_dark">#FFFFFFFF</color>
+
+    <!--<color name="aviary_logo_primary_color">#FF23282e</color>-->
+    <!--<color name="aviary_logo_secondary_color">#ff21262b</color>-->
+    <color name="aviary_logo_primary_color">#FFFFFFFF</color>
+    <color name="aviary_logo_secondary_color">#FFCCCCCC</color>
+
+	<!--<color name="aviary_link_text_default">#ff0a7bdb</color>-->
+	<!--<color name="aviary_link_text_default_inverted">#ffececec</color>-->
+    <color name="aviary_link_text_default">#ffececec</color>
+    <color name="aviary_link_text_default_inverted">#ffececec</color>
 
     <!-- default highlight color -->
-    <color name="aviary_primary_highlight_color">#FF00b1fd</color>
-    
+    <!--<color name="aviary_primary_highlight_color">#FF00b1fd</color>-->
+    <color name="aviary_primary_highlight_color">#FFD8D8D8</color>
+
     <!-- highlight color inverted -->
-    <color name="aviary_primary_highlight_color_inverted">#FF333333</color>
-    
-    <color name="aviary_workspace_indicator_selected_startColor">#ff0df5ff</color>
-    <color name="aviary_workspace_indicator_selected_endColor">#ff0a7bdb</color>
-    
-    <color name="aviary_workspace_indicator_normal_startColor">#ff505c63</color>
-    <color name="aviary_workspace_indicator_normal_endColor">#ff18191a</color>    
-    
-    <color name="aviary_primary_color_inverted">#ff000000</color>
-    <color name="aviary_primary_color_pressed_inverted">#FF666666</color>
-    <color name="aviary_primary_color_disabled_inverted">#FF999999</color>
-    <color name="aviary_highlighted_text_light_inverted">#66999999</color>
+    <!--<color name="aviary_primary_highlight_color_inverted">#FF333333</color>-->
+    <color name="aviary_primary_highlight_color_inverted">#FFcccccc</color>
+
+    <!--<color name="aviary_workspace_indicator_selected_startColor">#ff0df5ff</color>-->
+    <!--<color name="aviary_workspace_indicator_selected_endColor">#ff0a7bdb</color>-->
+    <color name="aviary_workspace_indicator_selected_startColor">#FFD8D8D8</color>
+    <color name="aviary_workspace_indicator_selected_endColor">#FFcccccc</color>
+
+    <!--<color name="aviary_workspace_indicator_normal_startColor">#ff505c63</color>-->
+    <!--<color name="aviary_workspace_indicator_normal_endColor">#ff18191a</color>-->
+    <color name="aviary_workspace_indicator_normal_startColor">#FFD8D8D8</color>
+    <color name="aviary_workspace_indicator_normal_endColor">#FFD8D8D8</color>
+
+    <!--<color name="aviary_primary_color_inverted">#ff000000</color>-->
+    <!--<color name="aviary_primary_color_pressed_inverted">#FF666666</color>-->
+    <!--<color name="aviary_primary_color_disabled_inverted">#FF999999</color>-->
+    <!--<color name="aviary_highlighted_text_light_inverted">#66999999</color>-->
+    <!--<color name="aviary_hint_foreground_light_inverted">#808080</color>-->
+    <color name="aviary_primary_color_inverted">#ffffffff</color>
+    <color name="aviary_primary_color_pressed_inverted">#FF999999</color>
+    <color name="aviary_primary_color_disabled_inverted">#FF666666</color>
+    <color name="aviary_highlighted_text_light_inverted">#66666666</color>
     <color name="aviary_hint_foreground_light_inverted">#808080</color>
 
     <color name="aviary_iap_list_divider">#ffcccccc</color>
@@ -49,12 +70,15 @@
      -->
     
     <!-- effects/frames/stickers items background color ( inverted ) -->
-    <color name="aviary_bottom_primary_color_inverse_light">#FF20252b</color>
-    <color name="aviary_bottom_primary_color_inverse_dark">#FF131619</color>
-    
+    <!--<color name="aviary_bottom_primary_color_inverse_light">#FF20252b</color>-->
+    <!--<color name="aviary_bottom_primary_color_inverse_dark">#FF131619</color>-->
+    <color name="aviary_bottom_primary_color_inverse_light">#ffcccccc</color>
+    <color name="aviary_bottom_primary_color_inverse_dark">#ffffffff</color>
+
     <!-- thumbnail stroke color -->
-    <color name="aviary_effect_thumb_stroke_color">#FF131619</color>
-    
+    <!--<color name="aviary_effect_thumb_stroke_color">#FF131619</color>-->
+    <color name="aviary_effect_thumb_stroke_color">#ffffffff</color>
+
     <!-- spot circle -->
     <color name="aviary_circle_light">#ffe8eef4</color>
     <color name="aviary_circle_dark">#ffbbcedf</color>
