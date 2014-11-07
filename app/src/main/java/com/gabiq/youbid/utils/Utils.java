@@ -24,10 +24,11 @@ public class Utils {
     @SuppressWarnings("deprecation")
     public static void showAlertDialog(FragmentManager manager, String title, String message, Boolean status) {
         com.gabiq.youbid.fragment.AlertDialog dialog = new AlertDialog();
-        dialog.initialize(title,message);
+        dialog.initialize(title, message);
         dialog.show(manager, "AlertDialog");
 
     }
+
     //Deprecated. Always use the above styled Alert with required title and message
     public static void showAlertDialog(Context context, String title, String message, Boolean status) {
         android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(context).create();
@@ -35,20 +36,20 @@ public class Utils {
         alertDialog.setTitle(title);
         // Setting Dialog Message
         alertDialog.setMessage(message);
-         // Setting OK Button
+        // Setting OK Button
         alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
-        }
+            }
         });
-           // Showing Alert Message
-            alertDialog.show();
-     }
+        // Showing Alert Message
+        alertDialog.show();
+    }
 
 
     public static String getRelativeTimeAgo(Date date) {
-            return getRelativeTimeSpanString(date.getTime(),
-                    System.currentTimeMillis(),
-                    DateUtils.SECOND_IN_MILLIS).toString();
+        return getRelativeTimeSpanString(date.getTime(),
+                System.currentTimeMillis(),
+                DateUtils.SECOND_IN_MILLIS).toString();
 
     }
 
@@ -65,8 +66,8 @@ public class Utils {
      * @return
      */
     public static CharSequence getRelativeTimeSpanString(long time,
-                                                                long now,
-                                                                long minResolution) {
+                                                         long now,
+                                                         long minResolution) {
         StringBuilder result = new StringBuilder();
 
         Resources r = Resources.getSystem();
@@ -76,13 +77,13 @@ public class Utils {
         long count;
         if (duration < MINUTE_IN_MILLIS && minResolution < MINUTE_IN_MILLIS) {
             count = duration / SECOND_IN_MILLIS;
-            if (past) {
+            if (count <= 10) {
+                result.append("Just Now");
+            } else if (past) {
                 result.append(count);
                 result.append("s");
             } else {
-                result.append("-");
-                result.append(count);
-                result.append("s");
+                result.append("Just Now");
             }
         } else if (duration < HOUR_IN_MILLIS && minResolution < HOUR_IN_MILLIS) {
             count = duration / MINUTE_IN_MILLIS;
@@ -90,9 +91,7 @@ public class Utils {
                 result.append(count);
                 result.append("m");
             } else {
-                result.append("-");
-                result.append(count);
-                result.append("m");
+                result.append("Just Now");
             }
         } else if (duration < DAY_IN_MILLIS && minResolution < DAY_IN_MILLIS) {
             count = duration / HOUR_IN_MILLIS;
@@ -100,15 +99,13 @@ public class Utils {
                 result.append(count);
                 result.append("h");
             } else {
-                result.append("-");
-                result.append(count);
-                result.append("h");
+                result.append("Just Now");
             }
         } else if (duration < WEEK_IN_MILLIS && minResolution < WEEK_IN_MILLIS) {
-            result.append( DateUtils.getRelativeTimeSpanString(time, now, minResolution) );
+            result.append(DateUtils.getRelativeTimeSpanString(time, now, minResolution));
         } else {
 
-            result.append( DateUtils.formatDateRange(null, time, time, 0) );
+            result.append(DateUtils.formatDateRange(null, time, time, 0));
         }
 
         return result.toString();
