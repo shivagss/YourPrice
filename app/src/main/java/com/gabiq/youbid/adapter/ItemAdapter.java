@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -33,7 +35,8 @@ import com.squareup.picasso.Picasso;
 import java.math.BigInteger;
 
 public class ItemAdapter extends ParseQueryAdapter<Item> {
-    private static final int[] ITEM_DRAWABLES = { R.drawable.composer_like_red, R.drawable.composer_comment_red, R.drawable.composer_share_red };
+    private static final int[] ITEM_DRAWABLES = {R.drawable.composer_like_red, R.drawable.composer_comment_red, R.drawable.composer_share_red};
+    final Animation animScale = AnimationUtils.loadAnimation(getContext(), R.anim.anim_scale);
 
     public ItemAdapter(Context context, ParseQueryAdapter.QueryFactory<Item> parseQuery) {
         super(context, parseQuery);
@@ -89,7 +92,7 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
                                     if (favorite != null) {
                                         // unfavorite
                                         favorite.deleteInBackground();
-
+                                        viewHolder.ivLikesIcon.startAnimation(animScale);
                                         viewHolder.item.increment("likeCount", -1);
                                         viewHolder.item.saveInBackground();
                                     } else {
@@ -98,6 +101,12 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
                                         newFavorite.setItem(viewHolder.item);
                                         newFavorite.setUser(ParseUser.getCurrentUser());
                                         newFavorite.saveInBackground();
+                                        if(item.getLikeCount() <= 0) {
+                                            viewHolder.ivLikesIcon.setVisibility(View.VISIBLE);
+                                            viewHolder.tvLikesCount.setVisibility(View.VISIBLE);
+                                        }
+                                        viewHolder.ivLikesIcon.startAnimation(animScale);
+
 
                                         viewHolder.item.increment("likeCount");
                                         viewHolder.item.saveInBackground();
@@ -111,7 +120,7 @@ public class ItemAdapter extends ParseQueryAdapter<Item> {
 
                         } else if (position == 1) {
                             // comment
-                            FragmentActivity activity = (FragmentActivity)getContext();
+                            FragmentActivity activity = (FragmentActivity) getContext();
                             FragmentManager fm = activity.getSupportFragmentManager();
                             DialogCommentsFragment commentFragment = DialogCommentsFragment.newInstance(viewHolder.item.getObjectId());
                             commentFragment.show(fm, "dialog_comments_fragment");
